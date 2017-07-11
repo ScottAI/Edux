@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Edux.Models.Page>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_metronicLayout.cshtml";
+}
+<p>
+    <a asp-action="Create">Yeni Sayfa Oluştur</a>
+</p>
+<table id="tblRecords" class="table" style="display: block; overflow-x: auto;">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@
+                Baslik
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Slug)*@
+                Slug
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.View)*@
+                Gorunum
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.LayoutView)*@
+                Gorunum Duzeni
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.MetaTitle)*@
+                MetaBaslik
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.MetaDescription)*@
+                MetaAciklama
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.MetaKeywords)*@
+                Meta Anahtar Kelimeler
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.IsPublished)*@
+                Yayinlandi Mi?
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ViewCount)*@
+                Goruntulenme Sayisi
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Position)*@
+                Pozisyon
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AllowedRoles)*@
+                Izin Verilen Roller
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CreateDate)*@
+                Olusturulma Tarihi
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CreatedBy)*@
+                Olusturan
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.UpdateDate)*@
+                Duzenleme Tarihi
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.UpdatedBy)*@
+                Duzenleyen
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ParentPage)*@
+                Anasayfa
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Slug)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.View)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LayoutView)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MetaTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MetaDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MetaKeywords)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPublished)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ViewCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllowedRoles)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentPage.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Duzenle</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detaylar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Sil</a> |
+                    <a asp-action="Display" asp-route-id="@item.Id">Goruntule</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
