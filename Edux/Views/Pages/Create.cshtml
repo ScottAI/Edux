@@ -4,7 +4,7 @@
     ViewData["Title"] = "Yeni Sayfalar";
 }
 
-<h2>Olu�tur</h2>
+<h2>Oluştur</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
@@ -40,9 +40,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="ParentPageId" class="col-md-2 control-label"></label>
+            <label  asp-for="ParentPageId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ParentPageId" class ="form-control" asp-items="ViewBag.ParentPageId"></select>
+                <select asp-for="ParentPageId" class ="form-control" asp-items="ViewBag.ParentPageId"><option value="">Seçiniz</option></select>
             </div>
         </div>
         <div class="form-group">
