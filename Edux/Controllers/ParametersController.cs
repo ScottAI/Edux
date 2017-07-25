@@ -50,7 +50,9 @@ namespace Edux.Controllers
         {
 
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id");
-            return View();
+            var parameter = new Parameter();
+
+            return View(parameter);
         }
 
         // POST: Parameters/Create
@@ -62,6 +64,9 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                parameter.CreateDate = DateTime.Now;
+                parameter.CreatedBy = User.Identity.Name;
+                parameter.UpdatedBy = User.Identity.Name;
                 _context.Add(parameter);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -103,6 +108,8 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    parameter.UpdateDate = DateTime.Now;
+                    parameter.UpdatedBy = User.Identity.Name;
                     _context.Update(parameter);
                     await _context.SaveChangesAsync();
                 }

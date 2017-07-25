@@ -15,34 +15,34 @@
                 <th class="text-nowrap all">
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th  class="text-nowrap all">
+                <th  class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.DisplayName)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.IsRequired)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.Position)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.CreateDate)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.CreatedBy)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.UpdateDate)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.UpdatedBy)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.AppTenantId)
                 </th>
             <th class="text-nowrap all">
                 @Html.DisplayNameFor(model => model.ComponentType)
             </th>
-            <th></th>
+            <th data-orderable="false" class="all">Eylemler</th>
         </tr>
     </thead>
     <tbody>
@@ -78,10 +78,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ComponentType.Id )
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detaylar</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+            <td class="text-nowrap">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Detaylar</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
             </td>
         </tr>
 }
