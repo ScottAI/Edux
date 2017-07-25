@@ -69,7 +69,7 @@ namespace Edux.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
+                    _logger.LogInformation(1, "Kullanıcı giriş yaptı.");
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -78,12 +78,12 @@ namespace Edux.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
+                    _logger.LogWarning(2, "Kullanıcı hesabı kilitlendi.");
                     return View("Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Geçersiz giriş girişimi.");
                     return View(model);
                 }
             }
@@ -123,7 +123,7 @@ namespace Edux.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    _logger.LogInformation(3, "Kullanıcı şifre ile yeni bir hesap oluşturdu.");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -140,7 +140,7 @@ namespace Edux.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
+            _logger.LogInformation(4, "Kullanıcı oturumu kapattı.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -165,7 +165,7 @@ namespace Edux.Controllers
         {
             if (remoteError != null)
             {
-                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                ModelState.AddModelError(string.Empty, $"Harici sağlayıcıdan hata: {remoteError}");
                 return View(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -178,7 +178,7 @@ namespace Edux.Controllers
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                _logger.LogInformation(5, "Kullanıcı {Name} sağlayıcısı ile giriş yaptı.", info.LoginProvider);
                 return RedirectToLocal(returnUrl);
             }
             if (result.RequiresTwoFactor)
@@ -222,7 +222,7 @@ namespace Edux.Controllers
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        _logger.LogInformation(6, "Kullanıcı {Name} sağlayıcısını kullanarak bir hesap oluşturdu.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -383,10 +383,10 @@ namespace Edux.Controllers
                 return View("Error");
             }
 
-            var message = "Your security code is: " + code;
+            var message = "Güvenlik kodunuz: " + code;
             if (model.SelectedProvider == "Email")
             {
-                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Güvenlik Kodu", message);
             }
             else if (model.SelectedProvider == "Phone")
             {
@@ -433,12 +433,12 @@ namespace Edux.Controllers
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning(7, "User account locked out.");
+                _logger.LogWarning(7, "Kullanıcı hesabı kilitlendi.");
                 return View("Lockout");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid code.");
+                ModelState.AddModelError(string.Empty, "Geçersiz kod.");
                 return View(model);
             }
         }
