@@ -10,22 +10,23 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class EntitiesController : Controller
+    public class PropertiesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EntitiesController(ApplicationDbContext context)
+        public PropertiesController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Entities
+        // GET: Properties
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Entities.ToListAsync());
+            var applicationDbContext = _context.Properties.Include(x => x.Entity);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Entities/Details/5
+        // GET: Properties/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,42 +34,42 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var @property = await _context.Properties
+                .Include(x => x.Entity)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (@property == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(@property);
         }
 
-        // GET: Entities/Create
+        // GET: Properties/Create
         public IActionResult Create()
         {
-            var page = new Entity();
-            return View(page);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id");
+            return View();
         }
 
-        // POST: Entities/Create
+        // POST: Properties/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
         {
             if (ModelState.IsValid)
             {
-                entity.CreatedBy = User.Identity.Name;
-                entity.UpdatedBy = User.Identity.Name;
-                _context.Add(entity);
+                _context.Add(@property);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(entity);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
+            return View(@property);
         }
 
-        // GET: Entities/Edit/5
+        // GET: Properties/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -76,22 +77,23 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            var @property = await _context.Properties.SingleOrDefaultAsync(m => m.Id == id);
+            if (@property == null)
             {
                 return NotFound();
             }
-            return View(entity);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
+            return View(@property);
         }
 
-        // POST: Entities/Edit/5
+        // POST: Properties/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
         {
-            if (id != entity.Id)
+            if (id != @property.Id)
             {
                 return NotFound();
             }
@@ -100,14 +102,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    entity.UpdateDate = DateTime.Now;
-                    entity.UpdatedBy = User.Identity.Name;
-                    _context.Update(entity);
+                    _context.Update(@property);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EntityExists(entity.Id))
+                    if (!PropertyExists(@property.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +118,11 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(entity);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
+            return View(@property);
         }
 
-        // GET: Entities/Delete/5
+        // GET: Properties/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -129,30 +130,31 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var @property = await _context.Properties
+                .Include(x => x.Entity)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (@property == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(@property);
         }
 
-        // POST: Entities/Delete/5
+        // POST: Properties/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Entities.Remove(entity);
+            var @property = await _context.Properties.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Properties.Remove(@property);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool EntityExists(string id)
+        private bool PropertyExists(string id)
         {
-            return _context.Entities.Any(e => e.Id == id);
+            return _context.Properties.Any(e => e.Id == id);
         }
     }
 }

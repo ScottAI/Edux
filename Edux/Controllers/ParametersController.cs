@@ -48,6 +48,7 @@ namespace Edux.Controllers
         // GET: Parameters/Create
         public IActionResult Create()
         {
+
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id");
             return View();
         }

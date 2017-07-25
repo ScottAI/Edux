@@ -1,13 +1,13 @@
-﻿@model Edux.Models.Parameter
+﻿@model Edux.Models.Property
 
 @{
-    ViewData["Title"] = "Detaylar";
+    ViewData["Title"] = "Ayrıntılar";
 }
 
-<h2>Detaylar</h2>
+<h2>Ayrıntılar</h2>
 
 <div>
-    <h4>Detaylar</h4>
+    <h4>Özellikler</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -23,10 +23,28 @@
             @Html.DisplayFor(model => model.DisplayName)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.DataType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataType)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.IsRequired)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.IsRequired)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PropertyType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PropertyType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StringLength)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StringLength)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Position)
@@ -65,14 +83,14 @@
             @Html.DisplayFor(model => model.AppTenantId)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ComponentType)
+            @Html.DisplayNameFor(model => model.Entity)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ComponentType.Id)
+            @Html.DisplayFor(model => model.Entity.Id)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a> |
     <a asp-action="Index">Listeye Geri Dön</a>
 </div>

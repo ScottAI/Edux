@@ -1,13 +1,13 @@
-﻿@model Edux.Models.Entity
+﻿@model Edux.Models.Media
 
 @{
-    ViewData["Title"] = "Varlık Ayrıntılar";
+    ViewData["Title"] = "Ayrıntılar";
 }
 
 <h2>Ayrıntılar</h2>
 
 <div>
-    <h4>Varlık</h4>
+    <h4>Medya</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,10 +17,46 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PluralName)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PluralName)
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Extension)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Extension)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FileSize)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FileSize)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Month)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Month)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ContentType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ContentType)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)

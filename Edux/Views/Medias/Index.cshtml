@@ -1,22 +1,40 @@
-﻿@model IEnumerable<Edux.Models.Entity>
+﻿@model IEnumerable<Edux.Models.Media>
 
 @{
-    ViewData["Title"] = "Varlıklar";
+    ViewData["Title"] = "Medya";
 }
 
-<h2>Varlıklar</h2>
+<h2>Medya</h2>
 
 <p>
     <a asp-action="Create">Yeni Oluştur</a>
 </p>
-<table id="tblRecords" class="table">
+<table class="table table-striped table-hover"  id="tblRecords">
     <thead>
         <tr>
                 <th class="text-nowrap all">
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th class="text-nowrap">
-                    @Html.DisplayNameFor(model => model.PluralName)
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th class="text-nowrap">
+                    @Html.DisplayNameFor(model => model.Extension)
+                </th>
+                <th class="text-nowrap">
+                    @Html.DisplayNameFor(model => model.FilePath)
+                </th>
+                <th class="text-nowrap">
+                    @Html.DisplayNameFor(model => model.FileSize)
+                </th>
+                <th class="text-nowrap">
+                    @Html.DisplayNameFor(model => model.Year)
+                </th>
+                <th class="text-nowrap">
+                    @Html.DisplayNameFor(model => model.Month)
+                </th>
+                <th class="text-nowrap">
+                    @Html.DisplayNameFor(model => model.ContentType)
                 </th>
                 <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreateDate)
@@ -33,7 +51,7 @@
                 <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.AppTenantId)
                 </th>
-            <th data-orderable="false" class="all">Eylemler</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,7 +61,25 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PluralName)
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Extension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentType)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)
@@ -61,7 +97,7 @@
                 @Html.DisplayFor(modelItem => item.AppTenantId)
             </td>
             <td class="text-nowrap">
-                <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Güncelle</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Ayrıntılar</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
             </td>
