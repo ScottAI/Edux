@@ -53,7 +53,7 @@ namespace Edux.Models
         public string MetaKeywords { get; set; }
         [Display(Name ="Yayında Mı?")]
         public bool IsPublished { get; set; }
-        [Display(Name = "Görüntünleme Sayısı")]
+        [Display(Name = "Görüntülenme Sayısı")]
         public long ViewCount { get; set; }
         [Display(Name = "Pozisyon")]
         public long Position { get; set; }
