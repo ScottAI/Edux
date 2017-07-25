@@ -1,0 +1,83 @@
+﻿@model Edux.Models.Component
+
+@{
+    ViewData["Title"] = "Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Silmek İstediğinize Emin Misiniz?</h3>
+<div>
+    <h4>Bileşenler</h4>
+    <hr />
+    <form asp-action="Delete">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DisplayName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DisplayName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.View)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.View)
+            </dd>
+            <input type="hidden" asp-for="Id" />
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreateDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdateDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AppTenantId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AppTenantId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ComponentType)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ComponentType.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ParentComponent)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ParentComponent.Id)
+            </dd>
+        </dl>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-default" /> |
+            <a asp-action="Index">Listeye Geri Dön</a>
+        </div>
+    </form>
+</div>
