@@ -17,18 +17,31 @@ namespace Edux.Models
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
         }
+        [Required]
+        [Display(Name="Özellik Adı")]
         [StringLength(200)]
         public string Name { get; set; }
         [StringLength(200)]
+        [Required]
+        [Display(Name = "Özellik Görünen Adı")]
         public string DisplayName { get; set; }
+        
+        [Display(Name = "Veri Türü")]
         public DataType? DataType { get; set; }
+        [Display(Name = "Gerekli Mi?")]
         public bool IsRequired { get; set; }
+        [Display(Name = "Özellik Türü")]
         public PropertyType PropertyType { get; set; }
+        [Display(Name = "Metin Uzunluğu")]
         public int StringLength { get; set; }
-        public long EntityId { get; set; }
+        [Display(Name = "Varlık")]
+        public string EntityId { get; set; }
         [ForeignKey("EntityId")]
+        [Display(Name = "Varlık")]
         public Entity Entity { get; set; }
+        [Display(Name = "Özellik Değerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
+        [Display(Name = "Pozisyon")]
         public int Position { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
-using Edux.Models.PageViewModels;
 
 namespace Edux.Controllers
 {
@@ -17,19 +16,18 @@ namespace Edux.Controllers
 
         public PagesController(ApplicationDbContext context)
         {
-            _context = context;
+            _context = context;    
         }
 
         // GET: Pages
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Pages.Include(p => p.ParentPage)
-                .Include(p => p.PageComponents).ThenInclude(pc => pc.Component);
+            var applicationDbContext = _context.Pages.Include(p => p.ParentPage);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Pages/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -72,7 +70,7 @@ namespace Edux.Controllers
         }
 
         // GET: Pages/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -93,7 +91,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Edit(string id, [Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
         {
             if (id != page.Id)
             {
@@ -104,8 +102,6 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    page.UpdateDate = DateTime.Now;
-                    page.UpdatedBy = "username";
                     _context.Update(page);
                     await _context.SaveChangesAsync();
                 }
@@ -127,7 +123,7 @@ namespace Edux.Controllers
         }
 
         // GET: Pages/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -148,7 +144,7 @@ namespace Edux.Controllers
         // POST: Pages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var page = await _context.Pages.SingleOrDefaultAsync(m => m.Id == id);
             _context.Pages.Remove(page);
@@ -156,31 +152,7 @@ namespace Edux.Controllers
             return RedirectToAction("Index");
         }
 
-        // Displays the page and enables to edit the page
-        public async Task<IActionResult> Display(long? id, bool isFromHome = false)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var model = new DisplayViewModel();
-
-            model.Page = await _context.Pages
-                .Include(p => p.ParentPage)
-                .Include(p => p.PageComponents)
-                    .ThenInclude(pc => pc.Component)
-                        .ThenInclude(x => x.ParameterValues)
-                            .ThenInclude(x => x.Parameter)
-                .SingleOrDefaultAsync(m => m.Id == id);
-            model.IsFromHome = isFromHome;
-
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "DisplayName");
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "DisplayName");
-            return View("/Views/Shared/BaseView.cshtml", model);
-        }
-
-        private bool PageExists(long id)
+        private bool PageExists(string id)
         {
             return _context.Pages.Any(e => e.Id == id);
         }

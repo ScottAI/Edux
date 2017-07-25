@@ -14,10 +14,15 @@ namespace Edux.Models
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
         }
+        [Required]
         [StringLength(200)]
+        [Display(Name="Bileşen Türü Adı")]
         public string Name { get; set; }
+        [Required]
         [StringLength(200)]
+        [Display(Name="Bileşen Türü Görünen Adı")]
         public string DisplayName { get; set; }
+        [Display(Name="Parametreler")]
         public virtual ICollection<Parameter> Parameters { get; set; }
     }
 }

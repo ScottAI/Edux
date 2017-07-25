@@ -15,12 +15,12 @@ namespace Edux.Models
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
         }
-        public long PageId { get; set; }
+        public string PageId { get; set; }
         [ForeignKey("PageId")]
         public Page Page { get; set; }
-        public long ComponentId { get; set; }
+        public string ComponentId { get; set; }
         [ForeignKey("ComponentId")]
         public Component Component { get; set; }
-        public long Position { get; set; }
+        public int Position { get; set; }
     }
 }

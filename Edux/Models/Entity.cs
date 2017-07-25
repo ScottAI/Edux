@@ -17,11 +17,17 @@ namespace Edux.Models
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
         }
+        [Required]
+        [Display(Name="Varlık Adı")]
         [StringLength(200)]
         public string Name { get; set; }
+        [Required]
+        [Display(Name = "Varlık Çoğul Adı")]
         [StringLength(200)]
         public string PluralName { get; set; }
+        [Display(Name="Özellikler")]
         public virtual ICollection<Property> Properties { get; set; }
+        [Display(Name = "ÖzelliklerDeğerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
     }
 }
