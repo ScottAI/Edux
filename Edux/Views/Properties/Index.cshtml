@@ -9,49 +9,49 @@
 <p>
     <a asp-action="Create">Yeni Olustur</a>
 </p>
-<table class="table">
+<table class="table"  id="tblRecords" >
     <thead>
         <tr>
-                <th>
+                <th class="text-nowrap all">
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.DisplayName)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.DataType)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.IsRequired)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.PropertyType)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.StringLength)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.Position)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreateDate)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreatedBy)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.UpdateDate)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.UpdatedBy)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AppTenantId)
-                </th>
             <th>
+                @Html.DisplayNameFor(model => model.AppTenantId)
+            </th>
+            <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.Entity)
             </th>
-            <th></th>
+            <th data-orderable="false" class="all">Eylemler</th>
         </tr>
     </thead>
     <tbody>
@@ -96,7 +96,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Entity.Id)
             </td>
-            <td>
+            <td class="text-nowrap">
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a> |
                 <a asp-action="Details" asp-route-id="@item.Id"class="btn btn-success">Ayrıntılar</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
