@@ -10,23 +10,23 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class PagesController : Controller
+    public class ParametersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PagesController(ApplicationDbContext context)
+        public ParametersController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Pages
+        // GET: Parameters
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Pages.Include(p => p.ParentPage);
+            var applicationDbContext = _context.Parameters.Include(p => p.ComponentType);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Pages/Details/5
+        // GET: Parameters/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -34,43 +34,42 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages
-                .Include(p => p.ParentPage)
+            var parameter = await _context.Parameters
+                .Include(p => p.ComponentType)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (page == null)
+            if (parameter == null)
             {
                 return NotFound();
             }
 
-            return View(page);
+            return View(parameter);
         }
 
-        // GET: Pages/Create
+        // GET: Parameters/Create
         public IActionResult Create()
         {
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id");
-            var page = new Page();
-            return View(page);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id");
+            return View();
         }
 
-        // POST: Pages/Create
+        // POST: Parameters/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(page);
+                _context.Add(parameter);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
-            return View(page);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
+            return View(parameter);
         }
 
-        // GET: Pages/Edit/5
+        // GET: Parameters/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -78,23 +77,23 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages.SingleOrDefaultAsync(m => m.Id == id);
-            if (page == null)
+            var parameter = await _context.Parameters.SingleOrDefaultAsync(m => m.Id == id);
+            if (parameter == null)
             {
                 return NotFound();
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
-            return View(page);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
+            return View(parameter);
         }
 
-        // POST: Pages/Edit/5
+        // POST: Parameters/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter)
         {
-            if (id != page.Id)
+            if (id != parameter.Id)
             {
                 return NotFound();
             }
@@ -103,12 +102,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    _context.Update(page);
+                    _context.Update(parameter);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PageExists(page.Id))
+                    if (!ParameterExists(parameter.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +118,11 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
-            return View(page);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
+            return View(parameter);
         }
 
-        // GET: Pages/Delete/5
+        // GET: Parameters/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -131,31 +130,31 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages
-                .Include(p => p.ParentPage)
+            var parameter = await _context.Parameters
+                .Include(p => p.ComponentType)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (page == null)
+            if (parameter == null)
             {
                 return NotFound();
             }
 
-            return View(page);
+            return View(parameter);
         }
 
-        // POST: Pages/Delete/5
+        // POST: Parameters/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var page = await _context.Pages.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Pages.Remove(page);
+            var parameter = await _context.Parameters.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Parameters.Remove(parameter);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool PageExists(string id)
+        private bool ParameterExists(string id)
         {
-            return _context.Pages.Any(e => e.Id == id);
+            return _context.Parameters.Any(e => e.Id == id);
         }
     }
 }
