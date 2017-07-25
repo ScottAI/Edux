@@ -10,7 +10,7 @@ namespace Edux.Models.ManageViewModels
     {
         [Required]
         [Phone]
-        [Display(Name = "Phone number")]
+        [Display(Name = "Telefon numarası")]
         public string PhoneNumber { get; set; }
     }
 }
