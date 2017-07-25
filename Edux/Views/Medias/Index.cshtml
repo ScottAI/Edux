@@ -15,40 +15,40 @@
                 <th class="text-nowrap all">
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.Extension)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.FilePath)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.FileSize)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.Year)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.Month)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.ContentType)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreateDate)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreatedBy)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.UpdateDate)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.UpdatedBy)
                 </th>
-                <th class="text-nowrap all">
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.AppTenantId)
                 </th>
             <th></th>
@@ -96,7 +96,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AppTenantId)
             </td>
-            <td>
+            <td class="text-nowrap">
                 <a asp-action="Edit" asp-route-id="@item.Id">Güncelle</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Ayrıntılar</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
