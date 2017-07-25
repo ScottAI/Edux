@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Edux.Models.Component>
+
+@{
+    ViewData["Title"] = "Liste";
+}
+
+<h2>Liste</h2>
+
+<p>
+    <a asp-action="Create">Yeni Oluştur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DisplayName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.View)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AppTenantId)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ComponentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentComponent)
+            </th>
+            <th>Eylemler</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.View)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppTenantId)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentType.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentComponent.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id">Düzenle</a> 
+                <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id">Detaylar</a> 
+                <a asp-action="Delete" class="btn btn-danger"  asp-route-id="@item.Id">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

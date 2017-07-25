@@ -1,14 +1,13 @@
-﻿@model Edux.Models.Property
+﻿@model Edux.Models.Component
 
 @{
-    ViewData["Title"] = "Ozellik Sil";
+    ViewData["Title"] = "Detaylar";
 }
 
-<h2>Sil</h2>
+<h2>Detaylar</h2>
 
-<h3>Silmek istediğinize emin misiniz?</h3>
 <div>
-    <h4>Özellikler</h4>
+    <h4>Bileşenler</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -24,36 +23,11 @@
             @Html.DisplayFor(model => model.DisplayName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DataType)
+            @Html.DisplayNameFor(model => model.View)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DataType)
+            @Html.DisplayFor(model => model.View)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsRequired)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsRequired)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PropertyType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PropertyType)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.StringLength)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.StringLength)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <input type="hidden" asp-for="Id" />
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
@@ -85,17 +59,20 @@
             @Html.DisplayFor(model => model.AppTenantId)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Entity)
+            @Html.DisplayNameFor(model => model.ComponentType)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Entity.Id)
+            @Html.DisplayFor(model => model.ComponentType.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentComponent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentComponent.Id)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> |
-            <a asp-action="Index">Listeye Geri Dön</a>
-        </div>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Düzenle</a> 
+    <a asp-action="Index">Listeye Geri Dön</a>
 </div>
