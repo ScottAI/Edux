@@ -46,7 +46,8 @@ namespace Edux.Controllers
         // GET: Entities/Create
         public IActionResult Create()
         {
-            return View();
+            var page = new Entity();
+            return View(page);
         }
 
         // POST: Entities/Create
