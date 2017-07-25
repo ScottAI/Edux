@@ -38,5 +38,7 @@ namespace Edux.Data
                 .WithMany(c => c.PageComponents)
                 .HasForeignKey(bc => bc.ComponentId).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
         }
+
+        public DbSet<Edux.Models.Media> Media { get; set; }
     }
 }
