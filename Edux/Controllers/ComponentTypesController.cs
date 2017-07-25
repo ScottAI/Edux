@@ -10,23 +10,22 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class PropertiesController : Controller
+    public class ComponentTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PropertiesController(ApplicationDbContext context)
+        public ComponentTypesController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Properties
+        // GET: ComponentTypes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Properties.Include(x => x.Entity);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.ComponentTypes.ToListAsync());
         }
 
-        // GET: Properties/Details/5
+        // GET: ComponentTypes/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -34,46 +33,44 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var @property = await _context.Properties
-                .Include(x => x.Entity)
+            var componentType = await _context.ComponentTypes
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (@property == null)
+            if (componentType == null)
             {
                 return NotFound();
             }
 
-            return View(@property);
+            return View(componentType);
         }
 
-        // GET: Properties/Create
+        // GET: ComponentTypes/Create
         public IActionResult Create()
         {
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id");
-            return View();
+            var componentType = new ComponentType();
+            return View(componentType);
         }
 
-        // POST: Properties/Create
+        // POST: ComponentTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] ComponentType componentType)
         {
             if (ModelState.IsValid)
             {
-                //property.CreateDate = DateTime.Now;
-                //property.CreatedBy = User.Identity.Name;
-                //property.UpdateDate = DateTime.Now;
-                //property.UpdatedBy = User.Identity.Name; 
-                _context.Add(@property);
+                componentType.CreatedBy= User.Identity.Name;
+                componentType.UpdateDate = DateTime.Now;
+                componentType.UpdatedBy = User.Identity.Name;
+                componentType.CreateDate = DateTime.Now;
+                _context.Add(componentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
-            return View(@property);
+            return View(componentType);
         }
 
-        // GET: Properties/Edit/5
+        // GET: ComponentTypes/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -81,23 +78,22 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var @property = await _context.Properties.SingleOrDefaultAsync(m => m.Id == id);
-            if (@property == null)
+            var componentType = await _context.ComponentTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (componentType == null)
             {
                 return NotFound();
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
-            return View(@property);
+            return View(componentType);
         }
 
-        // POST: Properties/Edit/5
+        // POST: ComponentTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] ComponentType componentType)
         {
-            if (id != @property.Id)
+            if (id != componentType.Id)
             {
                 return NotFound();
             }
@@ -106,12 +102,14 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    _context.Update(@property);
+                    componentType.UpdateDate = DateTime.Now;
+                    componentType.UpdatedBy = User.Identity.Name;
+                    _context.Update(componentType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PropertyExists(@property.Id))
+                    if (!ComponentTypeExists(componentType.Id))
                     {
                         return NotFound();
                     }
@@ -122,11 +120,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
-            return View(@property);
+            return View(componentType);
         }
 
-        // GET: Properties/Delete/5
+        // GET: ComponentTypes/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -134,31 +131,30 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var @property = await _context.Properties
-                .Include(x => x.Entity)
+            var componentType = await _context.ComponentTypes
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (@property == null)
+            if (componentType == null)
             {
                 return NotFound();
             }
 
-            return View(@property);
+            return View(componentType);
         }
 
-        // POST: Properties/Delete/5
+        // POST: ComponentTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var @property = await _context.Properties.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Properties.Remove(@property);
+            var componentType = await _context.ComponentTypes.SingleOrDefaultAsync(m => m.Id == id);
+            _context.ComponentTypes.Remove(componentType);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool PropertyExists(string id)
+        private bool ComponentTypeExists(string id)
         {
-            return _context.Properties.Any(e => e.Id == id);
+            return _context.ComponentTypes.Any(e => e.Id == id);
         }
     }
 }

@@ -48,9 +48,10 @@ namespace Edux.Controllers
         // GET: Pages/Create
         public IActionResult Create()
         {
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id");
             var page = new Page();
+            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id");
             return View(page);
+      
         }
 
         // POST: Pages/Create
