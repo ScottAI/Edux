@@ -51,7 +51,8 @@ namespace Edux.Controllers
         {
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id");
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id");
-            return View();
+            var PValues = new PropertyValue();
+            return View(PValues);
         }
 
         // POST: PropertyValues/Create
@@ -63,12 +64,18 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                propertyValue.CreateDate = DateTime.Now;
+                propertyValue.CreatedBy = User.Identity.Name;
+                propertyValue.UpdateDate = DateTime.Now;
+                propertyValue.UpdatedBy = User.Identity.Name;
                 _context.Add(propertyValue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+           
+
             return View(propertyValue);
         }
 
@@ -106,6 +113,8 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    propertyValue.UpdateDate = DateTime.Now;
+                    propertyValue.UpdatedBy = User.Identity.Name;
                     _context.Update(propertyValue);
                     await _context.SaveChangesAsync();
                 }
