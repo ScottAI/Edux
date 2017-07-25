@@ -9,8 +9,8 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170725132919_eduxEntities")]
-    partial class eduxEntities
+    [Migration("20170725151424_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -170,6 +170,50 @@ namespace Edux.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Entities");
+                });
+
+            modelBuilder.Entity("Edux.Models.Media", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ContentType")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Extension")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("FilePath")
+                        .HasMaxLength(200);
+
+                    b.Property<float>("FileSize");
+
+                    b.Property<int>("Month");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Media");
                 });
 
             modelBuilder.Entity("Edux.Models.Page", b =>
