@@ -9,31 +9,31 @@
 <p>
     <a asp-action="Create">Yeni Oluştur</a>
 </p>
-<table class="table">
+<table id="tblRecords" class="table">
     <thead>
         <tr>
-                <th>
+                <th class="text-nowrap all">
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.PluralName)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreateDate)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.CreatedBy)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.UpdateDate)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.UpdatedBy)
                 </th>
-                <th>
+                <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.AppTenantId)
                 </th>
-            <th></th>
+            <th data-orderable="false" class="all">Eylemler</th>
         </tr>
     </thead>
     <tbody>
@@ -60,7 +60,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AppTenantId)
             </td>
-            <td>
+            <td class="text-nowrap">
                 <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Ayrıntılar</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
