@@ -1,49 +1,49 @@
-﻿@model IEnumerable<Edux.Models.Entity>
+﻿@model IEnumerable<Edux.Models.PropertyValue>
 
 @{
-    ViewData["Title"] = "Varlıklar";
+    ViewData["Title"] = "Özellik Değerleri";
 }
 
-<h2>Varlıklar</h2>
+<h2>Özellik Değerleri</h2>
 
 <p>
-    <a asp-action="Create">Yeni Oluştur</a>
+    <a asp-action="Create" class="btn btn-primary">Oluştur</a>
 </p>
-<table id="tblRecords" class="table">
+<table class="table">
     <thead>
         <tr>
-                <th class="text-nowrap all">
-                    @Html.DisplayNameFor(model => model.Name)
+                <th>
+                    @Html.DisplayNameFor(model => model.Value)
                 </th>
-                <th class="text-nowrap">
-                    @Html.DisplayNameFor(model => model.PluralName)
-                </th>
-                <th class="text-nowrap">
+                <th>
                     @Html.DisplayNameFor(model => model.CreateDate)
                 </th>
-                <th class="text-nowrap">
+                <th>
                     @Html.DisplayNameFor(model => model.CreatedBy)
                 </th>
-                <th class="text-nowrap">
+                <th>
                     @Html.DisplayNameFor(model => model.UpdateDate)
                 </th>
-                <th class="text-nowrap">
+                <th>
                     @Html.DisplayNameFor(model => model.UpdatedBy)
                 </th>
-                <th class="text-nowrap">
+                <th>
                     @Html.DisplayNameFor(model => model.AppTenantId)
                 </th>
-            <th data-orderable="false" class="all">Eylemler</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PluralName)
+                @Html.DisplayFor(modelItem => item.Value)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)
@@ -61,9 +61,15 @@
                 @Html.DisplayFor(modelItem => item.AppTenantId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Ayrıntılar</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+                @Html.DisplayFor(modelItem => item.Entity.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Property.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
             </td>
         </tr>
 }
