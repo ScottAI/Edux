@@ -31,7 +31,7 @@
                 @Html.DisplayFor(model => model.View)
             </dd>
             <input type="hidden" asp-for="Id" />
-            <dt>
+            @*<dt>
                 @Html.DisplayNameFor(model => model.CreateDate)
             </dt>
             <dd>
@@ -60,7 +60,7 @@
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.AppTenantId)
-            </dd>
+            </dd>*@
             <dt>
                 @Html.DisplayNameFor(model => model.ComponentType)
             </dt>
@@ -76,8 +76,8 @@
         </dl>
 
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-default" /> |
-            <a asp-action="Index">Listeye Geri Dön</a>
+            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <a asp-action="Index" class="btn btn-success">Listeye Geri Dön</a>
         </div>
     </form>
 </div>

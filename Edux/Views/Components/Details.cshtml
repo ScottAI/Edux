@@ -28,7 +28,7 @@
         <dd>
             @Html.DisplayFor(model => model.View)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
         <dd>
@@ -51,13 +51,13 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-        <dt>
+        </dd>*@
+        @*<dt>
             @Html.DisplayNameFor(model => model.AppTenantId)
-        </dt>
-        <dd>
+        </dt>*@
+        @*<dd>
             @Html.DisplayFor(model => model.AppTenantId)
-        </dd>
+        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.ComponentType)
         </dt>
@@ -73,6 +73,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Düzenle</a> 
-    <a asp-action="Index">Listeye Geri Dön</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a> 
+    <a asp-action="Index" class="btn btn-success">Listeye Geri Dön</a>
 </div>

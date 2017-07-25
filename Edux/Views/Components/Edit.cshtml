@@ -48,32 +48,23 @@
         </div>
     <input type="hidden" asp-for="Id" />
        
-                <input asp-for="CreateDate" class="form-control" />
-             
-       
-                <input asp-for="CreatedBy" class="form-control"  type="hidden" />
-               
-       
-                <input asp-for="UpdateDate" class="form-control"  type="hidden" />
-             
-      
+                <input asp-for="CreateDate" class="form-control"  type="hidden" />
+                <input asp-for="CreatedBy" class="form-control"  type="hidden" />              
+                <input asp-for="UpdateDate" class="form-control"  type="hidden" />   
                 <input asp-for="UpdatedBy" class="form-control"   type="hidden"/>
-             
-      
-      
                 <input asp-for="AppTenantId" class="form-control"   type="hidden"/>
               
         
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Kaydet" class="btn btn-default" />
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Listeye Geri Dön</a>
+    <a asp-action="Index" class="btn btn-success">Listeye Geri Dön</a>
 </div>
 
 @section Scripts {
