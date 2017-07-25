@@ -10,22 +10,22 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class EntitiesController : Controller
+    public class MediasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EntitiesController(ApplicationDbContext context)
+        public MediasController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Entities
+        // GET: Medias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Entities.ToListAsync());
+            return View(await _context.Media.ToListAsync());
         }
 
-        // GET: Entities/Details/5
+        // GET: Medias/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,41 +33,39 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var media = await _context.Media
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (media == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(media);
         }
 
-        // GET: Entities/Create
+        // GET: Medias/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Entities/Create
+        // POST: Medias/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Create([Bind("Name,Description,Extension,FilePath,FileSize,Year,Month,ContentType,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Media media)
         {
             if (ModelState.IsValid)
             {
-                entity.CreatedBy = User.Identity.Name;
-                entity.UpdatedBy = User.Identity.Name;
-                _context.Add(entity);
+                _context.Add(media);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(entity);
+            return View(media);
         }
 
-        // GET: Entities/Edit/5
+        // GET: Medias/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            var media = await _context.Media.SingleOrDefaultAsync(m => m.Id == id);
+            if (media == null)
             {
                 return NotFound();
             }
-            return View(entity);
+            return View(media);
         }
 
-        // POST: Entities/Edit/5
+        // POST: Medias/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Description,Extension,FilePath,FileSize,Year,Month,ContentType,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Media media)
         {
-            if (id != entity.Id)
+            if (id != media.Id)
             {
                 return NotFound();
             }
@@ -99,14 +97,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    entity.UpdateDate = DateTime.Now;
-                    entity.UpdatedBy = User.Identity.Name;
-                    _context.Update(entity);
+                    _context.Update(media);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EntityExists(entity.Id))
+                    if (!MediaExists(media.Id))
                     {
                         return NotFound();
                     }
@@ -117,10 +113,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(entity);
+            return View(media);
         }
 
-        // GET: Entities/Delete/5
+        // GET: Medias/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -128,30 +124,30 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var media = await _context.Media
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (media == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(media);
         }
 
-        // POST: Entities/Delete/5
+        // POST: Medias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Entities.Remove(entity);
+            var media = await _context.Media.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Media.Remove(media);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool EntityExists(string id)
+        private bool MediaExists(string id)
         {
-            return _context.Entities.Any(e => e.Id == id);
+            return _context.Media.Any(e => e.Id == id);
         }
     }
 }

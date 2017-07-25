@@ -1,29 +1,23 @@
-@model Edux.Models.Entity
+ï»¿@model Edux.Models.PropertyValue
 
 @{
-    ViewData["Title"] = "Varlýk Sil";
+    ViewData["Title"] = "Ã–zellik DeÄŸer Sil";
 }
 
 <h2>Sil</h2>
 
-<h3>Silmek istediðinize emin misiniz?</h3>
+<h3>Silmek istediÄŸinize emin misiniz?</h3>
 <div>
-    <h4>Varlýk</h4>
+    <h4>Ã–zellik DeÄŸerleri</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Value)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Value)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PluralName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PluralName)
-        </dd>
-        
+        <input type="hidden" asp-for="Id" />
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
@@ -54,12 +48,24 @@
         <dd>
             @Html.DisplayFor(model => model.AppTenantId)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Entity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Entity.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Property)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Property.Id)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-default" /> |
-            <a asp-action="Index">Listeye Geri Dön</a>
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            <a asp-action="Index">Listeye Geri DÃ¶n</a>
         </div>
     </form>
 </div>
