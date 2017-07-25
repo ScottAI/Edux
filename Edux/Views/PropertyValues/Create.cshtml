@@ -1,0 +1,68 @@
+﻿@model Edux.Models.PropertyValue
+
+@{
+    ViewData["Title"] = "Oluştur";
+}
+
+<h2>Oluştur</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Özellik Değerleri</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Value" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="EntityId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="EntityId" class ="form-control" asp-items="ViewBag.EntityId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PropertyId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="PropertyId" class ="form-control" asp-items="ViewBag.PropertyId"></select>
+            </div>
+        </div>
+      
+          
+          
+                <input asp-for="CreateDate" class="form-control" type="hidden"/>
+    
+  
+                <input asp-for="CreatedBy" class="form-control" type="hidden"/>
+          
+     
+                <input asp-for="UpdateDate" class="form-control" type="hidden"/>
+             
+     
+                <input asp-for="UpdatedBy" class="form-control"  type="hidden"/>
+             
+        <div class="form-group">
+            <label asp-for="AppTenantId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AppTenantId" class="form-control" />
+                <span asp-validation-for="AppTenantId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Oluştur" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Listeye Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

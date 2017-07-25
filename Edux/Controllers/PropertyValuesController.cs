@@ -10,23 +10,23 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class PagesController : Controller
+    public class PropertyValuesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PagesController(ApplicationDbContext context)
+        public PropertyValuesController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Pages
+        // GET: PropertyValues
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Pages.Include(p => p.ParentPage);
+            var applicationDbContext = _context.PropertyValues.Include(p => p.Entity).Include(p => p.Property);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Pages/Details/5
+        // GET: PropertyValues/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -34,43 +34,45 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages
-                .Include(p => p.ParentPage)
+            var propertyValue = await _context.PropertyValues
+                .Include(p => p.Entity)
+                .Include(p => p.Property)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (page == null)
+            if (propertyValue == null)
             {
                 return NotFound();
             }
 
-            return View(page);
+            return View(propertyValue);
         }
 
-        // GET: Pages/Create
+        // GET: PropertyValues/Create
         public IActionResult Create()
         {
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id");
-            var page = new Page();
-            return View(page);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id");
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id");
+            return View();
         }
 
-        // POST: Pages/Create
+        // POST: PropertyValues/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Create([Bind("Value,EntityId,PropertyId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] PropertyValue propertyValue)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(page);
+                _context.Add(propertyValue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
-            return View(page);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+            return View(propertyValue);
         }
 
-        // GET: Pages/Edit/5
+        // GET: PropertyValues/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -78,23 +80,24 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages.SingleOrDefaultAsync(m => m.Id == id);
-            if (page == null)
+            var propertyValue = await _context.PropertyValues.SingleOrDefaultAsync(m => m.Id == id);
+            if (propertyValue == null)
             {
                 return NotFound();
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
-            return View(page);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+            return View(propertyValue);
         }
 
-        // POST: Pages/Edit/5
+        // POST: PropertyValues/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Edit(string id, [Bind("Value,EntityId,PropertyId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] PropertyValue propertyValue)
         {
-            if (id != page.Id)
+            if (id != propertyValue.Id)
             {
                 return NotFound();
             }
@@ -103,12 +106,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    _context.Update(page);
+                    _context.Update(propertyValue);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PageExists(page.Id))
+                    if (!PropertyValueExists(propertyValue.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +122,12 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
-            return View(page);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+            return View(propertyValue);
         }
 
-        // GET: Pages/Delete/5
+        // GET: PropertyValues/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -131,31 +135,32 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var page = await _context.Pages
-                .Include(p => p.ParentPage)
+            var propertyValue = await _context.PropertyValues
+                .Include(p => p.Entity)
+                .Include(p => p.Property)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (page == null)
+            if (propertyValue == null)
             {
                 return NotFound();
             }
 
-            return View(page);
+            return View(propertyValue);
         }
 
-        // POST: Pages/Delete/5
+        // POST: PropertyValues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var page = await _context.Pages.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Pages.Remove(page);
+            var propertyValue = await _context.PropertyValues.SingleOrDefaultAsync(m => m.Id == id);
+            _context.PropertyValues.Remove(propertyValue);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool PageExists(string id)
+        private bool PropertyValueExists(string id)
         {
-            return _context.Pages.Any(e => e.Id == id);
+            return _context.PropertyValues.Any(e => e.Id == id);
         }
     }
 }
