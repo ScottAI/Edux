@@ -58,6 +58,8 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                entity.CreatedBy = User.Identity.Name;
+                entity.UpdatedBy = User.Identity.Name;
                 _context.Add(entity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -97,6 +99,8 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    entity.UpdateDate = DateTime.Now;
+                    entity.UpdatedBy = User.Identity.Name;
                     _context.Update(entity);
                     await _context.SaveChangesAsync();
                 }
