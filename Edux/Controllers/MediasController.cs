@@ -46,7 +46,9 @@ namespace Edux.Controllers
         // GET: Medias/Create
         public IActionResult Create()
         {
-            return View();
+            var media = new Media();
+           
+            return View(media);
         }
 
         // POST: Medias/Create
