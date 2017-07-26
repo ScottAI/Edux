@@ -49,8 +49,8 @@ namespace Edux.Controllers
         // GET: PropertyValues/Create
         public IActionResult Create()
         {
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id");
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id");
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
             var PValues = new PropertyValue();
             return View(PValues);
         }
@@ -72,8 +72,8 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", propertyValue.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", propertyValue.PropertyId);
            
 
             return View(propertyValue);
@@ -92,8 +92,8 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", propertyValue.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", propertyValue.PropertyId);
             return View(propertyValue);
         }
 
@@ -131,8 +131,8 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", propertyValue.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", propertyValue.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", propertyValue.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", propertyValue.PropertyId);
             return View(propertyValue);
         }
 
