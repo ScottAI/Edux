@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\js\generate-slug.js" />
     <Content Include="wwwroot\metronic\apps\css\inbox.css" />
     <Content Include="wwwroot\metronic\apps\css\inbox.min.css" />
     <Content Include="wwwroot\metronic\apps\css\ticket.css" />
