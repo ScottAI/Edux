@@ -10,23 +10,23 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class ParametersController : Controller
+    public class ComponentsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ParametersController(ApplicationDbContext context)
+        public ComponentsController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Parameters
+        // GET: Components
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Parameters.Include(p => p.ComponentType);
+            var applicationDbContext = _context.Components.Include(c => c.ComponentType).Include(c => c.ParentComponent);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Parameters/Details/5
+        // GET: Components/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -34,48 +34,46 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var parameter = await _context.Parameters
-                .Include(p => p.ComponentType)
+            var component = await _context.Components
+                .Include(c => c.ComponentType)
+                .Include(c => c.ParentComponent)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (parameter == null)
+            if (component == null)
             {
                 return NotFound();
             }
 
-            return View(parameter);
+            return View(component);
         }
 
-        // GET: Parameters/Create
+        // GET: Components/Create
         public IActionResult Create()
         {
-
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id");
-            var parameter = new Parameter();
-
-            return View(parameter);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id");
+            var component = new Component();
+            return View(component);
         }
 
-        // POST: Parameters/Create
+        // POST: Components/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component)
         {
             if (ModelState.IsValid)
             {
-                parameter.CreateDate = DateTime.Now;
-                parameter.CreatedBy = User.Identity.Name;
-                parameter.UpdatedBy = User.Identity.Name;
-                _context.Add(parameter);
+                _context.Add(component);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
-            return View(parameter);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", component.ComponentTypeId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id", component.ParentComponentId);
+            return View(component);
         }
 
-        // GET: Parameters/Edit/5
+        // GET: Components/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -83,23 +81,24 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var parameter = await _context.Parameters.SingleOrDefaultAsync(m => m.Id == id);
-            if (parameter == null)
+            var component = await _context.Components.SingleOrDefaultAsync(m => m.Id == id);
+            if (component == null)
             {
                 return NotFound();
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
-            return View(parameter);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", component.ComponentTypeId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id", component.ParentComponentId);
+            return View(component);
         }
 
-        // POST: Parameters/Edit/5
+        // POST: Components/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component)
         {
-            if (id != parameter.Id)
+            if (id != component.Id)
             {
                 return NotFound();
             }
@@ -108,14 +107,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    parameter.UpdateDate = DateTime.Now;
-                    parameter.UpdatedBy = User.Identity.Name;
-                    _context.Update(parameter);
+                    _context.Update(component);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ParameterExists(parameter.Id))
+                    if (!ComponentExists(component.Id))
                     {
                         return NotFound();
                     }
@@ -126,11 +123,12 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
-            return View(parameter);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", component.ComponentTypeId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id", component.ParentComponentId);
+            return View(component);
         }
 
-        // GET: Parameters/Delete/5
+        // GET: Components/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -138,32 +136,32 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var parameter = await _context.Parameters
-                .Include(p => p.ComponentType)
+            var component = await _context.Components
+                .Include(c => c.ComponentType)
+                .Include(c => c.ParentComponent)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (parameter == null)
+            if (component == null)
             {
                 return NotFound();
             }
 
-            return View(parameter);
+            return View(component);
         }
 
-        // POST: Parameters/Delete/5
+        // POST: Components/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var parameter = await _context.Parameters.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Parameters.Remove(parameter);
+            var component = await _context.Components.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Components.Remove(component);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool ParameterExists(string id)
+        private bool ComponentExists(string id)
         {
-            return _context.Parameters.Any(e => e.Id == id);
+            return _context.Components.Any(e => e.Id == id);
         }
     }
 }
- 

@@ -45,12 +45,12 @@ namespace Edux.Controllers
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Şifreniz değiştirildi."
+                : message == ManageMessageId.SetPasswordSuccess ? "Şifreniz oluşturuldu."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "İki faktörlü kimlik doğrulama sağlayıcınız ayarlandı."
+                : message == ManageMessageId.Error ? "Bir hata oluştu."
+                : message == ManageMessageId.AddPhoneSuccess ? "Telefon numaranız eklendi."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Telefon numaranız kaldırıldı."
                 : "";
 
             var user = await GetCurrentUserAsync();
@@ -113,7 +113,7 @@ namespace Edux.Controllers
                 return View("Error");
             }
             var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _smsSender.SendSmsAsync(model.PhoneNumber, "Your security code is: " + code);
+            await _smsSender.SendSmsAsync(model.PhoneNumber, "Güvenlik kodunuz: " + code);
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
@@ -128,7 +128,7 @@ namespace Edux.Controllers
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, true);
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(1, "User enabled two-factor authentication.");
+                _logger.LogInformation(1, "Kullanıcı iki faktörlü kimlik doğrulamayı etkinleştirdi.");
             }
             return RedirectToAction(nameof(Index), "Manage");
         }
@@ -144,7 +144,7 @@ namespace Edux.Controllers
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, false);
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(2, "User disabled two-factor authentication.");
+                _logger.LogInformation(2, "Kullanıcı iki faktörlü kimlik doğrulamayı devre dışı bıraktı.");
             }
             return RedirectToAction(nameof(Index), "Manage");
         }
@@ -185,7 +185,7 @@ namespace Edux.Controllers
                 }
             }
             // If we got this far, something failed, redisplay the form
-            ModelState.AddModelError(string.Empty, "Failed to verify phone number");
+            ModelState.AddModelError(string.Empty, "Telefon numarası doğrulanamadı");
             return View(model);
         }
 
@@ -233,7 +233,7 @@ namespace Edux.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User changed their password successfully.");
+                    _logger.LogInformation(3, "Kullanıcılar şifrelerini başarıyla değiştirdi.");
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);
@@ -281,9 +281,9 @@ namespace Edux.Controllers
         public async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.AddLoginSuccess ? "The external login was added."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "Harici giriş kaldırıldı."
+                : message == ManageMessageId.AddLoginSuccess ? "Harici giriş eklendi."
+                : message == ManageMessageId.Error ? "Bir hata oluştu."
                 : "";
             var user = await GetCurrentUserAsync();
             if (user == null)
