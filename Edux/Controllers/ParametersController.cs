@@ -49,7 +49,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
 
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id");
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             var parameter = new Parameter();
 
             return View(parameter);
@@ -71,7 +71,7 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes,"Name", parameter.ComponentTypeId);
             return View(parameter);
         }
 
@@ -88,7 +88,7 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", parameter.ComponentTypeId);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", parameter.ComponentTypeId);
             return View(parameter);
         }
 

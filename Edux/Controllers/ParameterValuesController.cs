@@ -49,7 +49,7 @@ namespace Edux.Controllers
         // GET: ParameterValues/Create
         public IActionResult Create()
         {
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id");
+            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Name");
             ViewData["ParameterId"] = new SelectList(_context.Parameters, "Id", "Id");
             var parameterValue = new ParameterValue();
             return View(parameterValue);

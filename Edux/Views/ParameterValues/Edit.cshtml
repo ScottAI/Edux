@@ -28,7 +28,7 @@
         <div class="form-group">
             <label asp-for="ParameterId" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="ParameterId" class="form-control" asp-items="ViewBag.ParameterId"></select>
+                <select asp-for="ParameterId" class="form-control" asp-items="(SelectList)@ViewData["ComponentTypeId"]"></select>
                 <span asp-validation-for="ParameterId" class="text-danger"></span>
             </div>
         </div>
