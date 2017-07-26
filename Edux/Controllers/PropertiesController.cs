@@ -48,7 +48,7 @@ namespace Edux.Controllers
         // GET: Properties/Create
         public IActionResult Create()
         {
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id");
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Name", "Name");
             return View();
         }
 
@@ -69,7 +69,7 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Name", "Name", @property.EntityId);
             return View(@property);
         }
 
@@ -86,7 +86,7 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Name", "Name", @property.EntityId);
             return View(@property);
         }
 
@@ -124,7 +124,7 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Id", @property.EntityId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Name", "Name", @property.EntityId);
             return View(@property);
         }
 
