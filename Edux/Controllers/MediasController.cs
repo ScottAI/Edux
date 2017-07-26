@@ -46,7 +46,9 @@ namespace Edux.Controllers
         // GET: Medias/Create
         public IActionResult Create()
         {
-            return View();
+            var media = new Media();
+           
+            return View(media);
         }
 
         // POST: Medias/Create
@@ -58,6 +60,8 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                media.CreatedBy = User.Identity.Name;
+                media.UpdatedBy = User.Identity.Name;
                 _context.Add(media);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");

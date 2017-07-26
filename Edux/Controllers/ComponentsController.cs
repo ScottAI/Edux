@@ -49,8 +49,8 @@ namespace Edux.Controllers
         // GET: Components/Create
         public IActionResult Create()
         {
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id");
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id");
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name");
             var component = new Component();
             return View(component);
         }
@@ -86,8 +86,8 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id", component.ParentComponentId);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
             return View(component);
         }
 
