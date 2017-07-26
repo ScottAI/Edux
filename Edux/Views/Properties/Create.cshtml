@@ -43,7 +43,14 @@
         <div class="form-group">
             <label asp-for="PropertyType" class="col-md-2 control-label" ></label>
             <div class="col-md-10">
-                <select asp-for="PropertyType" class="form-control" ><option value="">Seçiniz</option></select>
+                <select asp-for="PropertyType" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()" ><option value="">Seçiniz</option>
+                @*<option value="1">Int</option>
+               <option value="2">Bool</option>
+                @foreach (var item in Models.PropertyType)
+                {
+
+                }*@
+                </select>
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
             </div>
         </div>
@@ -88,7 +95,7 @@
          
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Olustur" class="btn btn-primary" />
+                <input type="submit" value="Oluştur" class="btn btn-primary" />
             </div>
         </div>
     </div>
