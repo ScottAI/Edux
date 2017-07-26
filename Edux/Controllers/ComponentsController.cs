@@ -51,6 +51,7 @@ namespace Edux.Controllers
         {
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name");
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             var component = new Component();
             return View(component);
         }
@@ -60,11 +61,14 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId")] Component component)
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(component);
+                await _context.SaveChangesAsync();
+                _context.PageComponents.Add(new PageComponent() { ComponentId = component.Id, PageId = component.PageId, AppTenantId = "1", CreateDate = DateTime.Now, UpdateDate = DateTime.Now, CreatedBy = User.Identity.Name, UpdatedBy = User.Identity.Name, Position = component.Position });
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

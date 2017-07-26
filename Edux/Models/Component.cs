@@ -14,6 +14,7 @@ namespace Edux.Models
             ParameterValues = new HashSet<ParameterValue>();
             View = "Default";
             UpdateDate = DateTime.Now;
+            Position = 0;
         }
         [Required]
         [Display(Name="Bileşen Adı")]
@@ -42,5 +43,11 @@ namespace Edux.Models
         public virtual ICollection<Component> ChildComponents { get; set; }
         [Display(Name = "Sayfa Bileşenleri")]
         public virtual ICollection<PageComponent> PageComponents { get; set; }
+        [NotMapped]
+        [Display(Name="Sayfa")]
+        public string PageId { get; set; }
+        [NotMapped]
+        [Display(Name = "Pozisyon")]
+        public int Position { get; set; }
     }
 }

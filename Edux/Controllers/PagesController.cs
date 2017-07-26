@@ -65,7 +65,7 @@ namespace Edux.Controllers
             {
                 _context.Add(page);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = page.Id });
             }
             ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
             return View(page);
