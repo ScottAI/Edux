@@ -49,7 +49,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var page = new Page();
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id");
+            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title");
             return View(page);
       
         }
@@ -67,7 +67,7 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
+            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
             return View(page);
         }
 
@@ -84,7 +84,7 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
+            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
             return View(page);
         }
 
