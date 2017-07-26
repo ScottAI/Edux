@@ -49,7 +49,8 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
-            return View();
+            var property = new Property();
+            return View(property);
         }
 
         // POST: Properties/Create

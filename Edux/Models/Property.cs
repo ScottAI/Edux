@@ -31,7 +31,10 @@ namespace Edux.Models
         [Display(Name = "Gerekli Mi?")]
         public bool IsRequired { get; set; }
         [Display(Name = "Özellik Türü")]
+        [EnumDataType(typeof(PropertyType))]
         public PropertyType PropertyType { get; set; }
+        //[Display(Name = "Özellik Türü")]
+        //public PropertyType PropertyType { get; set; }
         [Display(Name = "Metin Uzunluğu")]
         public int StringLength { get; set; }
         [Display(Name = "Varlık")]

@@ -7,12 +7,12 @@ namespace Edux.Models
 {
     public enum PropertyType
     {
-        Int,
-        Bool,
-        Decimal,
-        DateTime,
-        String,
-        Entity,
-        EntityCollection
+        Int=1,
+        Bool=2,
+        Decimal=3,
+        DateTime=4,
+        String=5,
+        Entity=6,
+        EntityCollection=7
     }
 }
