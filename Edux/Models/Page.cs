@@ -18,6 +18,9 @@ namespace Edux.Models
             CreatedBy = "username";
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
+            View = "Page";
+            LayoutView = "_metronicLayout";
+
         }
         [Required]
         [Display(Name = "Başlık")]
