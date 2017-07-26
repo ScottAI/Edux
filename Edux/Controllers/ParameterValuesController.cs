@@ -90,8 +90,8 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", parameterValue.ComponentId);
-            ViewData["ParameterId"] = new SelectList(_context.Parameters, "Id", "Id", parameterValue.ParameterId);
+            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Name", parameterValue.ComponentId);
+            ViewData["ParameterId"] = new SelectList(_context.Parameters, "Id", "Name", parameterValue.ParameterId);
             return View(parameterValue);
         }
 
@@ -130,7 +130,7 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", parameterValue.ComponentId);
-            ViewData["ParameterId"] = new SelectList(_context.Parameters, "Id", "Id", parameterValue.ParameterId);
+            ViewData["ParameterId"] = new SelectList(_context.Parameters, "Id", "Name", parameterValue.ParameterId);
             return View(parameterValue);
         }
 
