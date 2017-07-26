@@ -120,7 +120,7 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Id", page.ParentPageId);
+            ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
             return View(page);
         }
 
