@@ -60,6 +60,8 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                media.CreatedBy = User.Identity.Name;
+                media.UpdatedBy = User.Identity.Name;
                 _context.Add(media);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
