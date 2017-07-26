@@ -21,9 +21,9 @@ namespace Edux.Data
 
             var componentTypes = new ComponentType[]
             {
-            new ComponentType{ Name="Menü", DisplayName="Menü", CreateDate=DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy="username", UpdatedBy="username", AppTenantId="1"},
-            new ComponentType{ Name="DataTable", DisplayName="Menü", CreateDate=DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy="username", UpdatedBy="username", AppTenantId="1"},
-            new ComponentType{ Name="Form", DisplayName="Menü", CreateDate=DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy="username", UpdatedBy="username", AppTenantId="1"}
+            new ComponentType{ Name="Menu", DisplayName="Menü", CreateDate=DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy="username", UpdatedBy="username", AppTenantId="1"},
+            new ComponentType{ Name="DataTable", DisplayName="Veri Tablosu", CreateDate=DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy="username", UpdatedBy="username", AppTenantId="1"},
+            new ComponentType{ Name="Form", DisplayName="Form", CreateDate=DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy="username", UpdatedBy="username", AppTenantId="1"}
             };
             foreach (ComponentType ct in componentTypes)
             {

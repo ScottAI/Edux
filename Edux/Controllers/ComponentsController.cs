@@ -61,19 +61,18 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId")] Component component)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId,Position")] Component component)
         {
             if (ModelState.IsValid)
             {
                 
                 _context.Add(component);
                 await _context.SaveChangesAsync();
-                _context.PageComponents.Add(new PageComponent() { ComponentId = component.Id, PageId = component.PageId, AppTenantId = "1", CreateDate = DateTime.Now, UpdateDate = DateTime.Now, CreatedBy = User.Identity.Name, UpdatedBy = User.Identity.Name, Position = component.Position });
-                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id", component.ParentComponentId);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             return View(component);
         }
 
@@ -92,6 +91,7 @@ namespace Edux.Controllers
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             return View(component);
         }
 
@@ -127,8 +127,9 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Id", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Id", component.ParentComponentId);
+            ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             return View(component);
         }
 

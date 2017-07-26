@@ -39,8 +39,8 @@ namespace Edux.Models
         [Display(Name = "Tasarım Şablonu")]
         public string LayoutView { get; set; }
 
-        [Display(Name = "Sayfa Bileşenleri")]
-        public virtual ICollection<PageComponent> PageComponents { get; set; }
+       
+        
         [Display(Name = "Üst Sayfa")]
         public string ParentPageId { get; set; }
         [ForeignKey("ParentPageId")]
@@ -62,5 +62,7 @@ namespace Edux.Models
         public long Position { get; set; }
         [Display(Name = "İzin Verilen Roller")]
         public string AllowedRoles { get; set; }
+        [Display(Name = "Bileşenler")]
+        public virtual ICollection<Component> Components { get; set; }
     }
 }

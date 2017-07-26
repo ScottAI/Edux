@@ -41,12 +41,15 @@ namespace Edux.Models
         public Component ParentComponent { get; set; }
         [Display(Name = "Alt Bileşenler")]
         public virtual ICollection<Component> ChildComponents { get; set; }
-        [Display(Name = "Sayfa Bileşenleri")]
-        public virtual ICollection<PageComponent> PageComponents { get; set; }
-        [NotMapped]
+        
+   
         [Display(Name="Sayfa")]
         public string PageId { get; set; }
-        [NotMapped]
+        [Display(Name="Sayfa")]
+        [ForeignKey("PageId")]
+        public Page Page { get; set; }
+
+     
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
     }

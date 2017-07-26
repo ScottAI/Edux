@@ -18,7 +18,7 @@ namespace Edux.ViewComponents
         
         public async Task<IViewComponentResult> InvokeAsync(string pageId)
         {
-            var components = _context.Components.Include(c => c.ComponentType).Include(c => c.ParentComponent).Include(c=>c.PageComponents).Where(c => c.PageComponents.Where(pc => pc.PageId == pageId).Any());
+            var components = _context.Components.Include(c => c.ComponentType).Include(c => c.ParentComponent).Include(c=>c.Page).Where(c => c.PageId == pageId);
             return View(await components.ToListAsync());
         }
     }
