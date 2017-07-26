@@ -1,0 +1,21 @@
+@model IEnumerable<Edux.Models.Parameter>
+
+@{
+    ViewData["Title"] = "Editor";
+    Layout = null;
+}
+<br />
+<fieldset>
+    <legend>Parametreler:</legend>
+    <div style="border:1px solid #cccccc; border-top-width:0px; padding:5px;">
+    @foreach (var parameter in Model)
+    {
+        <div class="form-group">
+            <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+            <div class="col-md-10">
+                <input name="@parameter.Name" type="text" class="form-control" @(parameter.IsRequired ? "required" : "") />
+            </div>
+        </div>
+    }
+        </div>
+</fieldset>

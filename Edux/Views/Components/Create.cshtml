@@ -66,10 +66,12 @@
         <div class="form-group">
             <label asp-for="ComponentTypeId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ComponentTypeId" class="form-control" asp-items="ViewBag.ComponentTypeId">
+                <select asp-for="ComponentTypeId" class="form-control" asp-items="ViewBag.ComponentTypeId" onchange="onComponentTypeChange(this)">
                     <option value="">Seçiniz</option>
-
                 </select>
+                <div id="parameters">
+
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -86,4 +88,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function onComponentTypeChange(elm) {
+            $("#parameters").load("/Parameters/Editor/" + $(elm).val());
+        }
+    </script>
 }

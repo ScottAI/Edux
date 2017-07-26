@@ -22,8 +22,8 @@ namespace Edux.Controllers
         // GET: Components
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Components.Include(c => c.ComponentType).Include(c => c.ParentComponent);
-            return View(await applicationDbContext.ToListAsync());
+            var components = _context.Components.Include(c => c.ComponentType).ThenInclude(ct => ct.Parameters).Include(c => c.ParentComponent).Include(c => c.ParameterValues);
+            return View(await components.ToListAsync());
         }
 
         // GET: Components/Details/5
