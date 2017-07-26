@@ -9,6 +9,14 @@ namespace Edux.Models
 {
     public class Media : BaseEntity
     {
+        public Media() : base()
+        {
+           
+            CreateDate = DateTime.Now;
+            CreatedBy = "username";
+            UpdateDate = DateTime.Now;
+            UpdatedBy = "username";
+        }
         [StringLength(200)]
         [Required]
         [DisplayName("Ortam Adı")]
