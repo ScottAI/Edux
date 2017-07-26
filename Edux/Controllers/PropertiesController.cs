@@ -61,10 +61,10 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
-                //property.CreateDate = DateTime.Now;
-                //property.CreatedBy = User.Identity.Name;
-                //property.UpdateDate = DateTime.Now;
-                //property.UpdatedBy = User.Identity.Name; 
+                property.CreateDate = DateTime.Now;
+                property.CreatedBy = User.Identity.Name;
+                property.UpdateDate = DateTime.Now;
+                property.UpdatedBy = User.Identity.Name;
                 _context.Add(@property);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -106,6 +106,8 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    property.UpdateDate = DateTime.Now;
+                    property.UpdatedBy = User.Identity.Name;
                     _context.Update(@property);
                     await _context.SaveChangesAsync();
                 }
