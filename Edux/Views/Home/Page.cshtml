@@ -1,0 +1,8 @@
+﻿@model Edux.Models.PageViewModels.DisplayViewModel
+@{ 
+    ViewData["Title"] = Model.Page.MetaTitle;
+    ViewData["Description"] = Model.Page.MetaDescription;
+    ViewData["Keywords"] = Model.Page.MetaKeywords;
+    Layout = Model.Page.LayoutView;
+}
+<h1>@Model.Page.Title</h1>

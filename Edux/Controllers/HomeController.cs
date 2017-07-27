@@ -32,16 +32,15 @@ namespace Edux.Controllers
                 // Getting the page with the slug that user entered
                 var page = await _context.Pages
                     .Include(p => p.ParentPage)
-                    .Include(p => p.PageComponents)
-                        .ThenInclude(pc => pc.Component)
+                    .Include(p => p.Components)
                             .ThenInclude(x => x.ParameterValues)
                                 .ThenInclude(x => x.Parameter)
                     .SingleOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
-                model.IsFromHome = true;
+                
 
                 if (page == null)
                 {
-                    return Content($"'{slug}' Isimli Sayfa Bulunamadi!");
+                    return Content($"'{slug}' adresli bulunamadı!");
                 }
                 else
                 {
@@ -49,9 +48,9 @@ namespace Edux.Controllers
                     page.ViewCount++;
                     _context.SaveChanges();
                     model.Page = page;
-                    ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "DisplayName");
-                    ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "DisplayName");
-                    return View("/Views/Shared/BaseView.cshtml", model);
+                    //ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "DisplayName");
+                    //ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "DisplayName");
+                    return View(page.View, model);
                 }
             }
         }

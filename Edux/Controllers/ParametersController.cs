@@ -22,8 +22,14 @@ namespace Edux.Controllers
         // GET: Parameters
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Parameters.Include(p => p.ComponentType);
-            return View(await applicationDbContext.ToListAsync());
+            var parameters = _context.Parameters.Include(p => p.ComponentType);
+            return View(await parameters.ToListAsync());
+        }
+
+        public async Task<IActionResult> Editor(string id)
+        {
+            var parameters = _context.Parameters.Include(p => p.ComponentType).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
+            return View(await parameters.ToListAsync());
         }
 
         // GET: Parameters/Details/5
