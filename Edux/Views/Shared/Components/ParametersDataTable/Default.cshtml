@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Edux.Models.Parameter>
 
   <p>
-    <a asp-action="Create" asp-controller="Parameters" class="btn btn-primary">Yeni Parametre Ekle</a>
+    <a asp-action="Create" asp-controller="Parameters" class="btn btn-primary" asp-route-componenttypeId="@ViewBag.ComponenttypeId">Yeni Parametre Ekle</a>
 </p>
 
     <table class="table table-striped table-hover" id="tblRecords">
