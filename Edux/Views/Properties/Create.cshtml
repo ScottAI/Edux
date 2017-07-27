@@ -44,13 +44,7 @@
             <label asp-for="PropertyType" class="col-md-2 control-label" ></label>
             <div class="col-md-10">
                 <select asp-for="PropertyType" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()" ><option value="">Seçiniz</option>
-                @*<option value="1">Int</option>
-               <option value="2">Bool</option>
-                @foreach (var item in Models.PropertyType)
-                {
-
-                }*@
-                </select>
+              </select>
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
             </div>
         </div>
