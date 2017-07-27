@@ -26,9 +26,9 @@ namespace Edux.Controllers
             return View(await parameters.ToListAsync());
         }
 
-        public async Task<IActionResult> Editor(string id)
+        public async Task<IActionResult> Editor(string id, string componentId)
         {
-            var parameters = _context.Parameters.Include(p => p.ComponentType).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
+            var parameters = _context.Parameters.Include(p => p.ComponentType).Include(p=>p.ParameterValues).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
             return View(await parameters.ToListAsync());
         }
 
