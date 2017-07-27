@@ -52,12 +52,12 @@ namespace Edux.Controllers
         }
 
         // GET: Parameters/Create
-        public IActionResult Create()
+        public IActionResult Create(string componenttypeId)
         {
 
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             var parameter = new Parameter();
-
+            parameter.ComponentTypeId = componenttypeId;
             return View(parameter);
         }
 
@@ -75,7 +75,7 @@ namespace Edux.Controllers
                 parameter.UpdatedBy = User.Identity.Name;
                 _context.Add(parameter);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "ComponentTypes", new { id = parameter.ComponentTypeId });
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes,"Name", parameter.ComponentTypeId);
             return View(parameter);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
 
 namespace Edux.Controllers
@@ -17,7 +18,7 @@ namespace Edux.Controllers
 
         public ComponentsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Components
@@ -48,12 +49,14 @@ namespace Edux.Controllers
         }
 
         // GET: Components/Create
-        public IActionResult Create()
+        public IActionResult Create(string PageId)
         {
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name");
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             var component = new Component();
+            component.PageId = PageId;
+            ViewBag.PageId = PageId;
             return View(component);
         }
 
@@ -62,11 +65,10 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId,Position,Editor")] Component component, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId,Position")] Component component, string PageIdRef, IFormCollection form)
         {
             if (ModelState.IsValid)
             {
-                
                 _context.Add(component);
                 await _context.SaveChangesAsync();
                 foreach (var key in form.Keys)

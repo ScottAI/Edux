@@ -22,7 +22,9 @@ namespace Edux.Data
         public DbSet<ParameterValue> ParameterValues { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
         public DbSet<Component> Components { get; set; }
-        
+        public DbSet<DataTable> DataTables { get; set; }
+        public DbSet<Column> Columns { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
