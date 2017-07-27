@@ -47,12 +47,13 @@ namespace Edux.Controllers
         }
 
         // GET: Components/Create
-        public IActionResult Create()
+        public IActionResult Create(string PageId)
         {
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name");
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             var component = new Component();
+            component.PageId = PageId;
             return View(component);
         }
 
