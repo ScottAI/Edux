@@ -63,7 +63,7 @@ namespace Edux.Controllers
                 entity.UpdatedBy = User.Identity.Name;
                 _context.Add(entity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = entity.Id });
             }
             return View(entity);
         }
