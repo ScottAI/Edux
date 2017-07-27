@@ -58,6 +58,7 @@ namespace Edux.Controllers
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             var parameter = new Parameter();
             parameter.ComponentTypeId = componenttypeId;
+            ViewBag.ComponentTypeIdRef = componenttypeId;
             return View(parameter);
         }
 
@@ -66,7 +67,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter , string ComponentTypeIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +76,12 @@ namespace Edux.Controllers
                 parameter.UpdatedBy = User.Identity.Name;
                 _context.Add(parameter);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", "ComponentTypes", new { id = parameter.ComponentTypeId });
+                if (ComponentTypeIdRef!=null)
+                {
+                    string url = "/ComponentTypes/Edit/"+ ComponentTypeIdRef+"#tab_1_2";
+                    return Redirect(url);
+                }
+                return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes,"Name", parameter.ComponentTypeId);
             return View(parameter);
