@@ -7,10 +7,10 @@ namespace Edux.Models
 {
     public enum InputType
     {
-        Text,
-        TextArea,
-        Html,
-        Select,
-        Checkbox            
+        Text=1,
+        TextArea=2,
+        Html=3,
+        Select=4,
+        Checkbox=5            
     }
 }
