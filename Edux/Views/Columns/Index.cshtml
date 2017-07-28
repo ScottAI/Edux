@@ -4,7 +4,7 @@
     ViewData["Title"] = "Sütun";
 }
 
-<h2>Sütun</h2>
+<h2>Sütunlar</h2>
 
 <p>
     <a asp-action="Create">Yeni Oluştur</a>
@@ -86,8 +86,8 @@
                     @Html.DisplayFor(modelItem => item.Property.Name)
                 </td>
                 <td class="text-nowrap">
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a> 
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
                 </td>
             </tr>

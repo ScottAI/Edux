@@ -111,9 +111,11 @@ namespace Edux.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                {  
+                    column.CreateDate = DateTime.Now;
                     column.UpdateDate = DateTime.Now;   
                     column.UpdatedBy = User.Identity.Name;
+                    column.CreatedBy = User.Identity.Name;
                     _context.Update(column);
                     await _context.SaveChangesAsync();
                 }
