@@ -10,22 +10,22 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class EntitiesController : Controller
+    public class DataTablesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EntitiesController(ApplicationDbContext context)
+        public DataTablesController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Entities
+        // GET: DataTables
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Entities.ToListAsync());
+            return View(await _context.DataTables.ToListAsync());
         }
 
-        // GET: Entities/Details/5
+        // GET: DataTables/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,42 +33,39 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var dataTable = await _context.DataTables
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (dataTable == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(dataTable);
         }
 
-        // GET: Entities/Create
+        // GET: DataTables/Create
         public IActionResult Create()
         {
-            var page = new Entity();
-            return View(page);
+            return View();
         }
 
-        // POST: Entities/Create
+        // POST: DataTables/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] DataTable dataTable)
         {
             if (ModelState.IsValid)
             {
-                entity.CreatedBy = User.Identity.Name;
-                entity.UpdatedBy = User.Identity.Name;
-                _context.Add(entity);
+                _context.Add(dataTable);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", new { id = entity.Id });
+                return RedirectToAction("Index");
             }
-            return View(entity);
+            return View(dataTable);
         }
 
-        // GET: Entities/Edit/5
+        // GET: DataTables/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -76,22 +73,22 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            var dataTable = await _context.DataTables.SingleOrDefaultAsync(m => m.Id == id);
+            if (dataTable == null)
             {
                 return NotFound();
             }
-            return View(entity);
+            return View(dataTable);
         }
 
-        // POST: Entities/Edit/5
+        // POST: DataTables/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] DataTable dataTable)
         {
-            if (id != entity.Id)
+            if (id != dataTable.Id)
             {
                 return NotFound();
             }
@@ -100,14 +97,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    entity.UpdateDate = DateTime.Now;
-                    entity.UpdatedBy = User.Identity.Name;
-                    _context.Update(entity);
+                    _context.Update(dataTable);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EntityExists(entity.Id))
+                    if (!DataTableExists(dataTable.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +113,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(entity);
+            return View(dataTable);
         }
 
-        // GET: Entities/Delete/5
+        // GET: DataTables/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -129,30 +124,30 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var dataTable = await _context.DataTables
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (dataTable == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(dataTable);
         }
 
-        // POST: Entities/Delete/5
+        // POST: DataTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Entities.Remove(entity);
+            var dataTable = await _context.DataTables.SingleOrDefaultAsync(m => m.Id == id);
+            _context.DataTables.Remove(dataTable);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool EntityExists(string id)
+        private bool DataTableExists(string id)
         {
-            return _context.Entities.Any(e => e.Id == id);
+            return _context.DataTables.Any(e => e.Id == id);
         }
     }
 }

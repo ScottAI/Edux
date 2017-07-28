@@ -19,6 +19,7 @@ namespace Edux.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(string componenttypeId)
         {
             var parameters = _context.Parameters.Include(c => c.ComponentType).Include(c => c.ParameterValues).Where(c => c.ComponentTypeId == componenttypeId);
+            ViewBag.ComponenttypeId = componenttypeId;
             return View(await parameters.ToListAsync());
         }
     }

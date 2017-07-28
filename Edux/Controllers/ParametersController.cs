@@ -26,9 +26,9 @@ namespace Edux.Controllers
             return View(await parameters.ToListAsync());
         }
 
-        public async Task<IActionResult> Editor(string id)
+        public async Task<IActionResult> Editor(string id, string componentId)
         {
-            var parameters = _context.Parameters.Include(p => p.ComponentType).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
+            var parameters = _context.Parameters.Include(p => p.ComponentType).Include(p=>p.ParameterValues).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
             return View(await parameters.ToListAsync());
         }
 
@@ -52,12 +52,13 @@ namespace Edux.Controllers
         }
 
         // GET: Parameters/Create
-        public IActionResult Create()
+        public IActionResult Create(string componenttypeId)
         {
 
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             var parameter = new Parameter();
-
+            parameter.ComponentTypeId = componenttypeId;
+            ViewBag.ComponentTypeIdRef = componenttypeId;
             return View(parameter);
         }
 
@@ -66,7 +67,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,IsRequired,ComponentTypeId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Parameter parameter , string ComponentTypeIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +76,11 @@ namespace Edux.Controllers
                 parameter.UpdatedBy = User.Identity.Name;
                 _context.Add(parameter);
                 await _context.SaveChangesAsync();
+                if (ComponentTypeIdRef!=null)
+                {
+                    string url = "/ComponentTypes/Edit/"+ ComponentTypeIdRef+"#tab_1_2";
+                    return Redirect(url);
+                }
                 return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes,"Name", parameter.ComponentTypeId);
