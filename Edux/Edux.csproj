@@ -5746,10 +5746,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Views\Shared\Components\PropertiesDataTable\" />
-    <Folder Include="Views\Shared\Components\PropertiesDataTable\" />
-    <Folder Include="Views\Shared\Components\PropertiesDataTable\" />
-    <Folder Include="Views\Shared\Components\PropertiesDataTable\" />
   </ItemGroup>
 
 </Project>
