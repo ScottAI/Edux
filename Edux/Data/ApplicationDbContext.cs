@@ -26,6 +26,8 @@ namespace Edux.Data
         public DbSet<Column> Columns { get; set; }
         public DbSet<Form> Forms { get; set; }
         public DbSet<Field> Fields { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
