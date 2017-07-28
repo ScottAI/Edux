@@ -49,8 +49,8 @@ namespace Edux.Controllers
         // GET: MenuItems/Create
         public IActionResult Create()
         {
-            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id");
-            ViewData["ParentMenuItemId"] = new SelectList(_context.MenuItems, "Id", "Id");
+            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Name");
+            ViewData["ParentMenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name");
             var menuItem = new MenuItem();
             return View(menuItem);
         }
@@ -64,6 +64,10 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                menuItem.CreateDate = DateTime.Now;
+                menuItem.CreatedBy = User.Identity.Name;
+                menuItem.UpdateDate = DateTime.Now;
+                menuItem.UpdatedBy = User.Identity.Name;
                 _context.Add(menuItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -86,8 +90,8 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id", menuItem.MenuId);
-            ViewData["ParentMenuItemId"] = new SelectList(_context.MenuItems, "Id", "Id", menuItem.ParentMenuItemId);
+            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Name", menuItem.MenuId);
+            ViewData["ParentMenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name", menuItem.ParentMenuItemId);
             return View(menuItem);
         }
 
@@ -107,6 +111,8 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    menuItem.UpdateDate = DateTime.Now;
+                    menuItem.UpdatedBy = User.Identity.Name;
                     _context.Update(menuItem);
                     await _context.SaveChangesAsync();
                 }
