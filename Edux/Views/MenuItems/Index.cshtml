@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Edux.Models.MenuItem>
+
+@{
+    ViewData["Title"] = "Menü Öğeleri";
+}
+
+<h2>Menü Öğeleri</h2>
+
+<p>
+    <a asp-action="Create">Yeni Oluştur</a>
+</p>
+<table id="tblRecords" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="text-nowrap all">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Target)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.IsPublished)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Icon)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.CssClass)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.AppTenantId)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Menu)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.ParentMenuItem)
+            </th>
+            <th data-orderable="false" class="all">Eylemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Url)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Target)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPublished)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Icon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CssClass)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppTenantId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Menu.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentMenuItem.Id)
+                </td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Ayrıntılar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
