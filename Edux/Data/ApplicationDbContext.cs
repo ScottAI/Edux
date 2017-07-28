@@ -24,6 +24,8 @@ namespace Edux.Data
         public DbSet<Component> Components { get; set; }
         public DbSet<DataTable> DataTables { get; set; }
         public DbSet<Column> Columns { get; set; }
+        public DbSet<Form> Forms { get; set; }
+        public DbSet<Field> Fields { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
