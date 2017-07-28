@@ -1,0 +1,7 @@
+﻿@model Component
+<div class="@ViewBag.CssClass">
+    @foreach (var component in Model.ChildComponents)
+    {
+        @await Component.InvokeAsync(component.ComponentType.Name, new { component = component })
+    }
+</div>

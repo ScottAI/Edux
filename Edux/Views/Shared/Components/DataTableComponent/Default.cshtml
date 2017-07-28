@@ -1,0 +1,53 @@
+@model Component
+@{ var entity = (Entity)ViewBag.Entity;}
+<p>
+<a href="create" class="btn btn-primary">Yeni Oluþtur</a>
+</p>
+
+<table class="table table-striped table-hover" id="tblRecords">
+<thead>
+    <tr>
+        @{ var propertyCount = entity.Properties.Count();}
+        @foreach (var property in entity.Properties.OrderBy(p => p.Position))
+        {
+            <th class="text-nowrap">@property.DisplayName</th>
+        }
+        <th data-orderable="false" class="text-nowrap all">Eylemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var property in entity.Properties.OrderBy(p => p.Position))
+            {
+                <td class="text-nowrap">@property.DisplayName</td>
+            }
+            <td class="text-nowrap">
+                <a asp-action="Edit" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a>
+                <a asp-action="Details" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-success">Detaylar</a>
+                <a asp-action="Delete" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+        <tr>
+            @foreach (var property in entity.Properties.OrderBy(p => p.Position))
+            {
+                <td class="text-nowrap">@property.DisplayName</td>
+            }
+            <td class="text-nowrap">
+                <a asp-action="Edit" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a>
+                <a asp-action="Details" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-success">Detaylar</a>
+                <a asp-action="Delete" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+        <tr>
+            @foreach (var property in entity.Properties.OrderBy(p => p.Position))
+            {
+                <td class="text-nowrap">@property.DisplayName</td>
+            }
+            <td class="text-nowrap">
+                <a asp-action="Edit" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a>
+                <a asp-action="Details" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-success">Detaylar</a>
+                <a asp-action="Delete" asp-controller="Parameters" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>

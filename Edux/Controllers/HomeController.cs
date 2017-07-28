@@ -31,7 +31,7 @@ namespace Edux.Controllers
 
                 // Getting the page with the slug that user entered
                 var page = await _context.Pages
-                    .Include(p => p.ParentPage)
+                    .Include(p => p.ParentPage).Include("Components.ComponentType").Include("Components.ChildComponents")
                     .Include(p => p.Components)
                             .ThenInclude(x => x.ParameterValues)
                                 .ThenInclude(x => x.Parameter)
