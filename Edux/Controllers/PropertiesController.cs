@@ -46,10 +46,13 @@ namespace Edux.Controllers
         }
 
         // GET: Properties/Create
-        public IActionResult Create()
+        public IActionResult Create(string EntityId)
         {
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
+            ViewData["Entities"] = new SelectList(_context.Entities, "Id", "Name");
             var property = new Property();
+            property.EntityId = EntityId;
+            ViewBag.EntityId = EntityId;
             return View(property);
         }
 

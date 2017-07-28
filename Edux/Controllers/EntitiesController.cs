@@ -47,6 +47,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var page = new Entity();
+            ViewData["ParentEntitiesId"] = new SelectList(_context.Entities, "Id", "Title");
             return View(page);
         }
 
