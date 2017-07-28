@@ -10,22 +10,22 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class ComponentTypesController : Controller
+    public class MenusController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ComponentTypesController(ApplicationDbContext context)
+        public MenusController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: ComponentTypes
+        // GET: Menus
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ComponentTypes.ToListAsync());
+            return View(await _context.Menus.ToListAsync());
         }
 
-        // GET: ComponentTypes/Details/5
+        // GET: Menus/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,44 +33,44 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var componentType = await _context.ComponentTypes
+            var menu = await _context.Menus
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (componentType == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return View(componentType);
+            return View(menu);
         }
 
-        // GET: ComponentTypes/Create
+        // GET: Menus/Create
         public IActionResult Create()
         {
-            var componentType = new ComponentType();
-            return View(componentType);
+            var menu = new Menu();
+            return View(menu);
         }
 
-        // POST: ComponentTypes/Create
+        // POST: Menus/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] ComponentType componentType)
+        public async Task<IActionResult> Create([Bind("Name,MenuLocation,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Menu menu)
         {
             if (ModelState.IsValid)
             {
-                componentType.CreatedBy= User.Identity.Name;
-                componentType.UpdateDate = DateTime.Now;
-                componentType.UpdatedBy = User.Identity.Name;
-                componentType.CreateDate = DateTime.Now;
-                _context.Add(componentType);
+                menu.CreatedBy = User.Identity.Name;
+                menu.UpdateDate = DateTime.Now;
+                menu.UpdatedBy = User.Identity.Name;
+                menu.CreateDate = DateTime.Now;
+                _context.Add(menu);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit",new {id=componentType.Id });
+                return RedirectToAction("Index");
             }
-            return View(componentType);
+            return View(menu);
         }
 
-        // GET: ComponentTypes/Edit/5
+        // GET: Menus/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -78,22 +78,22 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var componentType = await _context.ComponentTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (componentType == null)
+            var menu = await _context.Menus.SingleOrDefaultAsync(m => m.Id == id);
+            if (menu == null)
             {
                 return NotFound();
             }
-            return View(componentType);
+            return View(menu);
         }
 
-        // POST: ComponentTypes/Edit/5
+        // POST: Menus/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] ComponentType componentType)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,MenuLocation,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Menu menu)
         {
-            if (id != componentType.Id)
+            if (id != menu.Id)
             {
                 return NotFound();
             }
@@ -102,14 +102,14 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    componentType.UpdateDate = DateTime.Now;
-                    componentType.UpdatedBy = User.Identity.Name;
-                    _context.Update(componentType);
+                    menu.UpdateDate = DateTime.Now;
+                    menu.UpdatedBy = User.Identity.Name;
+                    _context.Update(menu);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ComponentTypeExists(componentType.Id))
+                    if (!MenuExists(menu.Id))
                     {
                         return NotFound();
                     }
@@ -120,10 +120,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(componentType);
+            return View(menu);
         }
 
-        // GET: ComponentTypes/Delete/5
+        // GET: Menus/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -131,30 +131,30 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var componentType = await _context.ComponentTypes
+            var menu = await _context.Menus
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (componentType == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return View(componentType);
+            return View(menu);
         }
 
-        // POST: ComponentTypes/Delete/5
+        // POST: Menus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var componentType = await _context.ComponentTypes.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ComponentTypes.Remove(componentType);
+            var menu = await _context.Menus.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Menus.Remove(menu);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool ComponentTypeExists(string id)
+        private bool MenuExists(string id)
         {
-            return _context.ComponentTypes.Any(e => e.Id == id);
+            return _context.Menus.Any(e => e.Id == id);
         }
     }
 }

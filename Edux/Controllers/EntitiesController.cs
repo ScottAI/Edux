@@ -47,6 +47,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var page = new Entity();
+            ViewData["ParentEntitiesId"] = new SelectList(_context.Entities, "Id", "Title");
             return View(page);
         }
 
@@ -62,6 +63,7 @@ namespace Edux.Controllers
                 entity.CreatedBy = User.Identity.Name;
                 entity.UpdatedBy = User.Identity.Name;
                 _context.Add(entity);
+                ViewBag.EntityId = entity.Id;
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Edit", new { id = entity.Id });
             }
