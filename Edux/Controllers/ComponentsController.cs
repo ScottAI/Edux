@@ -88,12 +88,13 @@ namespace Edux.Controllers
                     }
 
                 }
+                await _context.SaveChangesAsync();
                 if (PageIdRef != null)
                 {
                     string url = "/Pages/Edit/" + PageIdRef + "#tab_1_2";
                     return Redirect(url);
                 }
-                await _context.SaveChangesAsync();
+                
                 return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
@@ -128,7 +129,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component )
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component, IFormCollection form )
         {
             if (id != component.Id)
             {
@@ -140,6 +141,27 @@ namespace Edux.Controllers
                 try
                 {
                     _context.Update(component);
+                    await _context.SaveChangesAsync();
+                    _context.ParameterValues.RemoveRange(_context.ParameterValues.Where(v => v.ComponentId == component.Id).ToArray());
+                    await _context.SaveChangesAsync();
+                    foreach (var key in form.Keys)
+                    {
+                        Guid result;
+                        if (Guid.TryParse(key, out result))
+                        {
+                            var value = new ParameterValue();
+                            value.ParameterId = key;
+                            value.ComponentId = component.Id;
+                            value.Value = form[key].ToString();
+                            value.CreateDate = DateTime.Now;
+                            value.UpdateDate = DateTime.Now;
+                            value.UpdatedBy = User.Identity.Name;
+                            value.CreatedBy = User.Identity.Name;
+
+                            _context.ParameterValues.Add(value);
+                        }
+
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
