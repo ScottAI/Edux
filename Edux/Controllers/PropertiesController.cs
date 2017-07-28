@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Edux.Controllers
 {
@@ -60,9 +61,10 @@ namespace Edux.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property , string entityId, IFormCollection form)
         {
+
             if (ModelState.IsValid)
             {
                 property.CreateDate = DateTime.Now;
@@ -71,11 +73,23 @@ namespace Edux.Controllers
                 property.UpdatedBy = User.Identity.Name;
                 _context.Add(@property);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (entityId != null)
+                {
+                    return RedirectToAction("Edit", "Entities", new { id = property.EntityId });
+                }
+
+               
             }
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
-            return View(@property);
+
+
+            return RedirectToAction("Index", "Properties");
+
+
+
+
         }
+        
 
         // GET: Properties/Edit/5
         public async Task<IActionResult> Edit(string id)
