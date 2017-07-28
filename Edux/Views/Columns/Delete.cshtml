@@ -1,0 +1,89 @@
+﻿@model Edux.Models.Column
+
+@{
+    ViewData["Title"] = "Sütun Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Silmek istediğinize emin misiniz?</h3>
+<div>
+    <h4>Sütun</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FilterOperator)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FilterOperator)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FilterValue)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FilterValue)
+        </dd>
+        <input type="hidden" asp-for="Id" />
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppTenantId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppTenantId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataTable)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataTable.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Property)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Property.Name)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            <a asp-action="Index">Listeye Geri Dön</a>
+        </div>
+    </form>
+</div>
