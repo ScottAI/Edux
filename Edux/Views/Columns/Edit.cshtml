@@ -1,0 +1,75 @@
+﻿@model Edux.Models.Column
+
+@{
+    ViewData["Title"] = "Sütun Düzenle";
+}
+
+<h2>Düzenle</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Sütun</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="DataTableId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="DataTableId" class="form-control" asp-items="(SelectList)@ViewData["DataTableId"]" value=""><option value="">Seçiniz</option></select>
+                <span asp-validation-for="DataTableId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PropertyId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="PropertyId" class="form-control" asp-items="ViewBag.PropertyId"></select>
+                <span asp-validation-for="PropertyId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Position" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="OrderBy" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="OrderBy" class="form-control" />
+                <span asp-validation-for="OrderBy" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FilterOperator" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="FilterOperator" class="form-control" asp-items="Html.GetEnumSelectList<FilterOperator>()"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="FilterOperator" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FilterValue" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FilterValue" class="form-control" />
+                <span asp-validation-for="FilterValue" class="text-danger"></span>
+            </div>
+        </div>
+        <input asp-for="CreateDate" class="form-control" type="hidden" />
+        <input asp-for="CreatedBy" class="form-control" type="hidden" />
+        <input asp-for="UpdateDate" class="form-control" type="hidden" />
+        <input asp-for="UpdatedBy" class="form-control" type="hidden" />
+        <input asp-for="AppTenantId" class="form-control" type="hidden" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Listeye Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

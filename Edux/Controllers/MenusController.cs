@@ -10,22 +10,22 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class EntitiesController : Controller
+    public class MenusController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EntitiesController(ApplicationDbContext context)
+        public MenusController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Entities
+        // GET: Menus
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Entities.ToListAsync());
+            return View(await _context.Menus.ToListAsync());
         }
 
-        // GET: Entities/Details/5
+        // GET: Menus/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,44 +33,44 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var menu = await _context.Menus
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(menu);
         }
 
-        // GET: Entities/Create
+        // GET: Menus/Create
         public IActionResult Create()
         {
-            var page = new Entity();
-            ViewData["ParentEntitiesId"] = new SelectList(_context.Entities, "Id", "Title");
-            return View(page);
+            var menu = new Menu();
+            return View(menu);
         }
 
-        // POST: Entities/Create
+        // POST: Menus/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Create([Bind("Name,MenuLocation,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Menu menu)
         {
             if (ModelState.IsValid)
             {
-                entity.CreatedBy = User.Identity.Name;
-                entity.UpdatedBy = User.Identity.Name;
-                _context.Add(entity);
-                ViewBag.EntityId = entity.Id;
+                menu.CreatedBy = User.Identity.Name;
+                menu.UpdateDate = DateTime.Now;
+                menu.UpdatedBy = User.Identity.Name;
+                menu.CreateDate = DateTime.Now;
+                _context.Add(menu);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", new { id = entity.Id });
+                return RedirectToAction("Index");
             }
-            return View(entity);
+            return View(menu);
         }
 
-        // GET: Entities/Edit/5
+        // GET: Menus/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -78,22 +78,22 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            var menu = await _context.Menus.SingleOrDefaultAsync(m => m.Id == id);
+            if (menu == null)
             {
                 return NotFound();
             }
-            return View(entity);
+            return View(menu);
         }
 
-        // POST: Entities/Edit/5
+        // POST: Menus/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,MenuLocation,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Menu menu)
         {
-            if (id != entity.Id)
+            if (id != menu.Id)
             {
                 return NotFound();
             }
@@ -102,14 +102,14 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    entity.UpdateDate = DateTime.Now;
-                    entity.UpdatedBy = User.Identity.Name;
-                    _context.Update(entity);
+                    menu.UpdateDate = DateTime.Now;
+                    menu.UpdatedBy = User.Identity.Name;
+                    _context.Update(menu);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EntityExists(entity.Id))
+                    if (!MenuExists(menu.Id))
                     {
                         return NotFound();
                     }
@@ -120,10 +120,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(entity);
+            return View(menu);
         }
 
-        // GET: Entities/Delete/5
+        // GET: Menus/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -131,30 +131,30 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var entity = await _context.Entities
+            var menu = await _context.Menus
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (entity == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return View(entity);
+            return View(menu);
         }
 
-        // POST: Entities/Delete/5
+        // POST: Menus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var entity = await _context.Entities.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Entities.Remove(entity);
+            var menu = await _context.Menus.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Menus.Remove(menu);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool EntityExists(string id)
+        private bool MenuExists(string id)
         {
-            return _context.Entities.Any(e => e.Id == id);
+            return _context.Menus.Any(e => e.Id == id);
         }
     }
 }

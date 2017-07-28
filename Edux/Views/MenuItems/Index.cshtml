@@ -1,7 +1,13 @@
-﻿@model IEnumerable<Edux.Models.Property>
+﻿@model IEnumerable<Edux.Models.MenuItem>
+
+@{
+    ViewData["Title"] = "Menü Öğeleri";
+}
+
+<h2>Menü Öğeleri</h2>
 
 <p>
-    <a asp-controller="Properties" asp-action="Create" class="btn btn-primary" asp-route-EntityId="@ViewBag.EntityId">Yeni Özellik Ekle</a>
+    <a asp-action="Create">Yeni Oluştur</a>
 </p>
 <table id="tblRecords" class="table table-striped table-hover">
     <thead>
@@ -10,22 +16,22 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.DisplayName)
+                @Html.DisplayNameFor(model => model.Url)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.DataType)
-            </th>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.IsRequired)
-            </th>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.PropertyType)
-            </th>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.StringLength)
+                @Html.DisplayNameFor(model => model.Target)
             </th>
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.IsPublished)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Icon)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.CssClass)
             </th>
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.CreateDate)
@@ -43,11 +49,12 @@
                 @Html.DisplayNameFor(model => model.AppTenantId)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.Entity)
+                @Html.DisplayNameFor(model => model.Menu)
             </th>
-            <th data-orderable="false" class="text-nowrap all">
-                Eylemler
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.ParentMenuItem)
             </th>
+            <th data-orderable="false" class="all">Eylemler</th>
         </tr>
     </thead>
     <tbody>
@@ -58,22 +65,22 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DisplayName)
+                    @Html.DisplayFor(modelItem => item.Url)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsRequired)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PropertyType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StringLength)
+                    @Html.DisplayFor(modelItem => item.Target)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPublished)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Icon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CssClass)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreateDate)
@@ -91,12 +98,15 @@
                     @Html.DisplayFor(modelItem => item.AppTenantId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Entity.Id)
+                    @Html.DisplayFor(modelItem => item.Menu.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentMenuItem.Name)
                 </td>
                 <td class="text-nowrap">
-                    <a asp-action="Edit" asp-controller="Properties" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a>
-                    <a asp-action="Details" asp-controller="Properties" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a>
-                    <a asp-action="Delete" asp-controller="Properties" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
                 </td>
             </tr>
         }
