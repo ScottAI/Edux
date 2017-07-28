@@ -16,9 +16,10 @@ namespace Edux.ViewComponents
             this._context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string pageId)
+        public async Task<IViewComponentResult> InvokeAsync(string entityId)
         {
-            var properties = _context.Properties.Include(c => c.PropertyValues).Include(c=>c.Entity).Where(c => c.Id == pageId);
+            var properties = _context.Properties.Include(c => c.PropertyValues).Include(c=>c.Entity).Where(c => c.Id == entityId);
+            ViewBag.EntityId = entityId;
             return View(await properties.ToListAsync());
         }
     }
