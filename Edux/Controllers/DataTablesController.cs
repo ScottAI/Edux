@@ -46,7 +46,9 @@ namespace Edux.Controllers
         // GET: DataTables/Create
         public IActionResult Create()
         {
-            return View();
+            var datatable = new DataTable();
+
+            return View(datatable);
         }
 
         // POST: DataTables/Create
@@ -58,6 +60,10 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                dataTable.UpdateDate = DateTime.Now;
+                dataTable.CreateDate = DateTime.Now;
+                dataTable.CreatedBy = User.Identity.Name;
+                dataTable.UpdatedBy = User.Identity.Name;
                 _context.Add(dataTable);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
