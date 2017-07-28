@@ -88,6 +88,11 @@ namespace Edux.Controllers
                     }
 
                 }
+                if (PageIdRef != null)
+                {
+                    string url = "/Pages/Edit/" + PageIdRef + "#tab_1_2";
+                    return Redirect(url);
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
