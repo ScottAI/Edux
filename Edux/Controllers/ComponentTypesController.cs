@@ -65,7 +65,7 @@ namespace Edux.Controllers
                 componentType.CreateDate = DateTime.Now;
                 _context.Add(componentType);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit",new {id=componentType.Id });
             }
             return View(componentType);
         }
