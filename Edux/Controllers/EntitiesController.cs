@@ -62,6 +62,7 @@ namespace Edux.Controllers
                 entity.CreatedBy = User.Identity.Name;
                 entity.UpdatedBy = User.Identity.Name;
                 _context.Add(entity);
+                ViewBag.EntityId = entity.Id;
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Edit", new { id = entity.Id });
             }
