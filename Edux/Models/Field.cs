@@ -44,7 +44,7 @@ namespace Edux.Models
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
         [Display(Name = "Editör Türü")]
-        public InputType InputType { get; set; }
+        public EditorType EditorType { get; set; }
         [Display(Name = "Varsayılan Değer")]
         public string DefaultValue { get; set; }
     }

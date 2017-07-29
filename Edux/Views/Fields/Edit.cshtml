@@ -1,0 +1,112 @@
+﻿@model Edux.Models.Field
+
+@{
+    ViewData["Title"] = "Alanlar Düzenle";
+}
+
+<h2>Düzenle</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Alan</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DisplayName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FormId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="FormId" class="form-control" asp-items="ViewBag.FormId"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="FormId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PropertyId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="PropertyId" class="form-control" asp-items="ViewBag.PropertyId"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="PropertyId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PropertyValueId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="PropertyValueId" class="form-control" asp-items="ViewBag.PropertyValueId"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="PropertyValueId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tab" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Tab" class="form-control" />
+                <span asp-validation-for="Tab" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Row" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Row" class="form-control" />
+                <span asp-validation-for="Row" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Col" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Col" class="form-control" />
+                <span asp-validation-for="Col" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Position" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="EditorType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="EditorType" class="form-control" asp-items="Html.GetEnumSelectList<EditorType>()"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="EditorType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DefaultValue" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DefaultValue" class="form-control" />
+                <span asp-validation-for="DefaultValue" class="text-danger"></span>
+            </div>
+        </div>
+                <input type="hidden" asp-for="Id" />
+                <input asp-for="CreateDate" class="form-control" type="hidden" />
+                <input asp-for="CreatedBy" class="form-control" type="hidden" />
+                <input asp-for="UpdateDate" class="form-control"  type="hidden"/>
+                <input asp-for="UpdatedBy" class="form-control" type="hidden" />
+                <input asp-for="AppTenantId" class="form-control" type="hidden" />
+               
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Listeye Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

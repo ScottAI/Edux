@@ -38,7 +38,7 @@ namespace Edux.Migrations
                     DefaultValue = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(maxLength: 200, nullable: false),
                     FormId = table.Column<string>(nullable: true),
-                    InputType = table.Column<int>(nullable: false),
+                    EditorType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Position = table.Column<int>(nullable: false),
                     PropertyId = table.Column<string>(nullable: true),

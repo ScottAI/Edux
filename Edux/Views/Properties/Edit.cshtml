@@ -43,7 +43,7 @@
         <div class="form-group">
             <label asp-for="PropertyType" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="PropertyType" class="form-control"></select>
+                <select asp-for="PropertyType" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()"><option value="">Seçiniz</option></select>
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="form-group">
             <label asp-for="EntityId" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="EntityId" class="form-control" asp-items="ViewBag.EntityId"></select>
+                <select asp-for="EntityId" class="form-control" asp-items="ViewBag.EntityId"><option value="">Seçiniz</option></select>
                 <span asp-validation-for="EntityId" class="text-danger"></span>
             </div>
         </div>

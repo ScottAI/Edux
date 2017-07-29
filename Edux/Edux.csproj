@@ -5747,6 +5747,8 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Views\Shared\Components\DataTableComponent\" />
+    <Folder Include="Views\Shared\Components\FieldsDataTable\" />
+    <Folder Include="Views\Shared\Components\FieldsDataTable\" />
   </ItemGroup>
 
 </Project>

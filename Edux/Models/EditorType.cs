@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Edux.Models
 {
-    public enum InputType
+    public enum EditorType
     {
         Text=1,
         TextArea=2,
