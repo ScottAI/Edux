@@ -6,7 +6,5 @@
     Layout = Model.Page.LayoutView;
 }
 <h1>@Model.Page.Title</h1>
-@foreach (var component in Model.Page.Components)
-{
-    @await Component.InvokeAsync(component.ComponentType.Name, new { component = component })
-}
+
+@await Component.InvokeAsync(Model.Page.Components.FirstOrDefault().ComponentType.Name, new { component = Model.Page.Components.FirstOrDefault() })

@@ -69,6 +69,7 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(component);
                 await _context.SaveChangesAsync();
                 foreach (var key in form.Keys)
@@ -83,7 +84,7 @@ namespace Edux.Controllers
                         value.UpdateDate = DateTime.Now;
                         value.UpdatedBy = User.Identity.Name;
                         value.CreatedBy = User.Identity.Name;
-                      
+                        
                         _context.ParameterValues.Add(value);
                     }
 
@@ -140,6 +141,7 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    
                     _context.Update(component);
                     await _context.SaveChangesAsync();
                     _context.ParameterValues.RemoveRange(_context.ParameterValues.Where(v => v.ComponentId == component.Id).ToArray());
