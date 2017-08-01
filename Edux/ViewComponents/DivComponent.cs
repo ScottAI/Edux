@@ -18,7 +18,7 @@ namespace Edux.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(Models.Component component)
         {
             var viewName = component.View ?? "Default";
-            ViewBag.CssClass = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CssClass").Value;
+            ViewBag.CssClass = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CssClass")?.Value;
             return await Task.FromResult(View(viewName, component));
         }
     }

@@ -66,6 +66,11 @@ namespace Edux.Controllers
             {
                 _context.Add(page);
                 await _context.SaveChangesAsync();
+
+                var defaultComponent = new Component() { Name = "Container", DisplayName = "Container", AppTenantId = "1", PageId = page.Id, ComponentType = _context.ComponentTypes.FirstOrDefault(ct => ct.Name == "DivComponent") };
+                _context.Add(defaultComponent);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Edit", new { id = page.Id });
             }
             ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
