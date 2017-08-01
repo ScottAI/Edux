@@ -36,7 +36,9 @@
         <div class="form-group">
             <label asp-for="ParentComponentId" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId"></select>
+                <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId">
+                    <option value="">Seçiniz</option>
+                </select>
                 <span asp-validation-for="ParentComponentId" class="text-danger"></span>
             </div>
         </div>
@@ -47,7 +49,14 @@
                 <input asp-for="UpdateDate" class="form-control"  type="hidden" />   
                 <input asp-for="UpdatedBy" class="form-control"   type="hidden"/>
                 <input asp-for="AppTenantId" class="form-control"   type="hidden"/>
-              
+        <div class="form-group">
+            <label asp-for="PageId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="PageId" class="form-control" asp-items="(SelectList)@ViewData["Pages"]">
+                    <option value="">Seçiniz</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <label asp-for="ComponentTypeId" class="control-label col-md-2"></label>
             <div class="col-md-10">
