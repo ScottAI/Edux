@@ -14,7 +14,8 @@
         <div class="form-group">
             <label asp-for="DataTableId" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="DataTableId" class="form-control" asp-items="(SelectList)@ViewData["DataTableId"]" value=""><option value="">Seçiniz</option></select>
+                <select asp-for="DataTableId" class="form-control" asp-items="(SelectList)@ViewData["DataTableId"]" value="">
+                <option value="">Seçiniz</option></select>
                 <span asp-validation-for="DataTableId" class="text-danger"></span>
             </div>
         </div>
@@ -35,7 +36,11 @@
         <div class="form-group">
             <label asp-for="OrderBy" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="OrderBy" class="form-control" />
+                <select asp-for="OrderBy" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="true">Artan</option>
+                    <option value="false">Azalan</option>
+                </select>
                 <span asp-validation-for="OrderBy" class="text-danger"></span>
             </div>
         </div>
@@ -58,6 +63,7 @@
         <input asp-for="UpdateDate" class="form-control" type="hidden" />
         <input asp-for="UpdatedBy" class="form-control" type="hidden" />
         <input asp-for="AppTenantId" class="form-control" type="hidden" />
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Kaydet" class="btn btn-success" />
