@@ -47,8 +47,9 @@ namespace Edux.Controllers
         }
 
         // GET: MenuItems/Create
-        public IActionResult Create()
+        public IActionResult Create(string MenuId)
         {
+            ViewBag.menuIdRef = MenuId;
             ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Name");
             ViewData["ParentMenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name");
             var menuItem = new MenuItem();
@@ -60,7 +61,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Url,Target,Position,IsPublished,ParentMenuItemId,MenuId,Icon,CssClass,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] MenuItem menuItem)
+        public async Task<IActionResult> Create(MenuItem menuItem, string MenuIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +71,13 @@ namespace Edux.Controllers
                 menuItem.UpdatedBy = User.Identity.Name;
                 _context.Add(menuItem);
                 await _context.SaveChangesAsync();
+                if (MenuIdRef!=null)
+                  
+                    {
+                        string url = "/Menus/Edit/" + MenuIdRef + "#tab_1_2";
+                        return Redirect(url);
+                    }
+
                 return RedirectToAction("Index");
             }
             ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id", menuItem.MenuId);
