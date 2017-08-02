@@ -5194,6 +5194,7 @@
     <Content Include="wwwroot\metronic\layouts\layout\img\logo-big-white.png" />
     <Content Include="wwwroot\metronic\layouts\layout\img\logo-big.png" />
     <Content Include="wwwroot\metronic\layouts\layout\img\logo-invert.png" />
+    <Content Include="wwwroot\metronic\layouts\layout\img\logo-login.png" />
     <Content Include="wwwroot\metronic\layouts\layout\img\logo.png" />
     <Content Include="wwwroot\metronic\layouts\layout\img\menu-toggler.png" />
     <Content Include="wwwroot\metronic\layouts\layout\img\photo1.jpg" />
