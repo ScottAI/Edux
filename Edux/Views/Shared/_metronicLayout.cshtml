@@ -141,45 +141,48 @@ License: You must have a valid license purchased only from themeforest(the above
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" href="/metronic/layouts/layout/img/avatar3_small.jpg" />
-                                <span class="username username-hide-on-mobile"> Nick </span>
+                                <span class="username username-hide-on-mobile"> @User.Identity.Name </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
-                                    <a href="page_user_profile_1.html">
-                                        <i class="icon-user"></i> My Profile
+                                    <a asp-action="Index" asp-controller="Manage">
+                                        <i class="icon-user"></i> Profilim
                                     </a>
                                 </li>
                                 <li>
                                     <a href="app_calendar.html">
-                                        <i class="icon-calendar"></i> My Calendar
+                                        <i class="icon-calendar"></i> Takvimim
                                     </a>
                                 </li>
                                 <li>
                                     <a href="app_inbox.html">
-                                        <i class="icon-envelope-open"></i> My Inbox
+                                        <i class="icon-envelope-open"></i> Gelen Kutum
                                         <span class="badge badge-danger"> 3 </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="app_todo.html">
-                                        <i class="icon-rocket"></i> My Tasks
+                                        <i class="icon-rocket"></i> Görevlerim
                                         <span class="badge badge-success"> 7 </span>
                                     </a>
                                 </li>
                                 <li class="divider"> </li>
                                 <li>
                                     <a href="page_user_lock_1.html">
-                                        <i class="icon-lock"></i> Lock Screen
+                                        <i class="icon-lock"></i> Ekranı Kilitle
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="page_user_login_1.html">
-                                        <i class="icon-key"></i> Log Out
+                                    <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                                        <i class="icon-key"></i> Çıkış
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        <form  asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                           
+                        </form>
                         <!-- END USER LOGIN DROPDOWN -->
                         <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -214,161 +217,168 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    
                     <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
-                        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
-                        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-                        <li class="sidebar-toggler-wrapper hide">
-                            <div class="sidebar-toggler">
-                                <span></span>
-                            </div>
-                        </li>
-                        <!-- END SIDEBAR TOGGLER BUTTON -->
-                        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-                        <li class="sidebar-search-wrapper">
-                            <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
-                            <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
-                            <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
-                            <form class="sidebar-search  " action="page_general_search_3.html" method="POST">
-                                <a href="javascript:;" class="remove">
-                                    <i class="icon-close"></i>
-                                </a>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <a href="javascript:;" class="btn submit">
-                                            <i class="icon-magnifier"></i>
-                                        </a>
-                                    </span>
-                                </div>
-                            </form>
-                            <!-- END RESPONSIVE QUICK SEARCH FORM -->
-                        </li>
-                        <li class="nav-item start active open">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">Dashboard</span>
-                                <span class="selected"></span>
-                                <span class="arrow open"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item start active open">
-                                    <a href="index.html" class="nav-link ">
-                                        <i class="icon-bar-chart"></i>
-                                        <span class="title">Dashboard 1</span>
-                                        <span class="selected"></span>
-                                    </a>
-                                </li>0
-                            </ul>
-                        </li>
-                        <li class="heading">
-                            <h3 class="uppercase">Features</h3>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index","Pages")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Sayfalar</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index","Parameters")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Parametreler</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index","ParameterValues")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Parametre Değerleri</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index","Components")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Bileşenler</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "ComponentTypes")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Bileşen Türleri</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Entities")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Varlıklar</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Menus")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Menüler</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "MenuItems")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Menü Öğeleri</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Properties")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Özellikler</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "PropertyValues")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Özellik Değerleri</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Medias")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Medyalar</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "DataTables")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Veri Tablosu</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Columns")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Sütunlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Forms")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Formlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="@Url.Action("Index", "Fields")" class="nav-link nav-toggle">
-                                <i class="icon-diamond"></i>
-                                <span class="title">Alanlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                    </ul>
+        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+        <li class="sidebar-toggler-wrapper hide">
+            <div class="sidebar-toggler">
+                <span></span>
+            </div>
+        </li>
+        <!-- END SIDEBAR TOGGLER BUTTON -->
+        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+        @*<li class="sidebar-search-wrapper">
+            <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+            <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+            <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+            <form class="sidebar-search  " action="page_general_search_3.html" method="POST">
+                <a href="javascript:;" class="remove">
+                    <i class="icon-close"></i>
+                </a>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <a href="javascript:;" class="btn submit">
+                            <i class="icon-magnifier"></i>
+                        </a>
+                    </span>
+                </div>
+            </form>
+            <!-- END RESPONSIVE QUICK SEARCH FORM -->
+        </li>*@
+        <li class="nav-item start active open">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-home"></i>
+                <span class="title">Başlangıç</span>
+                <span class="selected"></span>
+                <span class="arrow open"></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="nav-item start active open">
+                    @await Component.InvokeAsync("MenuComponent", new { location = "Primary2" })
+                </li>
+            </ul>
+        </li>
+        <li class="heading">
+            <h3 class="uppercase">Modüller</h3>
+        </li>
+        @await Component.InvokeAsync("MenuComponent", new { location = "Primary1" })
+        <li class="nav-item">
+            <a href="javascript:void(0);" class="nav-link nav-toggle">
+                <i class="icon-settings"></i>
+                <span class="title">Özelleştir</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index","Pages")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Sayfalar</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index","Parameters")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Parametreler</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index","ParameterValues")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Parametre Değerleri</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index","Components")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Bileşenler</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "ComponentTypes")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Bileşen Türleri</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Entities")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Varlıklar</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Menus")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Menüler</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "MenuItems")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Menü Öğeleri</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Properties")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Özellikler</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "PropertyValues")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Özellik Değerleri</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Medias")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Medyalar</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "DataTables")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Veri Tablosu</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Columns")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Sütunlar</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Forms")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Formlar</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="@Url.Action("Index", "Fields")" class="nav-link nav-toggle">
+                        <i class="icon-settings"></i>
+                        <span class="title">Alanlar</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
                     <!-- END SIDEBAR MENU -->
                     <!-- END SIDEBAR MENU -->
                 </div>
