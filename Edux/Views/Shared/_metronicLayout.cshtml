@@ -141,45 +141,48 @@ License: You must have a valid license purchased only from themeforest(the above
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" href="/metronic/layouts/layout/img/avatar3_small.jpg" />
-                                <span class="username username-hide-on-mobile"> Nick </span>
+                                <span class="username username-hide-on-mobile"> @User.Identity.Name </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
-                                    <a href="page_user_profile_1.html">
-                                        <i class="icon-user"></i> My Profile
+                                    <a asp-action="Index" asp-controller="Manage">
+                                        <i class="icon-user"></i> Profilim
                                     </a>
                                 </li>
                                 <li>
                                     <a href="app_calendar.html">
-                                        <i class="icon-calendar"></i> My Calendar
+                                        <i class="icon-calendar"></i> Takvimim
                                     </a>
                                 </li>
                                 <li>
                                     <a href="app_inbox.html">
-                                        <i class="icon-envelope-open"></i> My Inbox
+                                        <i class="icon-envelope-open"></i> Gelen Kutum
                                         <span class="badge badge-danger"> 3 </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="app_todo.html">
-                                        <i class="icon-rocket"></i> My Tasks
+                                        <i class="icon-rocket"></i> Görevlerim
                                         <span class="badge badge-success"> 7 </span>
                                     </a>
                                 </li>
                                 <li class="divider"> </li>
                                 <li>
                                     <a href="page_user_lock_1.html">
-                                        <i class="icon-lock"></i> Lock Screen
+                                        <i class="icon-lock"></i> Ekranı Kilitle
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="page_user_login_1.html">
-                                        <i class="icon-key"></i> Log Out
+                                    <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                                        <i class="icon-key"></i> Çıkış
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        <form  asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                           
+                        </form>
                         <!-- END USER LOGIN DROPDOWN -->
                         <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
