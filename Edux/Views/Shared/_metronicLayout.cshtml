@@ -177,12 +177,11 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
                                         <i class="icon-key"></i> Çıkış
                                     </a>
+                                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right"></form>
                                 </li>
                             </ul>
                         </li>
-                        <form  asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-                           
-                        </form>
+                   
                         <!-- END USER LOGIN DROPDOWN -->
                         <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
