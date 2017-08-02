@@ -19,6 +19,11 @@ namespace Edux.Models
         [Display(Name = "Özellik")]
         [ForeignKey("PropertyId")]
         public Property Property { get; set; }
+        [Display(Name = "Varlık")]
+        public string EntityId { get; set; }
+        [Display(Name = "Varlık")]
+        [ForeignKey("EntityId")]
+        public Entity Entity { get; set; }
         public int Position { get; set; }
         public bool? OrderBy { get; set; }
         [Display(Name="Filtreleme Operatörü")]
