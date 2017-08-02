@@ -62,7 +62,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property , string entityId, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntity,DataSourceProperty,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property , string entityId, IFormCollection form)
         {
 
             if (ModelState.IsValid)
@@ -113,7 +113,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DataType,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntity,DataSourceProperty,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
         {
             if (id != @property.Id)
             {

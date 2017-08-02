@@ -23,12 +23,46 @@
         <dd>
             @Html.DisplayFor(model => model.DisplayName)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.DataType)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.DataType)
+        </dd>*@
+
+          <dt>
+            @Html.DisplayNameFor(model => model.DefaultValue)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DefaultValue)
         </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayFormat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DisplayFormat)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataSourceEntity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataSourceEntity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataSourceProperty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataSourceProperty)
+        </dd>
+
+
+
+
         <dt>
             @Html.DisplayNameFor(model => model.IsRequired)
         </dt>
@@ -53,7 +87,7 @@
         <dd>
             @Html.DisplayFor(model => model.Position)
         </dd>
-        <input type="hidden" asp-for="Id" />
+        @*<input type="hidden" asp-for="Id" />*@
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>

@@ -18,16 +18,34 @@ namespace Edux.Models
             UpdatedBy = "username";
         }
         [Required]
-        [Display(Name="Özellik Adı")]
+        [Display(Name = "Özellik Adı")]
         [StringLength(200)]
         public string Name { get; set; }
         [StringLength(200)]
         [Required]
         [Display(Name = "Özellik Görünen Adı")]
         public string DisplayName { get; set; }
-        
-        [Display(Name = "Veri Türü")]
-        public DataType? DataType { get; set; }
+
+
+        //[Display(Name = "Veri Türü")]
+        //public DataType? DataType { get; set; }
+
+        [Display(Name = "Varsayılan Değer")]
+        public string DefaultValue { get; set; }
+
+        [Display(Name="Görüntü Formatı")]
+        [StringLength(200)]
+        public string DisplayFormat { get; set; }
+
+        [Display(Name = "Veri Kaynağı Varlığı")]
+        [StringLength(200)]
+        public string DataSourceEntity { get; set; }
+
+        [Display(Name = "Veri Kaynağı Özelliği")]
+        [StringLength(200)]
+        public string DataSourceProperty { get; set; }
+
+
         [Display(Name = "Gerekli Mi?")]
         public bool IsRequired { get; set; }
         [Display(Name = "Özellik Türü")]

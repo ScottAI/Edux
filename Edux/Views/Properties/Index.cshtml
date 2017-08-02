@@ -19,8 +19,17 @@
                     @Html.DisplayNameFor(model => model.DisplayName)
                 </th>
                 <th class="text-nowrap">
-                    @Html.DisplayNameFor(model => model.DataType)
+                    @Html.DisplayNameFor(model => model.DefaultValue)
                 </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.DisplayFormat)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.DataSourceEntity)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.DataSourceProperty)
+            </th>
                 <th class="text-nowrap">
                     @Html.DisplayNameFor(model => model.IsRequired)
                 </th>
@@ -64,7 +73,16 @@
                 @Html.DisplayFor(modelItem => item.DisplayName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DataType)
+                @Html.DisplayFor(modelItem => item.DefaultValue)
+            </td>
+            <td>
+    @Html.DisplayFor(modelItem => item.DisplayFormat)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => item.DataSourceEntity)
+</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataSourceProperty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsRequired)
