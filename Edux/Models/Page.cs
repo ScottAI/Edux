@@ -39,7 +39,6 @@ namespace Edux.Models
         [Display(Name = "Tasarım Şablonu")]
         public string LayoutView { get; set; }
 
-       
         
         [Display(Name = "Üst Sayfa")]
         public string ParentPageId { get; set; }

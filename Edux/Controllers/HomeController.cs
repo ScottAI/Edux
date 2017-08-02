@@ -25,7 +25,7 @@ namespace Edux.Controllers
         {
             if (slug == null)
             {
-                return RedirectToAction("Index", "Pages");
+                return Redirect("/tr/Giris");
             }
             else
             {

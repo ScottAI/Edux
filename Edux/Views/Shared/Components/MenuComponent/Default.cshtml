@@ -2,8 +2,7 @@
     @foreach (var item in Model.MenuItems.Where(m=>m.IsPublished==true).OrderBy(m=>m.Position))
     {
         <li class="nav-item"><a href="@item.Url" target="@item.Target" class="nav-link nav-toggle @item.CssClass">
-    <i class="@item.Icon"></i>
-    <span class="title">@item.Name</span>
+    <i class="@item.Icon"></i> <span class="title">@item.Name</span>
     @*<span class="arrow"></span>*@
 </a></li>
     }
