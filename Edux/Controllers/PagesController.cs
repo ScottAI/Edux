@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
+    [Authorize]
     public class PagesController : Controller
     {
         private readonly ApplicationDbContext _context;
