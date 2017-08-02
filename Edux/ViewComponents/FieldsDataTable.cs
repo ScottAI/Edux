@@ -19,10 +19,10 @@ namespace Edux.ViewComponents
         }
 
 
-        public async Task<IViewComponentResult> InvokeAsync(string formıd)
+        public async Task<IViewComponentResult> InvokeAsync(string formId)
         {
-            var fields = _context.Fields.Include(c => c.Form).Where(c => c.FormId == formıd);
-            ViewBag.formId= formıd;
+            var fields = _context.Fields.Include(c => c.Form).Where(c => c.FormId == formId);
+            ViewBag.formId= formId;
             return View(await fields.ToListAsync());
         }
     }
