@@ -13,6 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Data\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\js\generate-slug.js" />
     <Content Include="wwwroot\metronic\apps\css\inbox.css" />
     <Content Include="wwwroot\metronic\apps\css\inbox.min.css" />
@@ -5745,9 +5752,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
     <Folder Include="Views\Shared\Components\FieldsDataTable\" />
     <Folder Include="Views\Shared\Components\FieldsDataTable\" />
+    <Folder Include="Views\Shared\Components\TextComponent\" />
   </ItemGroup>
 
 </Project>

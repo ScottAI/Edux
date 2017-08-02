@@ -9,6 +9,7 @@ using Edux.Data;
 using Edux.Models;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
+using System.Collections;
 
 namespace Edux.Controllers
 {
@@ -52,7 +53,7 @@ namespace Edux.Controllers
         public IActionResult Create(string PageId)
         {
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name");
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == PageId), "Id", "Name");
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             var component = new Component();
             component.PageId = PageId;
@@ -69,13 +70,14 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 _context.Add(component);
                 await _context.SaveChangesAsync();
                 foreach (var key in form.Keys)
                 {
                     Guid result;
-                    if (Guid.TryParse(key, out result)) {
+                    if (Guid.TryParse(key, out result))
+                    {
                         var value = new ParameterValue();
                         value.ParameterId = key;
                         value.ComponentId = component.Id;
@@ -84,7 +86,7 @@ namespace Edux.Controllers
                         value.UpdateDate = DateTime.Now;
                         value.UpdatedBy = User.Identity.Name;
                         value.CreatedBy = User.Identity.Name;
-                        
+
                         _context.ParameterValues.Add(value);
                     }
 
@@ -95,13 +97,13 @@ namespace Edux.Controllers
                     string url = "/Pages/Edit/" + PageIdRef + "#tab_1_2";
                     return Redirect(url);
                 }
-                
+
                 return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == component.PageId), "Id", "Name", component.ParentComponentId);
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
-            
+
             return View(component);
         }
 
@@ -119,9 +121,9 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c=>c.PageId==component.PageId),  "Id", "Name", component.ParentComponentId);
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
-           
+
             return View(component);
         }
 
@@ -130,7 +132,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,PageId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component, IFormCollection form )
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,PageId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component, IFormCollection form)
         {
             if (id != component.Id)
             {
@@ -141,7 +143,7 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    
+
                     _context.Update(component);
                     await _context.SaveChangesAsync();
                     _context.ParameterValues.RemoveRange(_context.ParameterValues.Where(v => v.ComponentId == component.Id).ToArray());
@@ -180,9 +182,9 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == component.PageId), "Id", "Name", component.ParentComponentId);
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
-           
+
 
             return View(component);
         }
@@ -211,7 +213,12 @@ namespace Edux.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
-        {
+        {            
+            List<ParameterValue> list = await _context.ParameterValues.Where(m => m.ComponentId == id).ToListAsync();
+            foreach (ParameterValue item in list)
+            {
+                _context.ParameterValues.Remove(item);
+            }
             var component = await _context.Components.SingleOrDefaultAsync(m => m.Id == id);
             _context.Components.Remove(component);
             await _context.SaveChangesAsync();

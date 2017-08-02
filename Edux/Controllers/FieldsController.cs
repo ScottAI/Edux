@@ -49,14 +49,14 @@ namespace Edux.Controllers
         }
 
         // GET: Fields/Create
-        public IActionResult Create(string formýd)
+        public IActionResult Create(string formId)
         {
             var field = new Field();
             ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name");
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
             ViewData["PropertyValueId"] = new SelectList(_context.PropertyValues, "Id", "Value");
-            field.FormId = formýd;
-            ViewBag.FormIdRef = formýd;
+            field.FormId = formId;
+            ViewBag.FormIdRef = formId;
             return View(field);
             
         }

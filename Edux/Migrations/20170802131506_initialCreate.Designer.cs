@@ -9,8 +9,8 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170728132358_addMenu")]
-    partial class addMenu
+    [Migration("20170802131506_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,6 +83,8 @@ namespace Edux.Migrations
 
                     b.Property<string>("DataTableId");
 
+                    b.Property<string>("EntityId");
+
                     b.Property<int>("FilterOperator");
 
                     b.Property<string>("FilterValue")
@@ -102,6 +104,8 @@ namespace Edux.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DataTableId");
+
+                    b.HasIndex("EntityId");
 
                     b.HasIndex("PropertyId");
 
@@ -273,9 +277,9 @@ namespace Edux.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
-                    b.Property<string>("FormId");
+                    b.Property<int>("EditorType");
 
-                    b.Property<int>("InputType");
+                    b.Property<string>("FormId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -783,6 +787,10 @@ namespace Edux.Migrations
                     b.HasOne("Edux.Models.DataTable", "DataTable")
                         .WithMany("Columns")
                         .HasForeignKey("DataTableId");
+
+                    b.HasOne("Edux.Models.Entity", "Entity")
+                        .WithMany("Columns")
+                        .HasForeignKey("EntityId");
 
                     b.HasOne("Edux.Models.Property", "Property")
                         .WithMany()

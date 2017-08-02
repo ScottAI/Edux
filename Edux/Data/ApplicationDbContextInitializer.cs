@@ -66,6 +66,15 @@ namespace Edux.Data
             var p8 = new Parameter() { Name = "EntityName", DisplayName = "EntityName", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ComponentTypeId = ct4.Id };
             context.Parameters.Add(p8);
             context.SaveChanges();
+            // Text tablosu bileşenini ekle
+            var ct5 = new ComponentType() { Name = "TextComponent", DisplayName = "Yazı Bileşeni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
+            context.ComponentTypes.Add(ct5);
+            context.SaveChanges();
+
+            // text bileşeninin parametrelerini ekle
+            var p9 = new Parameter() { Name = "Content", DisplayName = "Content", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ComponentTypeId = ct5.Id };
+            context.Parameters.Add(p9);
+            context.SaveChanges();
         }
     }
 }

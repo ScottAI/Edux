@@ -27,13 +27,49 @@
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             <label asp-for="DataType" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="DataType" class="form-control" />
                 <span asp-validation-for="DataType" class="text-danger"></span>
             </div>
+        </div>*@
+
+        <div class="form-group">
+            <label asp-for="DefaultValue" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DefaultValue" class="form-control" />
+                <span asp-validation-for="DefaultValue" class="text-danger"></span>
+            </div>
         </div>
+
+
+        <div class="form-group">
+            <label asp-for="DisplayFormat" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DisplayFormat" class="form-control" />
+                <span asp-validation-for="DisplayFormat" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="DataSourceEntity" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DataSourceEntity" class="form-control" />
+                <span asp-validation-for="DataSourceEntity" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="DataSourceProperty" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DataSourceProperty" class="form-control" />
+                <span asp-validation-for="DataSourceProperty" class="text-danger"></span>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div class="checkbox">

@@ -29,5 +29,6 @@ namespace Edux.Models
         public virtual ICollection<Property> Properties { get; set; }
         [Display(Name = "ÖzelliklerDeğerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
+        public virtual ICollection<Column> Columns { get; set; }
     }
 }
