@@ -17,10 +17,17 @@
                 <select asp-for="DataTableId" class ="form-control" asp-items="(SelectList)@ViewData["DataTableId"]"></select>
             </div>
         </div>
+        
         <div class="form-group">
             <label asp-for="PropertyId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="PropertyId" class ="form-control" asp-items="(SelectList)@ViewData["PropertyId"]"></select>
+            </div>
+        </div>
+          <div class="form-group">
+            <label asp-for="EntityId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="EntityId" class ="form-control" asp-items="(SelectList)@ViewData["EntityId"]"></select>
             </div>
         </div>
         <div class="form-group">
