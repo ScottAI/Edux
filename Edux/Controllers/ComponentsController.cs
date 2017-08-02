@@ -53,7 +53,7 @@ namespace Edux.Controllers
         public IActionResult Create(string PageId)
         {
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name");
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == PageId), "Id", "Name");
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
             var component = new Component();
             component.PageId = PageId;
@@ -101,7 +101,7 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == component.PageId), "Id", "Name", component.ParentComponentId);
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
 
             return View(component);
@@ -121,7 +121,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c=>c.PageId==component.PageId),  "Id", "Name", component.ParentComponentId);
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
 
             return View(component);
@@ -182,7 +182,7 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
-            ViewData["ParentComponentId"] = new SelectList(_context.Components, "Id", "Name", component.ParentComponentId);
+            ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == component.PageId), "Id", "Name", component.ParentComponentId);
             ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
 
 
