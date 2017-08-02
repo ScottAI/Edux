@@ -22,7 +22,7 @@ namespace Edux.Controllers
         // GET: Columns
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Columns.Include(c => c.DataTable).Include(c => c.Property);
+            var applicationDbContext = _context.Columns.Include(c => c.DataTable).Include(c => c.Property).Include(c=> c.Entity);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,6 +37,7 @@ namespace Edux.Controllers
             var column = await _context.Columns
                 .Include(c => c.DataTable)
                 .Include(c => c.Property)
+               .Include(c => c.Entity)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (column == null)
             {
@@ -52,6 +53,7 @@ namespace Edux.Controllers
             var column = new Column();
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name");
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             return View(column);
         }
 
@@ -60,7 +62,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DataTableId,PropertyId,Position,OrderBy,FilterOperator,FilterValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Column column)
+        public async Task<IActionResult> Create([Bind("DataTableId,PropertyId,EntityId,Position,OrderBy,FilterOperator,FilterValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Column column)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +77,7 @@ namespace Edux.Controllers
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             return View(column);
         }
 
@@ -93,6 +96,7 @@ namespace Edux.Controllers
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             return View(column);
         }
 
@@ -134,6 +138,7 @@ namespace Edux.Controllers
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             return View(column);
         }
 
@@ -148,6 +153,7 @@ namespace Edux.Controllers
             var column = await _context.Columns
                 .Include(c => c.DataTable)
                 .Include(c => c.Property)
+                 .Include(c => c.Entity)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (column == null)
             {
