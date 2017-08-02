@@ -10,9 +10,11 @@ using Edux.Models;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
+    [Authorize]
     public class ComponentsController : Controller
     {
         private readonly ApplicationDbContext _context;

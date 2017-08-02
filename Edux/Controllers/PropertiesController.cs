@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
+    [Authorize]
     public class PropertiesController : Controller
     {
         private readonly ApplicationDbContext _context;
