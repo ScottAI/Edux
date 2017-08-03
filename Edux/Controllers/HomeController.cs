@@ -8,6 +8,8 @@ using Edux.Models.PageViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Edux.Models;
 
 namespace Edux.Controllers
 {
@@ -56,7 +58,28 @@ namespace Edux.Controllers
                 }
             }
         }
-
+        [HttpPost]
+        public IActionResult SaveForm(IFormCollection form)
+        {
+            if (ModelState.IsValid) { 
+            foreach (var key in form.Keys)
+            {
+                var value = new PropertyValue();
+                value.Value = form[key];
+                value.EntityId = form[key + ".EntityId"];
+                value.PropertyId = form[key + ".PropertyId"];
+                value.CreateDate = DateTime.Now;
+                value.CreatedBy = User.Identity.Name;
+                value.UpdateDate = DateTime.Now;
+                value.UpdatedBy = User.Identity.Name;
+                value.AppTenantId = "1";
+                _context.Add(value);
+                _context.SaveChanges();
+            }
+                return Redirect(Request.Headers["Referer"].ToString() + "?status=ok");
+            }
+            return Redirect(Request.Headers["Referer"].ToString() + "?status=validationerror");
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

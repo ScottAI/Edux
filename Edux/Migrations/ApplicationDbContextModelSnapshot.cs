@@ -67,6 +67,64 @@ namespace Edux.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Edux.Models.Chart", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisXDisplayFormat")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisXEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisXProperty")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisYDisplayFormat")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisYEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisYProperty")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisZDisplayFormat")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisZEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisZPropert")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("CharType");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DisplayName")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Charts");
+                });
+
             modelBuilder.Entity("Edux.Models.Column", b =>
                 {
                     b.Property<string>("Id")
@@ -666,6 +724,8 @@ namespace Edux.Migrations
                     b.Property<string>("EntityId");
 
                     b.Property<string>("PropertyId");
+
+                    b.Property<long>("RowId");
 
                     b.Property<DateTime>("UpdateDate");
 

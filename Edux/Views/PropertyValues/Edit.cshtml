@@ -12,6 +12,13 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
+            <label asp-for="RowId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="RowId" class="form-control" />
+                <span asp-validation-for="RowId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Value" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Value" class="form-control" />

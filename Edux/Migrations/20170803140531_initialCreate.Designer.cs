@@ -9,7 +9,7 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170802131506_initialCreate")]
+    [Migration("20170803140531_initialCreate")]
     partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,64 @@ namespace Edux.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Edux.Models.Chart", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisXDisplayFormat")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisXEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisXProperty")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisYDisplayFormat")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisYEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisYProperty")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisZDisplayFormat")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisZEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("AxisZPropert")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("CharType");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DisplayName")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Charts");
                 });
 
             modelBuilder.Entity("Edux.Models.Column", b =>
@@ -610,7 +668,16 @@ namespace Edux.Migrations
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(200);
 
-                    b.Property<int?>("DataType");
+                    b.Property<string>("DataSourceEntity")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DataSourceProperty")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DefaultValue");
+
+                    b.Property<string>("DisplayFormat")
+                        .HasMaxLength(200);
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -658,6 +725,8 @@ namespace Edux.Migrations
                     b.Property<string>("EntityId");
 
                     b.Property<string>("PropertyId");
+
+                    b.Property<long>("RowId");
 
                     b.Property<DateTime>("UpdateDate");
 

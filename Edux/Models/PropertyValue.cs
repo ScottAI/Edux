@@ -16,6 +16,8 @@ namespace Edux.Models
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
         }
+        [Display(Name = "Satır No")]
+        public long RowId { get; set; }
         [Display(Name="Değer")]
         public string Value { get; set; }
         [Display(Name = "Varlık")]
@@ -27,6 +29,6 @@ namespace Edux.Models
         public string PropertyId { get; set; }
         [Display(Name = "Özellik")]
         [ForeignKey("PropertyId")]
-        public Property Property { get; set; }
+        public Property Property { get; set; }        
     }
 }
