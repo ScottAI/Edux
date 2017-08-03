@@ -39,7 +39,7 @@ namespace Edux.Controllers
                     .Include(p => p.Components)
                             .ThenInclude(x => x.ParameterValues)
                                 .ThenInclude(x => x.Parameter)
-                    .SingleOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
+                    .FirstOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
                 
 
                 if (page == null)

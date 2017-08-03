@@ -35,6 +35,34 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Charts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisXDisplayFormat = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisXEntity = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisXProperty = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisYDisplayFormat = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisYEntity = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisYProperty = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisZDisplayFormat = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisZEntity = table.Column<string>(maxLength: 200, nullable: true),
+                    AxisZPropert = table.Column<string>(maxLength: 200, nullable: true),
+                    CharType = table.Column<int>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
+                    DisplayName = table.Column<string>(maxLength: 200, nullable: true),
+                    Name = table.Column<string>(maxLength: 200, nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Charts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ComponentTypes",
                 columns: table => new
                 {
@@ -287,7 +315,10 @@ namespace Edux.Migrations
                     AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
-                    DataType = table.Column<int>(nullable: true),
+                    DataSourceEntity = table.Column<string>(maxLength: 200, nullable: true),
+                    DataSourceProperty = table.Column<string>(maxLength: 200, nullable: true),
+                    DefaultValue = table.Column<string>(nullable: true),
+                    DisplayFormat = table.Column<string>(maxLength: 200, nullable: true),
                     DisplayName = table.Column<string>(maxLength: 200, nullable: false),
                     EntityId = table.Column<string>(nullable: true),
                     IsRequired = table.Column<bool>(nullable: false),
@@ -483,6 +514,7 @@ namespace Edux.Migrations
                     CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
                     EntityId = table.Column<string>(nullable: true),
                     PropertyId = table.Column<string>(nullable: true),
+                    RowId = table.Column<long>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     UpdatedBy = table.Column<string>(maxLength: 200, nullable: true),
                     Value = table.Column<string>(nullable: true)
@@ -710,6 +742,9 @@ namespace Edux.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Charts");
+
             migrationBuilder.DropTable(
                 name: "Columns");
 

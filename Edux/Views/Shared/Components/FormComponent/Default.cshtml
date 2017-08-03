@@ -1,0 +1,81 @@
+﻿@model Component
+@{ var form = (Form)ViewBag.Form;}
+@{ var rowCount = form.Fields.Select(s => s.Row).Distinct().Count();}
+@*@form.DisplayName*@
+
+@{ 
+    var tabCount = form.Fields.Select(s => s.Tab).Distinct().Count();
+    var tabs = form.Fields.OrderBy(o => o.Position).Select(s => s.Tab).Distinct().ToArray();
+}
+
+
+<form id="@form.Name" enctype="multipart/form-data">
+    <ul class="nav nav-tabs">
+        @for (var k = 1; k <= tabCount; k++)
+        {
+            <li @(k==1?"class=active":"")>
+                <a href="#tab_@k" data-toggle="tab"> @tabs[k-1] </a>
+            </li>
+        }
+        
+        
+    </ul>
+    <div class="tab-content">
+        @for (var k = 1; k <= tabCount; k++)
+        {
+            <div class="tab-pane fade @(k==1?"active":"") in" id="tab_@k">
+
+                <div class="form-horizontal">
+
+                    @for (var i = 1; i <= rowCount; i++)
+                {
+                        <div class="row">
+                            @{ var colCount = form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i.ToString()).Select(s => s.Col).Distinct().Count(); }
+                            @for (var j = 1; j <= colCount; j++)
+                            {
+
+                                <div class="col-md-@(12 / colCount)">
+                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] &&  s.Row == i.ToString() && s.Col == j.ToString()).OrderBy(f => f.Position))
+                                    {
+                                        switch (field.EditorType)
+                                        {
+                                            case EditorType.Text:
+                                                <div class="form-group">
+                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                        <input type="text" name="@field.Name" placeholder="@field.DisplayName" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                break;
+                                            case EditorType.TextArea:
+                                                <div class="form-group">
+                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                        <textarea name="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                break;
+                                            case EditorType.Html:
+                                                @field.DisplayName <input name="@field.Name" placeholder="@field.DisplayName" />
+                                                break;
+                                            case EditorType.Select:
+                                                @field.DisplayName <select name="@field.Name" placeholder="@field.DisplayName">
+                                                    <option>@field.DefaultValue</option>
+                                                </select>
+                                                break;
+                                            case EditorType.Checkbox:
+                                                @field.DisplayName <input name="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+                                                break;
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                                }
+                </div>
+            </div>
+                                }
+    </div>
+</form>
+
+                                              
+    
