@@ -19,9 +19,9 @@ namespace Edux.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(Models.Component component)
         {
             var viewName = component.View ?? "Default";
-            var entityName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "EntityName").Value;
-            ViewBag.EntityName = entityName;
-            ViewBag.Entity = await _context.Entities.Include(e => e.Properties).Include(e => e.PropertyValues).ThenInclude(pv => pv.Property).SingleOrDefaultAsync(e => e.Name == entityName);
+            var DataTableName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTableName").Value;
+            ViewBag.dataTableName = DataTableName;
+            ViewBag.DataTable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).SingleOrDefaultAsync(e => e.Name == DataTableName);
             return await Task.FromResult(View(viewName, component));
         }
     }

@@ -62,7 +62,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Value,EntityId,PropertyId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] PropertyValue propertyValue)
+        public async Task<IActionResult> Create([Bind("RowId,Value,EntityId,PropertyId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] PropertyValue propertyValue)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Value,EntityId,PropertyId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] PropertyValue propertyValue)
+        public async Task<IActionResult> Edit(string id, [Bind("RowId,Value,EntityId,PropertyId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] PropertyValue propertyValue)
         {
             if (id != propertyValue.Id)
             {
