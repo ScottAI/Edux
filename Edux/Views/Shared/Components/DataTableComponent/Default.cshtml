@@ -1,5 +1,7 @@
 ﻿@model Component
 @{ var datatable = (DataTable)ViewBag.DataTable;
+    var values = (IList<PropertyValue>)ViewBag.Values;
+    var entityId = "";
 }
 
 <h2>@datatable.DisplayName</h2>
@@ -9,6 +11,7 @@
         <tr>
             @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
             {
+                entityId = item.Property.EntityId;
                 <th class="text-nowrap">
                     @item.Property.DisplayName
                 </th>
@@ -17,9 +20,20 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-        {
-            
-        }        
+        @{  var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
+        @foreach (var i in rowIds) { 
+        <tr>
+            @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+            {
+                <td>
+                    
+
+                        @values.Where(v => v.RowId == i && v.PropertyId == item.PropertyId).FirstOrDefault().Value
+
+                    
+                </td>
+            }
+        </tr>
+        }
     </tbody>
 </table>

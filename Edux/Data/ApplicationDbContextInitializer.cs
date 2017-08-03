@@ -63,7 +63,7 @@ namespace Edux.Data
             context.SaveChanges();
 
             // veri tablosu bileşeninin parametrelerini ekle
-            var p8 = new Parameter() { Name = "EntityName", DisplayName = "EntityName", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ComponentTypeId = ct4.Id };
+            var p8 = new Parameter() { Name = "DataTableName", DisplayName = "DataTableName", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ComponentTypeId = ct4.Id };
             context.Parameters.Add(p8);
             context.SaveChanges();
             // Text tablosu bileşenini ekle

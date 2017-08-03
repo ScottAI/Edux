@@ -58,7 +58,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] DataTable dataTable, string columnsIdRef)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,EntityName")] DataTable dataTable, string columnsIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] DataTable dataTable)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,EntityName")] DataTable dataTable)
         {
             if (id != dataTable.Id)
             {

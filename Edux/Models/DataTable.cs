@@ -22,5 +22,8 @@ namespace Edux.Models
         public string DisplayName { get; set; }
         public virtual ICollection<Column> Columns { get; set; }
         public int Top { get; set; }
+        [StringLength(200)]
+        [Display(Name="Varlık Adı")]
+        public string EntityName { get; set; }
     }
 }

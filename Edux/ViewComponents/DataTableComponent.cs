@@ -21,7 +21,10 @@ namespace Edux.ViewComponents
             var viewName = component.View ?? "Default";
             var DataTableName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTableName").Value;
             ViewBag.dataTableName = DataTableName;
-            ViewBag.DataTable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).SingleOrDefaultAsync(e => e.Name == DataTableName);
+            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).SingleOrDefaultAsync(e => e.Name == DataTableName);
+            ViewBag.DataTable = datatable;
+            var entityName = datatable.EntityName;
+            ViewBag.Values = await _context.PropertyValues.Include(i=>i.Entity).Include(i=>i.Property).Where(p => p.Entity.Name == entityName).OrderBy(r => r.RowId).Take(datatable.Top).ToListAsync();
             return await Task.FromResult(View(viewName, component));
         }
     }
