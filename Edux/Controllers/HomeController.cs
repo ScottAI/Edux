@@ -39,7 +39,7 @@ namespace Edux.Controllers
                     .Include(p => p.Components)
                             .ThenInclude(x => x.ParameterValues)
                                 .ThenInclude(x => x.Parameter)
-                    .SingleOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
+                    .FirstOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
                 
 
                 if (page == null)
@@ -61,7 +61,8 @@ namespace Edux.Controllers
         [HttpPost]
         public IActionResult SaveForm(IFormCollection form)
         {
-            if (ModelState.IsValid) { 
+            if (ModelState.IsValid) {
+               
             foreach (var key in form.Keys)
             {
                 var value = new PropertyValue();
