@@ -63,8 +63,20 @@ namespace Edux.Data
             context.SaveChanges();
 
             // veri tablosu bileşeninin parametrelerini ekle
-            var p8 = new Parameter() { Name = "DataTableName", DisplayName = "DataTableName", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ComponentTypeId = ct4.Id };
+            var p8 = new Parameter() { Name = "DataTableName", DisplayName = "DataTableName", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position=1, ComponentTypeId = ct4.Id };
+            var p11 = new Parameter() { Name = "CreateButtonText", DisplayName = "Oluştur Butonu Metni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position = 2, ComponentTypeId = ct4.Id };
+            var p12 = new Parameter() { Name = "CreateButtonHref", DisplayName = "Oluştur Butonu Linki", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position = 3, ComponentTypeId = ct4.Id };
+            var p13 = new Parameter() { Name = "EditButtonText", DisplayName = "Düzenle Butonu Metni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position = 4, ComponentTypeId = ct4.Id };
+            var p14 = new Parameter() { Name = "EditButtonHref", DisplayName = "Düzenle Butonu Linki", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position = 5, ComponentTypeId = ct4.Id };
+            var p15 = new Parameter() { Name = "DeleteButtonText", DisplayName = "Sil Butonu Metni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position = 6, ComponentTypeId = ct4.Id };
+            var p16 = new Parameter() { Name = "DeleteButtonHref", DisplayName = "Sil Butonu Linki", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", Position = 7, ComponentTypeId = ct4.Id };
             context.Parameters.Add(p8);
+            context.Parameters.Add(p11);
+            context.Parameters.Add(p12);
+            context.Parameters.Add(p13);
+            context.Parameters.Add(p14);
+            context.Parameters.Add(p15);
+            context.Parameters.Add(p16);
             context.SaveChanges();
             // Text tablosu bileşenini ekle
             var ct5 = new ComponentType() { Name = "TextComponent", DisplayName = "Yazı Bileşeni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };

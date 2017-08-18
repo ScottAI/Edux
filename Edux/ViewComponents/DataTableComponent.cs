@@ -21,6 +21,18 @@ namespace Edux.ViewComponents
             var viewName = component.View ?? "Default";
             var DataTableName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTableName").Value;
             ViewBag.dataTableName = DataTableName;
+            var CreateButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CreateButtonText")?.Value;
+            ViewBag.CreateButtonText = CreateButtonText;
+            var CreateButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CreateButtonHref")?.Value;
+            ViewBag.CreateButtonHref = CreateButtonHref;
+            var EditButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "EditButtonText")?.Value;
+            ViewBag.EditButtonText = EditButtonText;
+            var EditButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "EditButtonHref")?.Value;
+            ViewBag.EditButtonHref = EditButtonHref;
+            var DeleteButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonText")?.Value;
+            ViewBag.DeleteButtonText = DeleteButtonText;
+            var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
+            ViewBag.DeleteButtonHref = DeleteButtonHref;
             var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).SingleOrDefaultAsync(e => e.Name == DataTableName);
             ViewBag.DataTable = datatable;
             var entityName = datatable.EntityName;

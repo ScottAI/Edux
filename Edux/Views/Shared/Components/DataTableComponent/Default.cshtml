@@ -5,7 +5,10 @@
 }
 
 <h2>@datatable.DisplayName</h2>
-
+<br />
+<a class="btn btn-success" href="@ViewBag.CreateButtonHref">@ViewBag.CreateButtonText </a>
+<br />
+<br />
 <table class="table table-striped table-hover" id="tblRecords">
     <thead>
         <tr>
@@ -21,18 +24,22 @@
     </thead>
     <tbody>
         @{  var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
-        @foreach (var i in rowIds) { 
+        @foreach (var id in rowIds) { 
         <tr>
             @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
             {
                 <td>
                     
 
-                        @values.Where(v => v.RowId == i && v.PropertyId == item.PropertyId).FirstOrDefault().Value
+                        @values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault().Value
 
                     
                 </td>
             }
+            <td>
+                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref,id)">@ViewBag.EditButtonText </a>
+                <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+            </td>
         </tr>
         }
     </tbody>
