@@ -29,6 +29,17 @@ namespace Edux.Data
             context.Parameters.Add(p1);
             context.SaveChanges();
 
+
+            // FormComponent bileşenini ekle
+            var Fc = new ComponentType() { Name = "FormComponent", DisplayName = "Form Bileşeni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
+            context.ComponentTypes.Add(Fc);
+            context.SaveChanges();
+
+            // FormComponent bileşeninin parametrelerini ekle
+            var Fcv = new Parameter() { Name = "FormName", DisplayName = "Form Adı", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ComponentTypeId = Fc.Id };
+            context.Parameters.Add(Fcv);
+            context.SaveChanges();
+
             // Link bileşenini ekle
             var ct2 = new ComponentType() { Name = "LinkComponent", DisplayName = "Link Bileşeni", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
             context.ComponentTypes.Add(ct2);
