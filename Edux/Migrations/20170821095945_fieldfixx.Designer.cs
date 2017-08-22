@@ -9,9 +9,10 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170821095945_fieldfixx")]
+    partial class fieldfixx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -874,8 +875,7 @@ namespace Edux.Migrations
 
                     b.HasOne("Edux.Models.Page", "Page")
                         .WithMany("Components")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PageId");
 
                     b.HasOne("Edux.Models.Component", "ParentComponent")
                         .WithMany("ChildComponents")
@@ -927,8 +927,7 @@ namespace Edux.Migrations
                 {
                     b.HasOne("Edux.Models.Component", "Component")
                         .WithMany("ParameterValues")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ComponentId");
 
                     b.HasOne("Edux.Models.Parameter", "Parameter")
                         .WithMany("ParameterValues")
