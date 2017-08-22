@@ -9,9 +9,10 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170821094149_fieldfix")]
+    partial class fieldfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -323,7 +324,8 @@ namespace Edux.Migrations
                     b.Property<string>("AppTenantId")
                         .HasMaxLength(200);
 
-                    b.Property<int>("Col");
+                    b.Property<int>("Col")
+                        .HasMaxLength(200);
 
                     b.Property<DateTime>("CreateDate");
 
@@ -350,7 +352,8 @@ namespace Edux.Migrations
 
                     b.Property<string>("PropertyValueId");
 
-                    b.Property<int>("Row");
+                    b.Property<int>("Row")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Tab")
                         .HasMaxLength(200);
