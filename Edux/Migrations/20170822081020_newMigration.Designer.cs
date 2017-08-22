@@ -9,8 +9,8 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170803145854_datatableEntityName")]
-    partial class datatableEntityName
+    [Migration("20170822081020_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -877,7 +877,8 @@ namespace Edux.Migrations
 
                     b.HasOne("Edux.Models.Page", "Page")
                         .WithMany("Components")
-                        .HasForeignKey("PageId");
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Edux.Models.Component", "ParentComponent")
                         .WithMany("ChildComponents")
@@ -929,7 +930,8 @@ namespace Edux.Migrations
                 {
                     b.HasOne("Edux.Models.Component", "Component")
                         .WithMany("ParameterValues")
-                        .HasForeignKey("ComponentId");
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Edux.Models.Parameter", "Parameter")
                         .WithMany("ParameterValues")

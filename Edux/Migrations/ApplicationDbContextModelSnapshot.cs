@@ -876,7 +876,8 @@ namespace Edux.Migrations
 
                     b.HasOne("Edux.Models.Page", "Page")
                         .WithMany("Components")
-                        .HasForeignKey("PageId");
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Edux.Models.Component", "ParentComponent")
                         .WithMany("ChildComponents")
@@ -928,7 +929,8 @@ namespace Edux.Migrations
                 {
                     b.HasOne("Edux.Models.Component", "Component")
                         .WithMany("ParameterValues")
-                        .HasForeignKey("ComponentId");
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Edux.Models.Parameter", "Parameter")
                         .WithMany("ParameterValues")

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Edux.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -89,6 +89,7 @@ namespace Edux.Migrations
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
                     DisplayName = table.Column<string>(maxLength: 200, nullable: false),
+                    EntityName = table.Column<string>(maxLength: 200, nullable: true),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Top = table.Column<int>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
@@ -409,7 +410,7 @@ namespace Edux.Migrations
                         column: x => x.PageId,
                         principalTable: "Pages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Components_Components_ParentComponentId",
                         column: x => x.ParentComponentId,
@@ -558,7 +559,7 @@ namespace Edux.Migrations
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ParameterValues_Parameters_ParameterId",
                         column: x => x.ParameterId,
