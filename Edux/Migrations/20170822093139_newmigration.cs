@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Edux.Migrations
 {
-    public partial class newMigration : Migration
+    public partial class newmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -574,7 +574,7 @@ namespace Edux.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
-                    Col = table.Column<string>(maxLength: 200, nullable: true),
+                    Col = table.Column<int>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
                     DefaultValue = table.Column<string>(nullable: true),
@@ -585,7 +585,7 @@ namespace Edux.Migrations
                     Position = table.Column<int>(nullable: false),
                     PropertyId = table.Column<string>(nullable: true),
                     PropertyValueId = table.Column<string>(nullable: true),
-                    Row = table.Column<string>(maxLength: 200, nullable: true),
+                    Row = table.Column<int>(nullable: false),
                     Tab = table.Column<string>(maxLength: 200, nullable: true),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     UpdatedBy = table.Column<string>(maxLength: 200, nullable: true)
