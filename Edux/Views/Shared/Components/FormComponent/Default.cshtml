@@ -8,6 +8,9 @@
     var tabs = form.Fields.OrderBy(o => o.Position).Select(s => s.Tab).Distinct().ToArray();
 }
 
+<script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
+
+
 
 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data">
     <ul class="nav nav-tabs">
@@ -54,15 +57,36 @@
                                                 </div>
                                                 break;
                                             case EditorType.Html:
-                                                @field.DisplayName <input name="@field.Name" placeholder="@field.DisplayName" />
+
+                                                <div class="form-group">
+                                                    <label for="@field.DisplayName" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                       <textarea name=" @field.DisplayName"></textarea>
+                                                    <script>
+                                                        CKEDITOR.replace(' @field.DisplayName');
+                                                    </script>
+                                                    </div>
+                                                </div>
+
                                                 break;
                                             case EditorType.Select:
-                                                @field.DisplayName <select name="@field.Name" placeholder="@field.DisplayName">
+                                                <div class="form-group">
+                                                    <label for=" @field.DisplayName" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                        <select name="@field.Name" placeholder="@field.DisplayName">
                                                     <option>@field.DefaultValue</option>
                                                 </select>
+                                                    </div>
+                                                </div>
+
                                                 break;
                                             case EditorType.Checkbox:
-                                                @field.DisplayName <input name="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+
+                                                <div class="form-group">
+                                                    <label for=" @field.DisplayName" class="control-label col-md-2">@field.DisplayName</label>
+                                                    <div class="col-md-10">
+                                                        <input name="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+                                                    </div>
+                                                </div>
+                                                
                                                 break;
                                         }
                                     }
@@ -70,22 +94,12 @@
                             }
                             
                         </div>
-
-                                }
-                    
-                    
-                    
-
+                        }   
                 </div>
             </div>
-                                }
+             }
     </div>
-
-    
-
-        <input class="btn btn-primary"  type="submit" value="Gönder" />
-    
-    
+        <input class="btn btn-primary"  type="submit" value="Gönder" />   
 </form>
 
                                               
