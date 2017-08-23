@@ -9,8 +9,8 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170803145854_datatableEntityName")]
-    partial class datatableEntityName
+    [Migration("20170822093139_newmigration")]
+    partial class newmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,8 +324,7 @@ namespace Edux.Migrations
                     b.Property<string>("AppTenantId")
                         .HasMaxLength(200);
 
-                    b.Property<string>("Col")
-                        .HasMaxLength(200);
+                    b.Property<int>("Col");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -352,8 +351,7 @@ namespace Edux.Migrations
 
                     b.Property<string>("PropertyValueId");
 
-                    b.Property<string>("Row")
-                        .HasMaxLength(200);
+                    b.Property<int>("Row");
 
                     b.Property<string>("Tab")
                         .HasMaxLength(200);
@@ -877,7 +875,8 @@ namespace Edux.Migrations
 
                     b.HasOne("Edux.Models.Page", "Page")
                         .WithMany("Components")
-                        .HasForeignKey("PageId");
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Edux.Models.Component", "ParentComponent")
                         .WithMany("ChildComponents")
@@ -929,7 +928,8 @@ namespace Edux.Migrations
                 {
                     b.HasOne("Edux.Models.Component", "Component")
                         .WithMany("ParameterValues")
-                        .HasForeignKey("ComponentId");
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Edux.Models.Parameter", "Parameter")
                         .WithMany("ParameterValues")
