@@ -113,9 +113,27 @@ namespace Edux.Data
             context.Pages.Add(p10);
             context.SaveChanges();
 
+
             var c1= new Component() { Name = "Container", DisplayName = "Container", ComponentTypeId=ct1.Id, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username",PageId=p10.Id, AppTenantId = "1" };
             context.Components.Add(c1);
             context.SaveChanges();
+
+            var p20 = new Page() { Title = "Yardım", Slug = "yardim", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
+            context.Pages.Add(p20);
+            context.SaveChanges();
+
+
+           var c2 = new Component() { Name = "Container", DisplayName = "Container", ComponentTypeId = ct1.Id, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", PageId = p20.Id, AppTenantId = "1" };
+            context.Components.Add(c2);
+            context.SaveChanges();
+
+            var t1 = new Component() { Name = "TextComponent", DisplayName = "Yazı Bileşeni", ComponentTypeId = ct5.Id, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ParentComponentId =c2.Id, PageId = p20.Id, AppTenantId = "1" };
+            context.Components.Add(t1);
+            context.SaveChanges();
+
+            
+
+         
         }
     }
 }
