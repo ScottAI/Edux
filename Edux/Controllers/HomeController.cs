@@ -65,7 +65,8 @@ namespace Edux.Controllers
                
             foreach (var key in form.Keys)
             {
-                var value = new PropertyValue();
+                    var value = new PropertyValue();
+
                 value.Value = form[key];
                 value.EntityId = form[key + ".EntityId"];
                 value.PropertyId = form[key + ".PropertyId"];
@@ -76,6 +77,7 @@ namespace Edux.Controllers
                 value.AppTenantId = "1";
                 _context.Add(value);
                 _context.SaveChanges();
+                   
             }
                 return Redirect(Request.Headers["Referer"].ToString() + "?status=ok");
             }

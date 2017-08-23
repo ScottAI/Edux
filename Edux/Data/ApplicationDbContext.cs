@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Edux.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Edux.Data
 {
@@ -37,7 +38,17 @@ namespace Edux.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+
             
+            builder.Entity<Component>().HasOne(c => c.Page)
+                .WithMany(p=>p.Components)
+                .HasForeignKey(c => c.PageId).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<ParameterValue>().HasOne(pv => pv.Component)
+                .WithMany(c => c.ParameterValues)
+                .HasForeignKey(pv => pv.ComponentId).OnDelete(DeleteBehavior.Cascade);
+
+
+
         }
 
         public DbSet<Edux.Models.Media> Media { get; set; }

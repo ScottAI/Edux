@@ -35,12 +35,12 @@ namespace Edux.Models
         [StringLength(200)]
         [Display(Name="Sekme")]
         public string Tab { get; set; }
-        [StringLength(200)]
+        
         [Display(Name = "Satır")]
-        public string Row { get; set; }
-        [StringLength(200)]
+        public int Row { get; set; }
+       
         [Display(Name = "Sütun")]
-        public string Col { get; set; }
+        public int Col { get; set; }
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
         [Display(Name = "Editör Türü")]
