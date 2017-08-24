@@ -113,9 +113,30 @@ namespace Edux.Data
             context.Pages.Add(p10);
             context.SaveChanges();
 
+
             var c1= new Component() { Name = "Container", DisplayName = "Container", ComponentTypeId=ct1.Id, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username",PageId=p10.Id, AppTenantId = "1" };
             context.Components.Add(c1);
             context.SaveChanges();
+
+            var p20 = new Page() { Title = "Yardım", Slug = "yardim", CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
+            context.Pages.Add(p20);
+            context.SaveChanges();
+
+
+           var c2 = new Component() { Name = "Container", DisplayName = "Container", ComponentTypeId = ct1.Id, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", PageId = p20.Id, AppTenantId = "1" };
+            context.Components.Add(c2);
+            context.SaveChanges();
+
+            var t1 = new Component() { Name = "TextComponent", DisplayName = "Yazı Bileşeni", ComponentTypeId = ct5.Id, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", ParentComponentId =c2.Id, PageId = p20.Id, AppTenantId = "1"};
+            context.Components.Add(t1);
+            context.SaveChanges();
+            var p22 = new ParameterValue() { ComponentId=t1.Id, ParameterId=p9.Id, Value= "<br/><br/><b>Edux Özelleştirmesi Nasıl Yapılır?</b><br/><br/> 1. Verileri saklamak için Varlık nasıl oluşturulur? <br/>Varlıklar modülünden verileri saklayabileceğimiz varlıklar oluşturup,bu varlıkların özelliklerini oluşturmamız gerekiyor.<br/><br/> 2. Verileri görüntülemek için Veri Tablosu nasıl oluşturulur?<br/> Veri Tabloları modülünden veri tablosu oluşturulup,sütunları tanımlanmalıdır.Sütunlar hangi varlığın hangi özelliğinin değerinin görüntüleneceğini belirlemeye yarar.<br/><br/> 3. Verileri girmek ve düzenlemek için Form nasıl oluşturulur?<br/> Formlar modülünden veri girmek ve düzenlemek için form oluşturup, alanlarını tanımlamamız gerekmektedir.Form alanları ile girilen değerlerin hangi varlığın özelliği için olduğu tanımlanır.<br/><br/> 4. Yönetim paneli sayfaları nasıl hazırlanır?<br/>Sayfalar modülünden veri tabloları ve formlar içeren sayfalar tasarlanabilir.Sayfayı oluşturup sayfada görüntülenecek Veri Tablosu ve Form bileşeni gibi bileşenleri parametre değerlerini girerek o sayfaya eklemek gerekmektedir." };
+            context.ParameterValues.Add(p22);
+            context.SaveChanges();
+
+
+
+
         }
     }
 }
