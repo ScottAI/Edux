@@ -52,5 +52,7 @@ namespace Edux.Data
         }
 
         public DbSet<Edux.Models.Media> Media { get; set; }
+
+        public DbSet<Edux.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
