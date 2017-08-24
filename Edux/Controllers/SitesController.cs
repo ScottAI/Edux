@@ -7,27 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
-    [Authorize]
-    public class FormsController : Controller
+    public class SitesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public FormsController(ApplicationDbContext context)
+        public SitesController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Forms
+        // GET: Sites
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Forms.ToListAsync());
+            return View(await _context.Sites.ToListAsync());
         }
 
-        // GET: Forms/Details/5
+        // GET: Sites/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -35,44 +33,43 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms
+            var site = await _context.Sites
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (form == null)
+            if (site == null)
             {
                 return NotFound();
             }
 
-            return View(form);
+            return View(site);
         }
 
-        // GET: Forms/Create
+        // GET: Sites/Create
         public IActionResult Create()
         {
-            var form = new Form();
-            return View(form);
+            return View();
         }
 
-        // POST: Forms/Create
+        // POST: Sites/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Form form)
+        public async Task<IActionResult> Create([Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Site site)
         {
             if (ModelState.IsValid)
             {
-                form.CreateDate = DateTime.Now;
-                form.CreatedBy = User.Identity.Name;
-                form.UpdateDate = DateTime.Now;
-                form.UpdatedBy = User.Identity.Name;
-                _context.Add(form);
+                site.CreatedBy = User.Identity.Name;
+                site.UpdateDate = DateTime.Now;
+                site.UpdatedBy = User.Identity.Name;
+                site.CreateDate = DateTime.Now;
+                _context.Add(site);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit",new { id=form.Id});
+                return RedirectToAction("Index");
             }
-            return View(form);
+            return View(site);
         }
 
-        // GET: Forms/Edit/5
+        // GET: Sites/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -80,22 +77,22 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms.SingleOrDefaultAsync(m => m.Id == id);
-            if (form == null)
+            var site = await _context.Sites.SingleOrDefaultAsync(m => m.Id == id);
+            if (site == null)
             {
                 return NotFound();
             }
-            return View(form);
+            return View(site);
         }
 
-        // POST: Forms/Edit/5
+        // POST: Sites/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, Form form)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Site site)
         {
-            if (id != form.Id)
+            if (id != site.Id)
             {
                 return NotFound();
             }
@@ -104,14 +101,12 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    form.UpdateDate = DateTime.Now;
-                    form.UpdatedBy = User.Identity.Name;
-                    _context.Update(form);
+                    _context.Update(site);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FormExists(form.Id))
+                    if (!SiteExists(site.Id))
                     {
                         return NotFound();
                     }
@@ -122,10 +117,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(form);
+            return View(site);
         }
 
-        // GET: Forms/Delete/5
+        // GET: Sites/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -133,30 +128,30 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var form = await _context.Forms
+            var site = await _context.Sites
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (form == null)
+            if (site == null)
             {
                 return NotFound();
             }
 
-            return View(form);
+            return View(site);
         }
 
-        // POST: Forms/Delete/5
+        // POST: Sites/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var form = await _context.Forms.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Forms.Remove(form);
+            var site = await _context.Sites.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Sites.Remove(site);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool FormExists(string id)
+        private bool SiteExists(string id)
         {
-            return _context.Forms.Any(e => e.Id == id);
+            return _context.Sites.Any(e => e.Id == id);
         }
     }
 }

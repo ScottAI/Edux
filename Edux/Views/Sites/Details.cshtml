@@ -1,14 +1,13 @@
-﻿@model Edux.Models.Form
+﻿@model Edux.Models.Site
 
 @{
-    ViewData["Title"] = "Formlar Sil";
+    ViewData["Title"] = "Details";
 }
 
-<h2>Sil</h2>
+<h2>Detaylar</h2>
 
-<h3>Silmek istediğinize emin misiniz?</h3>
 <div>
-    <h4>Form</h4>
+    <h4>Site</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,18 +17,29 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DisplayName)
+            @Html.DisplayNameFor(model => model.Slug)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DisplayName)
+            @Html.DisplayFor(model => model.Slug)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EntityName)
+            @Html.DisplayNameFor(model => model.DefaultLayout)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EntityName)
+            @Html.DisplayFor(model => model.DefaultLayout)
         </dd>
-        <input type="hidden" asp-for="Id" />
+        <dt>
+            @Html.DisplayNameFor(model => model.AllowedRoles)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AllowedRoles)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultPage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DefaultPage)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)
         </dt>
@@ -61,11 +71,8 @@
             @Html.DisplayFor(model => model.AppTenantId)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> 
-            <a asp-action="Index">Listeye Geri Dön</a>
-        </div>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a>
+    <a asp-action="Index">Listeye Geri Dön</a>
 </div>

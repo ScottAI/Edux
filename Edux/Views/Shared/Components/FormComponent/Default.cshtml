@@ -8,8 +8,12 @@
     var tabs = form.Fields.OrderBy(o => o.Position).Select(s => s.Tab).Distinct().ToArray();
 }
 
+<script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
+
+
 
 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="FormId" id="FormId" value="@form.Id" />
     <ul class="nav nav-tabs">
         @for (var k = 1; k <= tabCount; k++)
         {
@@ -35,57 +39,89 @@
                             {
 
                                 <div class="col-md-@(12 / colCount)">
-                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] &&  s.Row == i && s.Col == j).OrderBy(f => f.Position))
+                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i && s.Col == j).OrderBy(f => f.Position))
                                     {
+                                        <input type="hidden" name="@(field.PropertyId).EntityId" id="@(field.Name).EntityId" value="@field.Property.EntityId" />
                                         switch (field.EditorType)
                                         {
+
                                             case EditorType.Text:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="text" name="@field.Name" placeholder="@field.DisplayName" class="form-control" />
+                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control" />
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.TextArea:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <textarea name="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
+                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.Html:
-                                                @field.DisplayName <input name="@field.Name" placeholder="@field.DisplayName" />
+
+                                                <div class="form-group">
+                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                       <textarea name="@field.PropertyId" id="@field.Name"></textarea>
+                                                    <script>
+                                                        CKEDITOR.replace(' @field.Name');
+                                                    </script>
+                                                    </div>
+                                                </div>
+
                                                 break;
                                             case EditorType.Select:
-                                                @field.DisplayName <select name="@field.Name" placeholder="@field.DisplayName">
+                                                <div class="form-group">
+                                                    <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName">
                                                     <option>@field.DefaultValue</option>
                                                 </select>
+                                                    </div>
+                                                </div>
+
                                                 break;
                                             case EditorType.Checkbox:
-                                                @field.DisplayName <input name="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+
+                                                <div class="form-group">
+                                                    <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
+                                                    <div class="col-md-10">
+                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+                                                    </div>
+                                                </div>
+                                                
                                                 break;
+                                       
                                         }
                                     }
                                 </div>
                             }
                             
                         </div>
-
-                                }
-                    
-                    
-                    
-
+                        }   
                 </div>
             </div>
-                                }
+             }
     </div>
 
     
+    
+        @if (ViewBag.Mode == "Edit")
+        {
+            <input class="btn btn-primary"  type="submit" value="Düzenle" />
+        }
+        else if (ViewBag.Mode == "Create")
+        {
 
-        <input class="btn btn-primary"  type="submit" value="Gönder" />
-    
-    
+            <input class="btn btn-primary" type="submit" value="Oluştur" />
+        }
+        else
+        {
+            <input class="btn btn-primary" type="submit" value="Gönder" />
+
+        }
+
+
 </form>
 
                                               

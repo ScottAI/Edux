@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Edux.Models.Column>
+﻿@model IEnumerable<Edux.Models.Site>
 
 @{
-    ViewData["Title"] = "Sütun";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Sütunlar</h2>
+<h2>Site</h2>
 
 <p>
     <a asp-action="Create">Yeni Oluştur</a>
@@ -12,26 +12,20 @@
 <table class="table table-striped table-hover" id="tblRecords">
     <thead>
         <tr>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.DataTable)
-            </th>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.Entity.Name)
-            </th>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.Property)
-            </th>
             <th class="text-nowrap all">
-                @Html.DisplayNameFor(model => model.Position)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.OrderBy)
+                @Html.DisplayNameFor(model => model.Slug)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.FilterOperator)
+                @Html.DisplayNameFor(model => model.DefaultLayout)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.FilterValue)
+                @Html.DisplayNameFor(model => model.AllowedRoles)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.DefaultPage)
             </th>
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.CreateDate)
@@ -48,8 +42,6 @@
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.AppTenantId)
             </th>
-          
-           
             <th data-orderable="false" class="all">Eylemler</th>
         </tr>
     </thead>
@@ -58,25 +50,19 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataTable.Name)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Entity.Name)
+                    @Html.DisplayFor(modelItem => item.Slug)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Property.Name)
+                    @Html.DisplayFor(modelItem => item.DefaultLayout)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Position)
+                    @Html.DisplayFor(modelItem => item.AllowedRoles)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OrderBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FilterOperator)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FilterValue)
+                    @Html.DisplayFor(modelItem => item.DefaultPage)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreateDate)
@@ -93,11 +79,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.AppTenantId)
                 </td>
-               
-                
                 <td class="text-nowrap">
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a> 
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a> 
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Detaylar</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
                 </td>
             </tr>
