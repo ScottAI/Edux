@@ -62,23 +62,26 @@ namespace Edux.Controllers
         public IActionResult SaveForm(IFormCollection form)
         {
             if (ModelState.IsValid) {
-               
-            foreach (var key in form.Keys)
+            var rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
+                foreach (var key in form.Keys)
             {
+                if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key)) { 
                     var value = new PropertyValue();
 
-                value.Value = form[key];
-                value.EntityId = form[key + ".EntityId"];
-                value.PropertyId = form[key + ".PropertyId"];
-                value.CreateDate = DateTime.Now;
-                value.CreatedBy = User.Identity.Name;
-                value.UpdateDate = DateTime.Now;
-                value.UpdatedBy = User.Identity.Name;
-                value.AppTenantId = "1";
-                _context.Add(value);
-                _context.SaveChanges();
-                   
-            }
+                    value.Value = form[key];
+                    value.EntityId = form[key + ".EntityId"];
+                    value.PropertyId = key;
+                        value.RowId = rowId;
+                    value.CreateDate = DateTime.Now;
+                    value.CreatedBy = User.Identity.Name;
+                    value.UpdateDate = DateTime.Now;
+                    value.UpdatedBy = User.Identity.Name;
+                    value.AppTenantId = "1";
+                    _context.Add(value);
+                    _context.SaveChanges();
+                    }
+
+                }
                 return Redirect(Request.Headers["Referer"].ToString() + "?status=ok");
             }
             return Redirect(Request.Headers["Referer"].ToString() + "?status=validationerror");

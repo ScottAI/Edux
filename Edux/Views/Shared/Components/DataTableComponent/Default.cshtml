@@ -6,9 +6,11 @@
 
 <h2>@datatable.DisplayName</h2>
 <br />
+@if (!String.IsNullOrEmpty(ViewBag.CreateButtonText)) { 
 <a class="btn btn-success" href="@ViewBag.CreateButtonHref">@ViewBag.CreateButtonText </a>
 <br />
 <br />
+}
 <table class="table table-striped table-hover" id="@datatable.Name">
     <thead>
         <tr>@{ var order = "";
@@ -24,8 +26,10 @@
                 </th>
                 colIndex++;
             }
-    
+    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+    {
             <th data-orderable="false" class="all">Eylemler</th>
+    }
         </tr>
     </thead>
     <tbody>
@@ -42,10 +46,13 @@
                     
                 </td>
             }
+@if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+{
             <td class="text-nowrap">
-                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref,id)">@ViewBag.EditButtonText </a>
+                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
                 <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
             </td>
+}
         </tr>
         }
     </tbody>
