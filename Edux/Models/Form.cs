@@ -16,6 +16,9 @@ namespace Edux.Models
         [StringLength(200)]
         [Display(Name = "Form Görünen Adı")]
         public string DisplayName { get; set; }
+        [StringLength(200)]
+        [Display(Name = "Varlık Adı")]
+        public string EntityName { get; set; }
         public virtual ICollection<Field> Fields { get; set; }
         
     }

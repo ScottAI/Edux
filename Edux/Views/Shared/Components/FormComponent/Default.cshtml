@@ -30,12 +30,12 @@
                     @for (var i = 1; i <= rowCount; i++)
                 {
                         <div class="row">
-                            @{ var colCount = form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i.ToString()).Select(s => s.Col).Distinct().Count(); }
+                            @{ var colCount = form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i).Select(s => s.Col).Distinct().Count(); }
                             @for (var j = 1; j <= colCount; j++)
                             {
 
                                 <div class="col-md-@(12 / colCount)">
-                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] &&  s.Row == i.ToString() && s.Col == j.ToString()).OrderBy(f => f.Position))
+                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] &&  s.Row == i && s.Col == j).OrderBy(f => f.Position))
                                     {
                                         switch (field.EditorType)
                                         {
@@ -64,6 +64,7 @@
                                             case EditorType.Checkbox:
                                                 @field.DisplayName <input name="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
                                                 break;
+                                       
                                         }
                                     }
                                 </div>
@@ -82,10 +83,23 @@
     </div>
 
     
+    
+        @if (ViewBag.Mode == "Edit")
+        {
+            <input class="btn btn-primary"  type="submit" value="Düzenle" />
+        }
+        else if (ViewBag.Mode == "Create")
+        {
 
-        <input class="btn btn-primary"  type="submit" value="Gönder" />
-    
-    
+            <input class="btn btn-primary" type="submit" value="Oluştur" />
+        }
+        else
+        {
+            <input class="btn btn-primary" type="submit" value="Gönder" />
+
+        }
+
+
 </form>
 
                                               
