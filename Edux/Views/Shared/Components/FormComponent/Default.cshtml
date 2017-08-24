@@ -13,6 +13,7 @@
 
 
 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="FormId" id="FormId" value="@form.Id" />
     <ul class="nav nav-tabs">
         @for (var k = 1; k <= tabCount; k++)
         {
@@ -38,31 +39,33 @@
                             {
 
                                 <div class="col-md-@(12 / colCount)">
-                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] &&  s.Row == i && s.Col == j).OrderBy(f => f.Position))
+                                    @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i && s.Col == j).OrderBy(f => f.Position))
                                     {
+                                        <input type="hidden" name="@(field.PropertyId).EntityId" id="@(field.Name).EntityId" value="@field.Property.EntityId" />
                                         switch (field.EditorType)
                                         {
+
                                             case EditorType.Text:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="text" name="@field.Name" placeholder="@field.DisplayName" class="form-control" />
+                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control" />
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.TextArea:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <textarea name="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
+                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.Html:
 
                                                 <div class="form-group">
-                                                    <label for="@field.DisplayName" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                       <textarea name=" @field.DisplayName"></textarea>
+                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                       <textarea name="@field.PropertyId" id="@field.Name"></textarea>
                                                     <script>
-                                                        CKEDITOR.replace(' @field.DisplayName');
+                                                        CKEDITOR.replace(' @field.Name');
                                                     </script>
                                                     </div>
                                                 </div>
@@ -70,8 +73,8 @@
                                                 break;
                                             case EditorType.Select:
                                                 <div class="form-group">
-                                                    <label for=" @field.DisplayName" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <select name="@field.Name" placeholder="@field.DisplayName">
+                                                    <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName">
                                                     <option>@field.DefaultValue</option>
                                                 </select>
                                                     </div>
@@ -81,9 +84,9 @@
                                             case EditorType.Checkbox:
 
                                                 <div class="form-group">
-                                                    <label for=" @field.DisplayName" class="control-label col-md-2">@field.DisplayName</label>
+                                                    <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
                                                     <div class="col-md-10">
-                                                        <input name="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
                                                     </div>
                                                 </div>
                                                 

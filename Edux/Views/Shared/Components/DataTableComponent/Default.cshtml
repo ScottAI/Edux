@@ -26,7 +26,7 @@
                 </th>
                 colIndex++;
             }
-    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) && !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
     {
             <th data-orderable="false" class="all">Eylemler</th>
     }
@@ -46,7 +46,7 @@
                     
                 </td>
             }
-@if (!String.IsNullOrEmpty(ViewBag.EditButtonText) && !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+@if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
 {
             <td class="text-nowrap">
                 <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
