@@ -22,6 +22,11 @@ namespace Edux.Models
         [Display(Name = "Form")]
         [ForeignKey("FormId")]
         public Form Form { get; set; }
+        [Display(Name = "Varlık")]
+        public string EntityId { get; set; }
+        [Display(Name = "Varlık")]
+        [ForeignKey("EntityId")]
+        public Entity Entity { get; set; }
         [Display(Name = "Özellik")]
         public string PropertyId { get; set; }
         [Display(Name = "Özellik")]
