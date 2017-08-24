@@ -37,8 +37,8 @@ namespace Edux.ViewComponents
             ViewBag.DataTable = datatable;
             var entityName = datatable.EntityName;
             var values = await _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).Where(x => x.Entity.Name == entityName && _context.PropertyValues.Where(
-                p => (datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?
-                    (p.Value == datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) : (datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Contains ? (p.Value.Contains(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue)) : false))).Any(f=>f.RowId==x.RowId)).OrderBy(r => r.RowId).Take(datatable.Top).ToListAsync();
+                p => (datatable.Columns.Any(c=>c.FilterOperator != Models.FilterOperator.None)?(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?
+                    (p.Value == datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) : (datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Contains ? (p.Value.Contains(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue)) : false)):true)).Any(f=>f.RowId==x.RowId)).OrderBy(r => r.RowId).Take(datatable.Top).ToListAsync();
            
 
 
