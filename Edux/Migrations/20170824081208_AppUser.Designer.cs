@@ -9,9 +9,10 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170824081208_AppUser")]
+    partial class AppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -341,8 +342,6 @@ namespace Edux.Migrations
 
                     b.Property<int>("EditorType");
 
-                    b.Property<string>("EntityId");
-
                     b.Property<string>("FormId");
 
                     b.Property<string>("Name")
@@ -366,8 +365,6 @@ namespace Edux.Migrations
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityId");
 
                     b.HasIndex("FormId");
 
@@ -393,9 +390,6 @@ namespace Edux.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("EntityName")
                         .HasMaxLength(200);
 
                     b.Property<string>("Name")
@@ -754,88 +748,6 @@ namespace Edux.Migrations
                     b.ToTable("PropertyValues");
                 });
 
-            modelBuilder.Entity("Edux.Models.Setting", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AppTenantId")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("ComponentViews");
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("LayoutViews");
-
-                    b.Property<string>("PageViews");
-
-                    b.Property<string>("SmtpHost")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("SmtpPassword")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("SmtpPort")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("SmtpUseSSL");
-
-                    b.Property<string>("SmtpUserName")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("Edux.Models.Site", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AllowedRoles");
-
-                    b.Property<string>("AppTenantId")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("DefaultLayout")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("DefaultPage")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sites");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -976,10 +888,6 @@ namespace Edux.Migrations
 
             modelBuilder.Entity("Edux.Models.Field", b =>
                 {
-                    b.HasOne("Edux.Models.Entity", "Entity")
-                        .WithMany()
-                        .HasForeignKey("EntityId");
-
                     b.HasOne("Edux.Models.Form", "Form")
                         .WithMany("Fields")
                         .HasForeignKey("FormId");
