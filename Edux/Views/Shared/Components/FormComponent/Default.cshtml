@@ -75,7 +75,8 @@
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
                                                         <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName">
-                                                    <option>@field.DefaultValue</option>
+                                                            @*Property.DataSourcePropertyId == PropertyValue.PropertyId*@
+                                                    <option>@field.Property.DataSourceProperty.Name</option>
                                                 </select>
                                                     </div>
                                                 </div>

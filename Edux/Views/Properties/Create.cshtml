@@ -54,17 +54,21 @@
 
 
         <div class="form-group">
-            <label asp-for="ParentMenuItemId" class="col-md-2 control-label"></label>
+            <label asp-for="DataSourceEntityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ParentMenuItemId" class="form-control" asp-items="@ViewBag.ParentMenuItemId"><option value="">Seçiniz</option></select>
+                <select asp-for="DataSourceEntityId" class="form-control" asp-items="@ViewBag.DataSourceEntityId">
+                    <option value="">Seçiniz</option>
+                </select>
             </div>
         </div>
 
 
         <div class="form-group">
-            <label asp-for="ParentMenuItemId" class="col-md-2 control-label"></label>
+            <label asp-for="DataSourcePropertyId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ParentMenuItemId" class="form-control" asp-items="@ViewBag.ParentMenuItemId"><option value="">Seçiniz</option></select>
+                <select asp-for="DataSourcePropertyId" class="form-control" asp-items="@ViewBag.DataSourcePropertyId">
+                    <option value="">Seçiniz</option>
+                </select>
             </div>
         </div>
 
