@@ -9,8 +9,8 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170823081431_addFieldEntity")]
-    partial class addFieldEntity
+    [Migration("20170825090602_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,9 @@ namespace Edux.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -393,6 +396,9 @@ namespace Edux.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
+                    b.Property<string>("EntityName")
+                        .HasMaxLength(200);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
@@ -673,11 +679,9 @@ namespace Edux.Migrations
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(200);
 
-                    b.Property<string>("DataSourceEntity")
-                        .HasMaxLength(200);
+                    b.Property<string>("DataSourceEntityId");
 
-                    b.Property<string>("DataSourceProperty")
-                        .HasMaxLength(200);
+                    b.Property<string>("DataSourcePropertyId");
 
                     b.Property<string>("DefaultValue");
 
@@ -708,6 +712,10 @@ namespace Edux.Migrations
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DataSourceEntityId");
+
+                    b.HasIndex("DataSourcePropertyId");
 
                     b.HasIndex("EntityId");
 
@@ -747,6 +755,88 @@ namespace Edux.Migrations
                     b.HasIndex("PropertyId");
 
                     b.ToTable("PropertyValues");
+                });
+
+            modelBuilder.Entity("Edux.Models.Setting", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ComponentViews");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("LayoutViews");
+
+                    b.Property<string>("PageViews");
+
+                    b.Property<string>("SmtpHost")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SmtpPassword")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SmtpPort")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("SmtpUseSSL");
+
+                    b.Property<string>("SmtpUserName")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("Edux.Models.Site", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AllowedRoles");
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DefaultLayout")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DefaultPage")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sites");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -946,6 +1036,14 @@ namespace Edux.Migrations
 
             modelBuilder.Entity("Edux.Models.Property", b =>
                 {
+                    b.HasOne("Edux.Models.Entity", "DataSourceEntity")
+                        .WithMany("DataSourceProperties")
+                        .HasForeignKey("DataSourceEntityId");
+
+                    b.HasOne("Edux.Models.Property", "DataSourceProperty")
+                        .WithMany()
+                        .HasForeignKey("DataSourcePropertyId");
+
                     b.HasOne("Edux.Models.Entity", "Entity")
                         .WithMany("Properties")
                         .HasForeignKey("EntityId");

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Edux.Migrations
 {
-    public partial class newmigration : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace Edux.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -127,6 +128,7 @@ namespace Edux.Migrations
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
                     DisplayName = table.Column<string>(maxLength: 200, nullable: false),
+                    EntityName = table.Column<string>(maxLength: 200, nullable: true),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     UpdatedBy = table.Column<string>(maxLength: 200, nullable: true)
@@ -210,6 +212,51 @@ namespace Edux.Migrations
                         principalTable: "Pages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
+                    ComponentViews = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
+                    LayoutViews = table.Column<string>(nullable: true),
+                    PageViews = table.Column<string>(nullable: true),
+                    SmtpHost = table.Column<string>(maxLength: 200, nullable: true),
+                    SmtpPassword = table.Column<string>(maxLength: 200, nullable: true),
+                    SmtpPort = table.Column<string>(maxLength: 200, nullable: true),
+                    SmtpUseSSL = table.Column<bool>(nullable: false),
+                    SmtpUserName = table.Column<string>(maxLength: 200, nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sites",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AllowedRoles = table.Column<string>(nullable: true),
+                    AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
+                    DefaultLayout = table.Column<string>(maxLength: 200, nullable: true),
+                    DefaultPage = table.Column<string>(maxLength: 200, nullable: true),
+                    Name = table.Column<string>(maxLength: 200, nullable: false),
+                    Slug = table.Column<string>(maxLength: 200, nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sites", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,8 +363,8 @@ namespace Edux.Migrations
                     AppTenantId = table.Column<string>(maxLength: 200, nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<string>(maxLength: 200, nullable: true),
-                    DataSourceEntity = table.Column<string>(maxLength: 200, nullable: true),
-                    DataSourceProperty = table.Column<string>(maxLength: 200, nullable: true),
+                    DataSourceEntityId = table.Column<string>(nullable: true),
+                    DataSourcePropertyId = table.Column<string>(nullable: true),
                     DefaultValue = table.Column<string>(nullable: true),
                     DisplayFormat = table.Column<string>(maxLength: 200, nullable: true),
                     DisplayName = table.Column<string>(maxLength: 200, nullable: false),
@@ -333,6 +380,18 @@ namespace Edux.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Properties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Properties_Entities_DataSourceEntityId",
+                        column: x => x.DataSourceEntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Properties_Properties_DataSourcePropertyId",
+                        column: x => x.DataSourcePropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Properties_Entities_EntityId",
                         column: x => x.EntityId,
@@ -580,6 +639,7 @@ namespace Edux.Migrations
                     DefaultValue = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(maxLength: 200, nullable: false),
                     EditorType = table.Column<int>(nullable: false),
+                    EntityId = table.Column<string>(nullable: true),
                     FormId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Position = table.Column<int>(nullable: false),
@@ -593,6 +653,12 @@ namespace Edux.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Fields", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fields_Entities_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Fields_Forms_FormId",
                         column: x => x.FormId,
@@ -655,6 +721,11 @@ namespace Edux.Migrations
                 column: "ParentComponentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Fields_EntityId",
+                table: "Fields",
+                column: "EntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Fields_FormId",
                 table: "Fields",
                 column: "FormId");
@@ -698,6 +769,16 @@ namespace Edux.Migrations
                 name: "IX_ParameterValues_ParameterId",
                 table: "ParameterValues",
                 column: "ParameterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_DataSourceEntityId",
+                table: "Properties",
+                column: "DataSourceEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_DataSourcePropertyId",
+                table: "Properties",
+                column: "DataSourcePropertyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_EntityId",
@@ -760,6 +841,12 @@ namespace Edux.Migrations
 
             migrationBuilder.DropTable(
                 name: "ParameterValues");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
+
+            migrationBuilder.DropTable(
+                name: "Sites");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");

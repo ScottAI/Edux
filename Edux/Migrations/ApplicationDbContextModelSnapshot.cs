@@ -1037,8 +1037,7 @@ namespace Edux.Migrations
                 {
                     b.HasOne("Edux.Models.Entity", "DataSourceEntity")
                         .WithMany("DataSourceProperties")
-                        .HasForeignKey("DataSourceEntityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DataSourceEntityId");
 
                     b.HasOne("Edux.Models.Property", "DataSourceProperty")
                         .WithMany()
@@ -1046,8 +1045,7 @@ namespace Edux.Migrations
 
                     b.HasOne("Edux.Models.Entity", "Entity")
                         .WithMany("Properties")
-                        .HasForeignKey("EntityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EntityId");
                 });
 
             modelBuilder.Entity("Edux.Models.PropertyValue", b =>
