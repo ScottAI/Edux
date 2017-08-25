@@ -36,14 +36,16 @@ namespace Edux.Models
         [Display(Name="Görüntü Formatı")]
         [StringLength(200)]
         public string DisplayFormat { get; set; }
-
         [Display(Name = "Veri Kaynağı Varlığı")]
-        [StringLength(200)]
-        public string DataSourceEntity { get; set; }
-
+        public string DataSourceEntityId { get; set; }
+        [Display(Name = "Veri Kaynağı Varlığı")]
+        [ForeignKey("DataSourceEntityId")]
+        public Entity DataSourceEntity { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği")]
-        [StringLength(200)]
-        public string DataSourceProperty { get; set; }
+        public string DataSourcePropertyId { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği")]
+        [ForeignKey("DataSourcePropertyId")]
+        public Property DataSourceProperty { get; set; }
 
 
         [Display(Name = "Gerekli Mi?")]

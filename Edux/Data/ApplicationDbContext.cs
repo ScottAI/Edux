@@ -41,7 +41,12 @@ namespace Edux.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
-            
+            builder.Entity<Property>().HasOne(c => c.Entity)
+                .WithMany(p => p.Properties)
+                .HasForeignKey(c => c.EntityId).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Property>().HasOne(c => c.DataSourceEntity)
+                .WithMany(p => p.DataSourceProperties)
+                .HasForeignKey(c => c.DataSourceEntityId).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Component>().HasOne(c => c.Page)
                 .WithMany(p=>p.Components)
                 .HasForeignKey(c => c.PageId).OnDelete(DeleteBehavior.Cascade);
