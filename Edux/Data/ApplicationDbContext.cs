@@ -43,10 +43,10 @@ namespace Edux.Data
 
             builder.Entity<Property>().HasOne(c => c.Entity)
                 .WithMany(p => p.Properties)
-                .HasForeignKey(c => c.EntityId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.EntityId).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Property>().HasOne(c => c.DataSourceEntity)
                 .WithMany(p => p.DataSourceProperties)
-                .HasForeignKey(c => c.DataSourceEntityId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.DataSourceEntityId).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Component>().HasOne(c => c.Page)
                 .WithMany(p=>p.Components)
                 .HasForeignKey(c => c.PageId).OnDelete(DeleteBehavior.Cascade);
