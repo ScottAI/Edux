@@ -8,8 +8,11 @@ namespace Edux.Models
 {
     public class Setting:BaseEntity
     {
+        [Display(Name = "Sayfa Görünümü")]
         public string PageViews { get; set; }
+        [Display(Name = "Bileşen Görünümü")]
         public string ComponentViews { get; set; }
+        [Display(Name = "Site Görünümü")]
         public string LayoutViews { get; set; }
  
 

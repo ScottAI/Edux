@@ -26,129 +26,48 @@ namespace Edux.Controllers
             return View(setting);
         }
 
-        // GET: Settings/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var setting = await _context.Settings
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (setting == null)
-            {
-                return NotFound();
-            }
 
-            return View(setting);
-        }
 
-        // GET: Settings/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Settings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PageViews,ComponentViews,LayoutViews,SmtpUserName,SmtpPassword,SmtpHost,SmtpPort,SmtpUseSSL,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Setting setting)
+        public async Task <IActionResult> Index (Setting setting)
         {
-            if (ModelState.IsValid)
+            Setting allSetting = _context.Settings.FirstOrDefault();
+            var firstTime = false;
+            if (allSetting == null)
             {
-                _context.Add(setting);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(setting);
-        }
-
-        // GET: Settings/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                allSetting = new Setting();
+                firstTime = true;
             }
 
-            var setting = await _context.Settings.SingleOrDefaultAsync(m => m.Id == id);
-            if (setting == null)
-            {
-                return NotFound();
-            }
-            return View(setting);
-        }
+                    allSetting.PageViews = setting.PageViews;
+                    allSetting.ComponentViews = setting.ComponentViews;
+                    allSetting.LayoutViews = setting.LayoutViews;
+                    allSetting.SmtpUserName = setting.SmtpUserName;
+                    allSetting.SmtpPassword = setting.SmtpPassword;
+                    allSetting.SmtpHost = setting.SmtpHost;
+                    allSetting.SmtpPort = setting.SmtpPort;
+                    allSetting.SmtpUseSSL = setting.SmtpUseSSL;
+                    allSetting.Id = setting.Id;
+                    allSetting.SmtpPassword = setting.SmtpPassword;
+                    allSetting.CreateDate = setting.CreateDate;
+                    allSetting.CreatedBy = setting.CreatedBy;                
 
-        // POST: Settings/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("PageViews,ComponentViews,LayoutViews,SmtpUserName,SmtpPassword,SmtpHost,SmtpPort,SmtpUseSSL,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Setting setting)
-        {
-            if (id != setting.Id)
+                    allSetting.UpdateDate = DateTime.Now;
+                    allSetting.UpdatedBy = User.Identity.Name ?? "username";
+                    allSetting.AppTenantId = setting.AppTenantId;
+            if (firstTime)
             {
-                return NotFound();
+                _context.Settings.Add(allSetting);
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(setting);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SettingExists(setting.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
+                       ViewBag.Message = "Ayarlar baþarýyla kaydedildi";
             return View(setting);
         }
 
-        // GET: Settings/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var setting = await _context.Settings
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (setting == null)
-            {
-                return NotFound();
-            }
 
-            return View(setting);
-        }
-
-        // POST: Settings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var setting = await _context.Settings.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Settings.Remove(setting);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool SettingExists(string id)
-        {
-            return _context.Settings.Any(e => e.Id == id);
-        }
+      
     }
 }
