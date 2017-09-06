@@ -1,27 +1,27 @@
-﻿@model Edux.Models.Site
+﻿@model Edux.Models.App
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
-<script src="~/js/generate-slug.js"> </script>
-<h2>Yeni Oluştur</h2>
 
-<form asp-action="Create">
+<h2>Düzenle</h2>
+
+<form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>Site</h4>
+        <h4>Uygulama</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Name" class="form-control" tabindex="1" autofocus="autofocus" onblur="if ($('#Slug').val() == '') {$('#Slug').val(slug($('#Name').val().toLowerCase(),'-'));}" />
+                <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Slug" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Slug" class="form-control" tabindex="2" onblur="if ($('#Slug').val() == '') {$('#Slug').val(slug($('#Title').val().toLowerCase(),'-'));}" />
+                <input asp-for="Slug" class="form-control" />
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
         </div>
@@ -46,6 +46,7 @@
                 <span asp-validation-for="DefaultPage" class="text-danger"></span>
             </div>
         </div>
+    <input type="hidden" asp-for="Id" />
         <div class="form-group">
             <label asp-for="CreateDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -83,7 +84,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Oluştur" class="btn btn-primary" />
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
             </div>
         </div>
     </div>

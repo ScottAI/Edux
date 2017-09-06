@@ -31,7 +31,7 @@ namespace Edux.Data
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Chart> Charts { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<Site> Sites{ get; set; }
+        public DbSet<App> Apps{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
