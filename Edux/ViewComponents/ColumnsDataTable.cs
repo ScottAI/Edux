@@ -18,7 +18,7 @@ namespace Edux.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string dataTableId)
         {
-            var columns = _context.Columns.Include(c => c.DataTable).Include(c => c.Property).Where(c => c.DataTableId == dataTableId);
+            var columns = _context.Columns.Include(c => c.DataTable).Include(c => c.Property).Where(c => c.DataTableId == dataTableId).OrderBy(o => o.Position);
             ViewBag.DataTableId = dataTableId;
             return View(await columns.ToListAsync());
         }

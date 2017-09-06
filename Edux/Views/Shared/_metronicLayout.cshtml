@@ -49,8 +49,10 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="/metronic/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- END THEME LAYOUT STYLES -->
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/colreorder/1.4.0/css/colReorder.dataTables.min.css" />
     <link rel="stylesheet" href="//cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" />
+
     <script src="~/metronic/global/plugins/jquery.min.js" type="text/javascript"></script>
     <script src="~/metronic/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/metronic/global/plugins/js.cookie.min.js" type="text/javascript"></script>
@@ -101,8 +103,9 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="~/metronic/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
     <script src="~/metronic/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
     <script src="~/metronic/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
-    <script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/colreorder/1.4.0/js/dataTables.colReorder.min.js"></script>
     <script src="//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 </head>
 <!-- END HEAD -->
@@ -1117,12 +1120,19 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END THEME LAYOUT SCRIPTS -->
     <script>
         $(document).ready(function () {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust()
+                    .responsive.recalc();
+            }); 
             $('#tblRecords').DataTable({
                 "responsive": true,
+                "colReorder": true,
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Turkish.json"
                 }
             });
+            
             $('#clickmewow').click(function () {
                 $('#radio1003').attr('checked', 'checked');
             });

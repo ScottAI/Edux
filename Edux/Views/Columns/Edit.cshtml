@@ -104,6 +104,7 @@
                             $('#PropertyId').append($('<option/>', {
                                 value: data[index].id,
                                 text: data[index].name
+                                selected: (data[index].id == '@ViewBag.SelectedPropertyId')
                             }));
                         });
                     },

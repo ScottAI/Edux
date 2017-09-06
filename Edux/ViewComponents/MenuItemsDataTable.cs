@@ -18,7 +18,7 @@ namespace Edux.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string menuId)
         {
-            var menus = _context.MenuItems.Include(c => c.Menu).Include(c => c.ParentMenuItem).Where(c => c.MenuId == menuId);
+            var menus = _context.MenuItems.Include(c => c.Menu).Include(c => c.ParentMenuItem).Where(c => c.MenuId == menuId).OrderBy(o => o.Position);
             ViewBag.MenuId = menuId;
             return View(await menus.ToListAsync());
         }

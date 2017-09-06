@@ -74,7 +74,7 @@ namespace Edux.Controllers
                     string url = "/Menus/Edit/" + columnsIdRef + "#tab_1_2";
                     return Redirect(url);
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = dataTable.Id });
             }
             return View(dataTable);
         }
