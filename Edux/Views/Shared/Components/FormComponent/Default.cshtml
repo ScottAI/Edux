@@ -1,17 +1,13 @@
 ﻿@model Component
 @{ var form = (Form)ViewBag.Form;}
 @{ var rowCount = form.Fields.Select(s => s.Row).Distinct().Count();}
-@*@form.DisplayName*@
 
 @{ 
     var tabCount = form.Fields.Select(s => s.Tab).Distinct().Count();
     var tabs = form.Fields.OrderBy(o => o.Position).Select(s => s.Tab).Distinct().ToArray();
 }
-
-<script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
-
-
-
+<h2>@Model.DisplayName</h2>
+<br />
 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data">
     <input type="hidden" name="FormId" id="FormId" value="@form.Id" />
     <ul class="nav nav-tabs">
@@ -48,14 +44,14 @@
                                             case EditorType.Text:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control" />
+                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" value="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" class="form-control" />
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.TextArea:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
+                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control">@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)</textarea>
                                                     </div>
                                                 </div>
                                                 break;
@@ -63,7 +59,7 @@
 
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                       <textarea name="@field.PropertyId" id="@field.Name"></textarea>
+                                                       <textarea name="@field.PropertyId" id="@field.Name">@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)</textarea>
                                                     <script>
                                                         CKEDITOR.replace(' @field.Name');
                                                     </script>
@@ -76,7 +72,7 @@
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
                                                         <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName">
                                                             @*Property.DataSourcePropertyId == PropertyValue.PropertyId*@
-                                                    <option>@field.Property.DataSourceProperty.Name</option>
+                                                    <option value="@field.Property.DataSourceProperty.Id">@field.Property.DataSourceProperty.Name</option>
                                                 </select>
                                                     </div>
                                                 </div>
@@ -87,7 +83,7 @@
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
                                                     <div class="col-md-10">
-                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" checked="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" /><br />
                                                     </div>
                                                 </div>
                                                 
@@ -104,24 +100,7 @@
             </div>
              }
     </div>
-
-    
-    
-        @if (ViewBag.Mode == "Edit")
-        {
-            <input class="btn btn-primary"  type="submit" value="Düzenle" />
-        }
-        else if (ViewBag.Mode == "Create")
-        {
-
-            <input class="btn btn-primary" type="submit" value="Oluştur" />
-        }
-        else
-        {
-            <input class="btn btn-primary" type="submit" value="Gönder" />
-
-        }
-
+    <input class="btn btn-primary" type="submit" value="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?"Kaydet":"Oluştur")" />
 
 </form>
 
