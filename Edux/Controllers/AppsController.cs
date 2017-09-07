@@ -16,7 +16,7 @@ namespace Edux.Controllers
 
         public AppsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Sites
@@ -46,7 +46,8 @@ namespace Edux.Controllers
         // GET: Sites/Create
         public IActionResult Create()
         {
-            return View();
+            var app = new App();
+            return View(app);
         }
 
         // POST: Sites/Create
@@ -101,6 +102,10 @@ namespace Edux.Controllers
             {
                 try
                 {
+                    app.CreatedBy = User.Identity.Name;
+                    app.UpdateDate = DateTime.Now;
+                    app.UpdatedBy = User.Identity.Name;
+                    app.CreateDate = DateTime.Now;
                     _context.Update(app);
                     await _context.SaveChangesAsync();
                 }
