@@ -105,11 +105,15 @@ namespace Edux.Data
             context.SaveChanges();
 
             // text bileşeninin parametrelerini ekle
-            var mI1 = new MenuItem() { Icon = "icon-bar-chart", Name = "Giriş", Url="/tr/Giris" , IsPublished=true, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", MenuId = m1.Id };
+            var mI1 = new MenuItem() { Icon = "icon-bar-chart", Name = "Giriş", Url="/tr/giris" , IsPublished=true, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", MenuId = m1.Id };
             context.MenuItems.Add(mI1);
             context.SaveChanges();
 
-             var p10= new Page() { Title = "Giriş", Slug="giris" , CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
+            var mI2 = new MenuItem() { Icon = "icon-bulb", Name = "Yardım", Url = "/tr/yardim", IsPublished = true, CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", MenuId = m1.Id };
+            context.MenuItems.Add(mI2);
+            context.SaveChanges();
+
+            var p10= new Page() { Title = "Giriş", Slug="giris" , CreateDate = DateTime.Parse("2017-07-26"), UpdateDate = DateTime.Parse("2017-07-26"), CreatedBy = "username", UpdatedBy = "username", AppTenantId = "1" };
             context.Pages.Add(p10);
             context.SaveChanges();
 

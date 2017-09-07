@@ -62,7 +62,11 @@ namespace Edux.Controllers
         public IActionResult SaveForm(IFormCollection form)
         {
             if (ModelState.IsValid) {
-            var rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
+                long rowId = 0;
+                if (_context.PropertyValues.Any())
+                {
+                    rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
+                }
                 foreach (var key in form.Keys)
             {
                 if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key)) { 

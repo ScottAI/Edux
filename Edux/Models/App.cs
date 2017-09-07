@@ -27,7 +27,7 @@ namespace Edux.Models
         [StringLength(200)]
         public string Slug { get; set; }
 
-        [Display(Name = "Varsayılan Tasarım Şablonu")]
+        [Display(Name = "Varsayılan Tasarım Görünümü")]
         [StringLength(200)]
         public string DefaultLayout { get; set; }
 
