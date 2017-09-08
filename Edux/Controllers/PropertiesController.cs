@@ -53,6 +53,8 @@ namespace Edux.Controllers
         {
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             ViewData["Entities"] = new SelectList(_context.Entities, "Id", "Name");
+            ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name");
+            ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name");
             var property = new Property();
             property.EntityId = EntityId;
             ViewBag.EntityId = EntityId;
@@ -83,7 +85,8 @@ namespace Edux.Controllers
                
             }
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
-
+            ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
+            ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId);
 
             return RedirectToAction("Index", "Properties");
 

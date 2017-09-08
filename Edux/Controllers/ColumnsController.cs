@@ -50,10 +50,10 @@ namespace Edux.Controllers
         }
 
         // GET: Columns/Create
-        public IActionResult Create()
+        public IActionResult Create(string DataTableId)
         {
             var column = new Column();
-            ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name");
+            ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             return View(column);
@@ -75,7 +75,7 @@ namespace Edux.Controllers
 
                 _context.Add(column);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "DataTables", new { id = column.DataTableId });
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
@@ -97,8 +97,9 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
+            ViewBag.SelectedPropertyId = column.PropertyId;
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", column.EntityId);
             return View(column);
         }
 

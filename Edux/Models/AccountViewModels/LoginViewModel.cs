@@ -16,7 +16,7 @@ namespace Edux.Models.AccountViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Beni Hatırla?")]
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 }

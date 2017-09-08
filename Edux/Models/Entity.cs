@@ -27,6 +27,8 @@ namespace Edux.Models
         public string PluralName { get; set; }
         [Display(Name="Özellikler")]
         public virtual ICollection<Property> Properties { get; set; }
+        [Display(Name = "Özellikler")]
+        public virtual ICollection<Property> DataSourceProperties { get; set; }
         [Display(Name = "ÖzelliklerDeğerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
         public virtual ICollection<Column> Columns { get; set; }

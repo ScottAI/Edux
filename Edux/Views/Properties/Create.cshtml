@@ -54,19 +54,21 @@
 
 
         <div class="form-group">
-            <label asp-for="DataSourceEntity" class="col-md-2 control-label"></label>
+            <label asp-for="DataSourceEntityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="DataSourceEntity" class="form-control" />
-                <span asp-validation-for="DataSourceEntity" class="text-danger"></span>
+                <select asp-for="DataSourceEntityId" class="form-control" asp-items="@ViewBag.DataSourceEntityId">
+                    <option value="">Seçiniz</option>
+                </select>
             </div>
         </div>
 
 
         <div class="form-group">
-            <label asp-for="DataSourceProperty" class="col-md-2 control-label"></label>
+            <label asp-for="DataSourcePropertyId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="DataSourceProperty" class="form-control" />
-                <span asp-validation-for="DataSourceProperty" class="text-danger"></span>
+                <select asp-for="DataSourcePropertyId" class="form-control" asp-items="@ViewBag.DataSourcePropertyId">
+                    <option value="">Seçiniz</option>
+                </select>
             </div>
         </div>
 

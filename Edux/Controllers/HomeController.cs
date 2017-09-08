@@ -62,29 +62,69 @@ namespace Edux.Controllers
         public IActionResult SaveForm(IFormCollection form)
         {
             if (ModelState.IsValid) {
-            var rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
-                foreach (var key in form.Keys)
-            {
-                if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key)) { 
-                    var value = new PropertyValue();
+                long rowId = 1;
+                string mode = form["Mode"].ToString().ToLowerInvariant();
+                if (String.IsNullOrEmpty(mode))
+                {
+                    mode = "create";
+                }
 
-                    value.Value = form[key];
-                    value.EntityId = form[key + ".EntityId"];
-                    value.PropertyId = key;
-                        value.RowId = rowId;
-                    value.CreateDate = DateTime.Now;
-                    value.CreatedBy = User.Identity.Name;
-                    value.UpdateDate = DateTime.Now;
-                    value.UpdatedBy = User.Identity.Name;
-                    value.AppTenantId = "1";
-                    _context.Add(value);
-                    _context.SaveChanges();
+                if (mode == "edit" || mode == "delete")
+                {
+                    rowId = Convert.ToInt64(form["RowId"].ToString());
+                }
+                else
+                {
+                    if (_context.PropertyValues.Any())
+                    {
+                        rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
+                    }
+                }
+                
+                
+                foreach (var key in form.Keys)
+                {
+                    if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key)) {
+
+                        PropertyValue value;
+                        if (mode == "create")
+                        {
+                            value = new PropertyValue();
+                        } else
+                        {
+                            value = _context.PropertyValues.Where(pv => pv.PropertyId == key && pv.RowId == rowId).FirstOrDefault();
+                        }
+                        if (mode == "create" || mode == "edit") { 
+                            value.Value = form[key];
+                            value.EntityId = form[key + ".EntityId"];
+                            if (mode == "create")
+                            {
+                                value.PropertyId = key;
+                                value.RowId = rowId;
+                                value.CreateDate = DateTime.Now;
+                                value.CreatedBy = User.Identity.Name;
+                            }
+                            value.UpdateDate = DateTime.Now;
+                            value.UpdatedBy = User.Identity.Name;
+                            value.AppTenantId = "1";
+                        }
+                        if (mode == "create")
+                        {
+                            _context.Add(value);
+                        } else if (mode == "edit")
+                        {
+                            _context.Update(value);
+                        } else if (mode == "delete")
+                        {
+                            _context.Remove(value);
+                        }
+                        _context.SaveChanges();
                     }
 
                 }
-                return Redirect(Request.Headers["Referer"].ToString() + "?status=ok");
+                return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
             }
-            return Redirect(Request.Headers["Referer"].ToString() + "?status=validationerror");
+            return Redirect(form["ReturnUrl"].ToString() + "?status=validationerror");
         }
         public IActionResult About()
         {

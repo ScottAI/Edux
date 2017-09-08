@@ -1,6 +1,6 @@
 ﻿@model Component
 <div class="@ViewBag.CssClass">
-    @foreach (var component in Model.ChildComponents)
+    @foreach (var component in Model.ChildComponents.OrderBy(c=>c.Position))
     {
         @await Component.InvokeAsync(component.ComponentType.Name, new { component = component })
     }

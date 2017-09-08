@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Edux.Models
 {
-    public class Site:BaseEntity
+    public class App:BaseEntity
     {
-        public Site() : base()
+        public App() : base()
         {
 
             CreateDate = DateTime.Now;
@@ -18,7 +18,7 @@ namespace Edux.Models
         }
 
         [Required]
-        [Display(Name = "Site Adı")]
+        [Display(Name = "Uygulama Adı")]
         [StringLength(200)]
         public string Name { get; set; }
 
@@ -27,7 +27,7 @@ namespace Edux.Models
         [StringLength(200)]
         public string Slug { get; set; }
 
-        [Display(Name = "Varsayılan Tasarım")]
+        [Display(Name = "Varsayılan Tasarım Görünümü")]
         [StringLength(200)]
         public string DefaultLayout { get; set; }
 

@@ -18,7 +18,7 @@ namespace Edux.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string entityId)
         {
-            var properties = _context.Properties.Include(c => c.PropertyValues).Include(c=>c.Entity).Where(c => c.EntityId == entityId);
+            var properties = _context.Properties.Include(c => c.PropertyValues).Include(c=>c.Entity).Where(c => c.EntityId == entityId).OrderBy(o => o.Position);
             ViewBag.EntityId = entityId;
             return View(await properties.ToListAsync());
         }

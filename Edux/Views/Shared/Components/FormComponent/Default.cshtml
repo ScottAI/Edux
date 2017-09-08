@@ -1,19 +1,18 @@
 ﻿@model Component
 @{ var form = (Form)ViewBag.Form;}
 @{ var rowCount = form.Fields.Select(s => s.Row).Distinct().Count();}
-@*@form.DisplayName*@
 
 @{ 
     var tabCount = form.Fields.Select(s => s.Tab).Distinct().Count();
     var tabs = form.Fields.OrderBy(o => o.Position).Select(s => s.Tab).Distinct().ToArray();
 }
-
-<script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
-
-
-
+<h2>@Model.DisplayName</h2>
+<br />
 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data">
     <input type="hidden" name="FormId" id="FormId" value="@form.Id" />
+    <input type="hidden" name="Mode" id="Mode" value="@ViewBag.Mode" />
+    <input type="hidden" name="RowId" id="RowId" value="@ViewBag.RowId" />
+    <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.ReturnUrl" />
     <ul class="nav nav-tabs">
         @for (var k = 1; k <= tabCount; k++)
         {
@@ -48,14 +47,14 @@
                                             case EditorType.Text:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control" />
+                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" class="form-control" />
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.TextArea:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" class="form-control"></textarea>
+                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)</textarea>
                                                     </div>
                                                 </div>
                                                 break;
@@ -63,7 +62,7 @@
 
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                       <textarea name="@field.PropertyId" id="@field.Name"></textarea>
+                                                       <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)</textarea>
                                                     <script>
                                                         CKEDITOR.replace(' @field.Name');
                                                     </script>
@@ -74,8 +73,9 @@
                                             case EditorType.Select:
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName">
-                                                    <option>@field.DefaultValue</option>
+                                                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)">
+                                                            @*Property.DataSourcePropertyId == PropertyValue.PropertyId*@
+                                                    <option value="@field.Property.DataSourceProperty.Id">@field.Property.DataSourceProperty.Name</option>
                                                 </select>
                                                     </div>
                                                 </div>
@@ -86,7 +86,7 @@
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
                                                     <div class="col-md-10">
-                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" /><br />
+                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" checked="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" /><br />
                                                     </div>
                                                 </div>
                                                 
@@ -103,24 +103,7 @@
             </div>
              }
     </div>
-
-    
-    
-        @if (ViewBag.Mode == "Edit")
-        {
-            <input class="btn btn-primary"  type="submit" value="Düzenle" />
-        }
-        else if (ViewBag.Mode == "Create")
-        {
-
-            <input class="btn btn-primary" type="submit" value="Oluştur" />
-        }
-        else
-        {
-            <input class="btn btn-primary" type="submit" value="Gönder" />
-
-        }
-
+    <input class="btn btn-primary" type="submit" value="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?"Kaydet":(ViewBag.Mode.ToString().ToLowerInvariant() == "delete"?"Sil":"Oluştur"))" />
 
 </form>
 

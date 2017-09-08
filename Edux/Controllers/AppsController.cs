@@ -10,19 +10,19 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class SitesController : Controller
+    public class AppsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SitesController(ApplicationDbContext context)
+        public AppsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Sites
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sites.ToListAsync());
+            return View(await _context.Apps.ToListAsync());
         }
 
         // GET: Sites/Details/5
@@ -33,20 +33,21 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var site = await _context.Sites
+            var app = await _context.Apps
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (site == null)
+            if (app == null)
             {
                 return NotFound();
             }
 
-            return View(site);
+            return View(app);
         }
 
         // GET: Sites/Create
         public IActionResult Create()
         {
-            return View();
+            var app = new App();
+            return View(app);
         }
 
         // POST: Sites/Create
@@ -54,19 +55,19 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Site site)
+        public async Task<IActionResult> Create([Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] App app)
         {
             if (ModelState.IsValid)
             {
-                site.CreatedBy = User.Identity.Name;
-                site.UpdateDate = DateTime.Now;
-                site.UpdatedBy = User.Identity.Name;
-                site.CreateDate = DateTime.Now;
-                _context.Add(site);
+                app.CreatedBy = User.Identity.Name;
+                app.UpdateDate = DateTime.Now;
+                app.UpdatedBy = User.Identity.Name;
+                app.CreateDate = DateTime.Now;
+                _context.Add(app);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(site);
+            return View(app);
         }
 
         // GET: Sites/Edit/5
@@ -77,12 +78,12 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var site = await _context.Sites.SingleOrDefaultAsync(m => m.Id == id);
-            if (site == null)
+            var app = await _context.Apps.SingleOrDefaultAsync(m => m.Id == id);
+            if (app == null)
             {
                 return NotFound();
             }
-            return View(site);
+            return View(app);
         }
 
         // POST: Sites/Edit/5
@@ -90,9 +91,9 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Site site)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] App app)
         {
-            if (id != site.Id)
+            if (id != app.Id)
             {
                 return NotFound();
             }
@@ -101,12 +102,16 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    _context.Update(site);
+                    app.CreatedBy = User.Identity.Name;
+                    app.UpdateDate = DateTime.Now;
+                    app.UpdatedBy = User.Identity.Name;
+                    app.CreateDate = DateTime.Now;
+                    _context.Update(app);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SiteExists(site.Id))
+                    if (!AppExists(app.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +122,7 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(site);
+            return View(app);
         }
 
         // GET: Sites/Delete/5
@@ -128,14 +133,14 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var site = await _context.Sites
+            var app = await _context.Apps
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (site == null)
+            if (app == null)
             {
                 return NotFound();
             }
 
-            return View(site);
+            return View(app);
         }
 
         // POST: Sites/Delete/5
@@ -143,15 +148,15 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var site = await _context.Sites.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Sites.Remove(site);
+            var app = await _context.Apps.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Apps.Remove(app);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool SiteExists(string id)
+        private bool AppExists(string id)
         {
-            return _context.Sites.Any(e => e.Id == id);
+            return _context.Apps.Any(e => e.Id == id);
         }
     }
 }
