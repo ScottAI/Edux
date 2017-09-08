@@ -31,6 +31,10 @@ namespace Edux.Controllers
             }
             else
             {
+                var apps = await _context.Apps.ToListAsync();
+                var app = apps.FirstOrDefault();
+                ViewBag.Apps = apps;
+                ViewBag.App = app;
                 var model = new DisplayViewModel();
 
                 // Getting the page with the slug that user entered
