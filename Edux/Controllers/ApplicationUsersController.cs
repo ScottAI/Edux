@@ -34,7 +34,7 @@ namespace Edux.Controllers
             }
 
             var applicationUser = await _context.Users
-                .SingleOrDefaultAsync(m => m.Id == new Guid(id));
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == new Guid(id));
+            var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         {
-            if (new Guid(id) != applicationUser.Id)
+            if (id != applicationUser.Id)
             {
                 return NotFound();
             }
@@ -97,7 +97,7 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    var applicationUserOld = await _context.Users.FirstOrDefaultAsync(m => m.Id == new Guid(id));
+                    var applicationUserOld = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
                     applicationUserOld.AppTenantId = applicationUser.AppTenantId;
                     applicationUserOld.UserName = applicationUser.UserName;
                     applicationUserOld.NormalizedUserName = applicationUser.NormalizedUserName;
@@ -137,7 +137,7 @@ namespace Edux.Controllers
             }
 
             var applicationUser = await _context.Users
-                .SingleOrDefaultAsync(m => m.Id == new Guid(id));
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == new Guid(id));
+            var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
             _context.Users.Remove(applicationUser);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -159,7 +159,7 @@ namespace Edux.Controllers
 
         private bool ApplicationUserExists(string id)
         {
-            return _context.Users.Any(e => e.Id == new Guid(id));
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

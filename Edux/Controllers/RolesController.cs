@@ -29,7 +29,7 @@ namespace Edux.Controllers
         }
 
         // GET: Roles/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -61,7 +61,6 @@ namespace Edux.Controllers
         {
             if (ModelState.IsValid)
             {
-                role.Id = Guid.NewGuid();
                 _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -70,7 +69,7 @@ namespace Edux.Controllers
         }
 
         // GET: Roles/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -90,7 +89,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AppTenantId,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
+        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
         {
             if (id != role.Id)
             {
@@ -121,7 +120,7 @@ namespace Edux.Controllers
         }
 
         // GET: Roles/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -141,7 +140,7 @@ namespace Edux.Controllers
         // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var role = await _context.Role.SingleOrDefaultAsync(m => m.Id == id);
             _context.Role.Remove(role);
@@ -149,7 +148,7 @@ namespace Edux.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool RoleExists(Guid id)
+        private bool RoleExists(string id)
         {
             return _context.Role.Any(e => e.Id == id);
         }
