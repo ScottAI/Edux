@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Edux.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Role, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -55,6 +55,6 @@ namespace Edux.Data
 
         public DbSet<Edux.Models.Media> Media { get; set; }
 
-        public DbSet<Edux.Models.ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Edux.Models.Role> Role { get; set; }
     }
 }

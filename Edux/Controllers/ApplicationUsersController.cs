@@ -22,7 +22,7 @@ namespace Edux.Controllers
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ApplicationUser.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
         // GET: ApplicationUsers/Details/5
@@ -33,8 +33,8 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _context.Users
+                .SingleOrDefaultAsync(m => m.Id == new Guid(id));
             if (applicationUser == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == new Guid(id));
             if (applicationUser == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         {
-            if (id != applicationUser.Id)
+            if (new Guid(id) != applicationUser.Id)
             {
                 return NotFound();
             }
@@ -97,7 +97,7 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    var applicationUserOld = await _context.ApplicationUser.FirstOrDefaultAsync(m => m.Id == id);
+                    var applicationUserOld = await _context.Users.FirstOrDefaultAsync(m => m.Id == new Guid(id));
                     applicationUserOld.AppTenantId = applicationUser.AppTenantId;
                     applicationUserOld.UserName = applicationUser.UserName;
                     applicationUserOld.NormalizedUserName = applicationUser.NormalizedUserName;
@@ -114,7 +114,7 @@ namespace Edux.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ApplicationUserExists(applicationUser.Id))
+                    if (!ApplicationUserExists(applicationUser.Id.ToString()))
                     {
                         return NotFound();
                     }
@@ -136,8 +136,8 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _context.Users
+                .SingleOrDefaultAsync(m => m.Id == new Guid(id));
             if (applicationUser == null)
             {
                 return NotFound();
@@ -151,15 +151,15 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ApplicationUser.Remove(applicationUser);
+            var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == new Guid(id));
+            _context.Users.Remove(applicationUser);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool ApplicationUserExists(string id)
         {
-            return _context.ApplicationUser.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == new Guid(id));
         }
     }
 }

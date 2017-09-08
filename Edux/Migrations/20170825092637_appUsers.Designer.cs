@@ -9,8 +9,8 @@ using Edux.Models;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170824081208_AppUser")]
-    partial class AppUser
+    [Migration("20170825092637_appUsers")]
+    partial class appUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace Edux.Migrations
 
             modelBuilder.Entity("Edux.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
@@ -342,6 +342,8 @@ namespace Edux.Migrations
 
                     b.Property<int>("EditorType");
 
+                    b.Property<string>("EntityId");
+
                     b.Property<string>("FormId");
 
                     b.Property<string>("Name")
@@ -365,6 +367,8 @@ namespace Edux.Migrations
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EntityId");
 
                     b.HasIndex("FormId");
 
@@ -390,6 +394,9 @@ namespace Edux.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("EntityName")
                         .HasMaxLength(200);
 
                     b.Property<string>("Name")
@@ -748,10 +755,13 @@ namespace Edux.Migrations
                     b.ToTable("PropertyValues");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+            modelBuilder.Entity("Edux.Models.Role", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -771,7 +781,89 @@ namespace Edux.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Edux.Models.Setting", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ComponentViews");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("LayoutViews");
+
+                    b.Property<string>("PageViews");
+
+                    b.Property<string>("SmtpHost")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SmtpPassword")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SmtpPort")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("SmtpUseSSL");
+
+                    b.Property<string>("SmtpUserName")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("Edux.Models.Site", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AllowedRoles");
+
+                    b.Property<string>("AppTenantId")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DefaultLayout")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("DefaultPage")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sites");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -780,8 +872,7 @@ namespace Edux.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired();
+                    b.Property<Guid>("RoleId");
 
                     b.HasKey("Id");
 
@@ -790,7 +881,7 @@ namespace Edux.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -799,8 +890,7 @@ namespace Edux.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -809,7 +899,7 @@ namespace Edux.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -817,8 +907,7 @@ namespace Edux.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -827,11 +916,11 @@ namespace Edux.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<Guid>("UserId");
 
-                    b.Property<string>("RoleId");
+                    b.Property<Guid>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -840,9 +929,9 @@ namespace Edux.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.Property<string>("LoginProvider");
 
@@ -888,6 +977,10 @@ namespace Edux.Migrations
 
             modelBuilder.Entity("Edux.Models.Field", b =>
                 {
+                    b.HasOne("Edux.Models.Entity", "Entity")
+                        .WithMany()
+                        .HasForeignKey("EntityId");
+
                     b.HasOne("Edux.Models.Form", "Form")
                         .WithMany("Fields")
                         .HasForeignKey("FormId");
@@ -957,15 +1050,15 @@ namespace Edux.Migrations
                         .HasForeignKey("PropertyId");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                    b.HasOne("Edux.Models.Role")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("Edux.Models.ApplicationUser")
                         .WithMany("Claims")
@@ -973,7 +1066,7 @@ namespace Edux.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("Edux.Models.ApplicationUser")
                         .WithMany("Logins")
@@ -981,9 +1074,9 @@ namespace Edux.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                    b.HasOne("Edux.Models.Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);

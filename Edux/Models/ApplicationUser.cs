@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Edux.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         [StringLength(200)]
         public string AppTenantId { get; set; }
