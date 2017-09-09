@@ -66,7 +66,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntity,DataSourceProperty,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property , string entityId, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property , string entityId, IFormCollection form)
         {
 
             if (ModelState.IsValid)
@@ -110,6 +110,8 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
+            ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
+            ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId);
             return View(@property);
         }
 
@@ -118,7 +120,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntity,DataSourceProperty,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
         {
             if (id != @property.Id)
             {
@@ -148,6 +150,8 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
+            ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
+            ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId);
             return View(@property);
         }
 

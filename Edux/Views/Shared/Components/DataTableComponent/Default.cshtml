@@ -40,10 +40,16 @@
             {
                 <td>
                     
+                       @if (item.Property.DataSourceProperty == null)
+                       {
+                        @values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value
+                       } else
+                       {
+                           @item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value)?.Value
+                        
+                       }
 
-                        @values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault().Value
 
-                    
                 </td>
             }
 @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
