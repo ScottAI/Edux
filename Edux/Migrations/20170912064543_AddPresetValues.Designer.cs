@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170912064543_AddPresetValues")]
+    partial class AddPresetValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,9 +392,6 @@ namespace Edux.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("OptionLabel")
                         .HasMaxLength(200);
 
                     b.Property<int>("Position");

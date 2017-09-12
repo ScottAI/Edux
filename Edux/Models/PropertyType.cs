@@ -13,6 +13,8 @@ namespace Edux.Models
         DateTime=4,
         String=5,
         Entity=6,
-        EntityCollection=7
+        EntityCollection=7,
+        Enum=8,
+        Time=9
     }
 }

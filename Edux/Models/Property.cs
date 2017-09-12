@@ -64,5 +64,7 @@ namespace Edux.Models
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
+        [Display(Name="Ön Tanımlı Değerler")]
+        public string PresetValues { get; set; }
     }
 }
