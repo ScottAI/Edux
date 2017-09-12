@@ -79,14 +79,14 @@
        <option value="">@field.OptionLabel</option>
    }                                                         @if (field.Property.DataSourceProperty != null) {
                                                                foreach (var value in field.Property.DataSourceProperty.PropertyValues) { 
-                                                    <option value="@value.Id">@value.Value</option>
+                                                    <option value="@value.Id" selected="@(value.Value==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue))">@value.Value</option>
                                                                }
                                                            }
                                                            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                                                            {
                                                                foreach (var item in field.Property.PresetValues.Split(','))
                                                                {
-                                                                <option value="@item">@item</option>
+                                                                <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue))">@item</option>
                                                                }
 
                                                            }

@@ -69,7 +69,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field,string FormIdRef)
+        public async Task<IActionResult> Create([Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field,string FormIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field)
+        public async Task<IActionResult> Edit(string id, [Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field)
         {
             if (id != @field.Id)
             {
