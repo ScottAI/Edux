@@ -39,7 +39,7 @@ namespace Edux.ViewComponents
             var entityName = ((Form)ViewBag.Form).EntityName;
             if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
-                ViewBag.RowValues = await _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p=>p.DataSourceProperty).Where(pv => pv.Entity.Name == entityName && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToListAsync();
+                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p=>p.DataSourceProperty).ThenInclude(d=>d.PropertyValues).Where(pv => pv.Entity.Name == entityName && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
             }
             return await Task.FromResult(View(viewName, component));
         }
