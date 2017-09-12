@@ -33,17 +33,16 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="EntityId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="EntityId" class="form-control" asp-items="ViewBag.EntityId"><option value="">Seçiniz</option></select>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="PropertyId" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 <select asp-for="PropertyId" class="form-control" asp-items="ViewBag.PropertyId"><option value="">Seçiniz</option></select>
                 <span asp-validation-for="PropertyId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="PropertyValueId" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="PropertyValueId" class="form-control" asp-items="ViewBag.PropertyValueId"><option value="">Seçiniz</option></select>
-                <span asp-validation-for="PropertyValueId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -88,6 +87,13 @@
                 <span asp-validation-for="DefaultValue" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label asp-for="OptionLabel" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="OptionLabel" class="form-control" />
+                <span asp-validation-for="OptionLabel" class="text-danger"></span>
+            </div>
+        </div>
                 <input type="hidden" asp-for="Id" />
                 <input asp-for="CreateDate" class="form-control" type="hidden" />
                 <input asp-for="CreatedBy" class="form-control" type="hidden" />
@@ -109,4 +115,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    function LoadProperties(elm) {
+            // seçilen ülkenin id sini al
+            var entityId = $(elm).val();
+
+            // secilen ülkenin id sini kullanarak Konum controller
+            // sınıfı içerisindeki Sehirler metoduna çağrıda bulunuyoruz.
+            // bu metod dan dönen listeyi kullanarak .each fonksiyonu ile
+            // sehirleri dolduruyoruz...
+            if (entityId != null && entityId != '') {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("GetProperties", "Fields")',
+                    data: { entityId: entityId },
+                    success: function (data) {
+                        $("#PropertyId").empty();
+                        $.each(data, function (index, Property) {
+                            $('#PropertyId').append($('<option/>', {
+                                value: data[index].id,
+                                text: data[index].name
+                            }));
+                        });
+                    },
+                    error: function () {
+
+                        alert("Hata");
+                    }
+
+                });
+            }
+        }
+    $(document).ready(function () {
+        // ülke seçildiğinde bu fonksiyon çalışır
+        LoadProperties($("#EntityId"));
+        $('#EntityId').change(function () { LoadProperties(this); });
+    });
+</script>
 }
