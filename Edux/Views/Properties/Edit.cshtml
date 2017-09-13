@@ -34,8 +34,20 @@
                 <span asp-validation-for="DataType" class="text-danger"></span>
             </div>
         </div>*@
-
-
+        <div class="form-group">
+            <label asp-for="PropertyType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="PropertyType" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="PropertyType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PresetValues" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PresetValues" class="form-control" />
+                <span asp-validation-for="PresetValues" class="text-danger"></span>
+            </div>
+        </div>
         <div class="form-group">
             <label asp-for="DefaultValue" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -79,13 +91,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="PropertyType" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="PropertyType" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()"><option value="">Seçiniz</option></select>
-                <span asp-validation-for="PropertyType" class="text-danger"></span>
-            </div>
-        </div>
+        
         <div class="form-group">
             <label asp-for="StringLength" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -135,4 +141,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    function LoadProperties(elm) {
+            // seçilen ülkenin id sini al
+            var entityId = $(elm).val();
+
+            // secilen ülkenin id sini kullanarak Konum controller
+            // sınıfı içerisindeki Sehirler metoduna çağrıda bulunuyoruz.
+            // bu metod dan dönen listeyi kullanarak .each fonksiyonu ile
+            // sehirleri dolduruyoruz...
+            if (entityId != null && entityId != '') {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("GetProperties", "Properties")',
+                    data: { entityId: entityId },
+                    success: function (data) {
+                        $("#DataSourcePropertyId").empty();
+                        $.each(data, function (index, Property) {
+                            $('#DataSourcePropertyId').append($('<option/>', {
+                                value: data[index].id,
+                                text: data[index].name
+                            }));
+                        });
+                    },
+                    error: function () {
+
+                        alert("Hata");
+                    }
+
+                });
+            }
+        }
+    $(document).ready(function () {
+        // ülke seçildiğinde bu fonksiyon çalışır
+        LoadProperties($("#DataSourceEntityId"));
+        $('#DataSourceEntityId').change(function () { LoadProperties(this); });
+    });
+</script>
 }

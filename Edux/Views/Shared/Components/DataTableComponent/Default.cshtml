@@ -52,13 +52,19 @@
 
                 </td>
             }
-@if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-{
             <td class="text-nowrap">
-                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
-                <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+                @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
+                {
+
+                    <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
+                }
+                @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                {
+    
+                    <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+
+                }
             </td>
-}
         </tr>
         }
     </tbody>

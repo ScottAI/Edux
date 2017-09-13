@@ -108,7 +108,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("DataTableId,PropertyId,Position,OrderBy,FilterOperator,FilterValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Column column)
+        public async Task<IActionResult> Edit(string id, [Bind("DataTableId,PropertyId,EntityId,Position,OrderBy,FilterOperator,FilterValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Column column)
         {
             if (id != column.Id)
             {

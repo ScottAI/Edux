@@ -37,9 +37,9 @@ namespace Edux.ViewComponents
             ViewBag.RowId = rowId;
             ViewBag.Form = await _context.Forms.Include(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
             var entityName = ((Form)ViewBag.Form).EntityName;
-            if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(ViewBag.RowId))
+            if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
-                ViewBag.RowValues = await _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(d=>d.DataSourceProperty).ThenInclude(t=>t.PropertyValues).Where(p => p.Entity.Name == entityName && p.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToListAsync();
+                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p=>p.DataSourceProperty).ThenInclude(d=>d.PropertyValues).Where(pv => pv.Entity.Name == entityName && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
             }
             return await Task.FromResult(View(viewName, component));
         }

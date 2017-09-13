@@ -66,7 +66,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property , string entityId, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PresetValues")] Property @property , string entityId, IFormCollection form)
         {
 
             if (ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Property @property)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PresetValues")] Property @property)
         {
             if (id != @property.Id)
             {
@@ -188,6 +188,13 @@ namespace Edux.Controllers
         private bool PropertyExists(string id)
         {
             return _context.Properties.Any(e => e.Id == id);
+        }
+        public IActionResult GetProperties(string entityId)
+        {
+            var properties = _context.Properties.Where(p => p.EntityId == entityId).Select(p => new { Id = p.Id, Name = p.Name }).ToList();
+            ;
+
+            return Ok(properties);
         }
     }
 }

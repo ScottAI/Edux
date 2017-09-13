@@ -52,5 +52,8 @@ namespace Edux.Models
         public EditorType EditorType { get; set; }
         [Display(Name = "Varsayılan Değer")]
         public string DefaultValue { get; set; }
+        [StringLength(200)]
+        [Display(Name = "Seçenek Etiketi")]
+        public string OptionLabel { get; set; }
     }
 }

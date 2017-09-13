@@ -55,8 +55,9 @@ namespace Edux.Controllers
         {
             var field = new Field();
             ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name");
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
-            ViewData["PropertyValueId"] = new SelectList(_context.PropertyValues, "Id", "Value");
+            
             field.FormId = formId;
             ViewBag.FormIdRef = formId;
             return View(field);
@@ -68,7 +69,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field,string FormIdRef)
+        public async Task<IActionResult> Create([Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field,string FormIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -86,8 +87,9 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["FormId"] = new SelectList(_context.Forms,"Name", field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @field.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", @field.PropertyId);
-            ViewData["PropertyValueId"] = new SelectList(_context.PropertyValues, "Id", "Value", @field.PropertyValueId);
+            
             return View(@field);
 
     }
@@ -106,8 +108,9 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", @field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @field.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", @field.PropertyId);
-            ViewData["PropertyValueId"] = new SelectList(_context.PropertyValues, "Id", "Value", @field.PropertyValueId);
+            
             return View(@field);
         }
 
@@ -116,7 +119,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field)
+        public async Task<IActionResult> Edit(string id, [Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field)
         {
             if (id != @field.Id)
             {
@@ -146,8 +149,9 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", @field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @field.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", @field.PropertyId);
-            ViewData["PropertyValueId"] = new SelectList(_context.PropertyValues, "Id", "Value", @field.PropertyValueId);
+            
             return View(@field);
         }
 
@@ -186,6 +190,13 @@ namespace Edux.Controllers
         private bool FieldExists(string id)
         {
             return _context.Fields.Any(e => e.Id == id);
+        }
+        public IActionResult GetProperties(string entityId)
+        {
+            var properties = _context.Properties.Where(p => p.EntityId == entityId).Select(p => new { Id = p.Id, Name = p.Name }).ToList();
+            ;
+
+            return Ok(properties);
         }
     }
 }
