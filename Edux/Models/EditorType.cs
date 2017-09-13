@@ -11,6 +11,7 @@ namespace Edux.Models
         TextArea=2,
         Html=3,
         Select=4,
-        Checkbox=5            
+        Checkbox=5,
+        ImageUpload =6
     }
 }
