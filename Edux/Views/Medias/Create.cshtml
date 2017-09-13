@@ -25,41 +25,7 @@
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Extension" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Extension" class="form-control" />
-                <span asp-validation-for="Extension" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="FilePath" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="FilePath" class="form-control" />
-                <span asp-validation-for="FilePath" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="FileSize" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="FileSize" class="form-control" />
-                <span asp-validation-for="FileSize" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Year" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Month" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Month" class="form-control" />
-                <span asp-validation-for="Month" class="text-danger"></span>
-            </div>
-        </div>
+       
         <div class="form-group">
             <label asp-for="ContentType" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -67,7 +33,13 @@
                 <span asp-validation-for="ContentType" class="text-danger"></span>
             </div>
         </div>
-
+        <div class="form-group">
+            <label asp-for="Extension" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input @ViewBag.extension asp-for="Extension" class="form-control"/>
+                <span asp-validation-for="Extension" class="text-danger"></span>
+            </div>
+        </div>
         @Html.HiddenFor(model => model.CreateDate)
         @Html.HiddenFor(model => model.CreatedBy)
         @Html.HiddenFor(model => model.UpdateDate)
@@ -76,8 +48,12 @@
         
         <div class="form-group">
             <label class="control-label col-md-2">Dosya Yükle:</label>
-            <div class="col-md-10 dropzone dropzone-file-area" id="my-dropzone">
+            
+            <div class="col-md-10">
+                <div class="dropzone dropzone-file-area" id="my-dropzone">
+                <input type="text" asp-for="FilePath" class="form-control" />
                 <h3 class="sbold">Dosyayı buraya sürükleyin veya tıklayın.</h3>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -94,4 +70,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+jQuery(document).ready(function() {
+    Dropzone.options.myDropzone = {
+        url: "/Medias/SaveUploadedFile", uploadMultiple: false, maxFiles: 1, init: function () {
+            this.on("addedfile", function (file) {
+                // Create the remove button
+                var removeButton = Dropzone.createElement("<a href='javascript:;'' class='btn red btn-sm btn-block'>Kaldır</a>");
+
+                // Capture the Dropzone instance as closure.
+                var _this = this;
+
+                // Listen to the click event
+                removeButton.addEventListener("click", function (e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Remove the file preview.
+                    _this.removeFile(file);
+                    // If you want to the delete the file on the server as well,
+                    // you can do the AJAX request here.
+                });
+
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+            });
+            this.on("complete", function (data) {
+                var res = JSON.parse(data.xhr.responseText);
+                $("#FilePath").val(res.message);
+                if (res.success == false) {
+                    $("#FilePath").css("border-color", "red");
+                }
+            });
+        }
+    }
+});
+    </script>
 }

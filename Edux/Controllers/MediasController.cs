@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace Edux.Controllers
 {
@@ -15,9 +19,11 @@ namespace Edux.Controllers
     public class MediasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public MediasController(ApplicationDbContext context)
+        public MediasController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;    
         }
 
@@ -121,7 +127,52 @@ namespace Edux.Controllers
             }
             return View(media);
         }
+         public async Task<ActionResult> SaveUploadedFile()
+        {
+            bool isSavedSuccessfully = true;
+            string category = "";
+            string fileName = "";
+            try
+            {
+                foreach (var upload in Request.Form.Files)
+                {
 
+                    //Save file content goes here
+                    if (upload != null && upload.Length > 0)
+                    {
+                        category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                        string uploadLocation = _hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
+                        fileName = Path.GetFileName(upload.FileName);
+                        ViewBag.extension = Path.GetExtension(fileName).ToLower();
+                        var filePath = Path.Combine(uploadLocation, fileName);
+                        if (!Directory.Exists(uploadLocation))
+                        {
+                            Directory.CreateDirectory(uploadLocation); //Eðer klasör yoksa oluþtur    
+                        }
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await upload.CopyToAsync(stream);
+                        }
+                        
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+
+
+            if (isSavedSuccessfully)
+            {
+                return Json(new { Message = "/uploads/" + category + "/" + fileName, success = true });
+            }
+            else
+            {
+                return Json(new { Message = "Hata oldu, dosya kaydedilemedi.", success=false });
+            }
+        }
         // GET: Medias/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
