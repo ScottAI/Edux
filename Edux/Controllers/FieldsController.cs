@@ -69,7 +69,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field,string FormIdRef)
+        public async Task<IActionResult> Create([Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field field,string FormIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace Edux.Controllers
                 field.CreatedBy = User.Identity.Name;
                 field.UpdateDate = DateTime.Now;
                 field.UpdatedBy = User.Identity.Name;
-                _context.Add(@field);
+                _context.Add(field);
                 await _context.SaveChangesAsync();
                 if (FormIdRef !=null)
                 {
@@ -87,10 +87,10 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["FormId"] = new SelectList(_context.Forms,"Name", field.FormId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @field.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", @field.PropertyId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", field.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", field.PropertyId);
             
-            return View(@field);
+            return View(field);
 
     }
 
@@ -102,16 +102,16 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var @field = await _context.Fields.SingleOrDefaultAsync(m => m.Id == id);
-            if (@field == null)
+            var field = await _context.Fields.SingleOrDefaultAsync(m => m.Id == id);
+            if (field == null)
             {
                 return NotFound();
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", @field.FormId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @field.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", @field.PropertyId);
+            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", field.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", field.PropertyId);
             
-            return View(@field);
+            return View(field);
         }
 
         // POST: Fields/Edit/5
@@ -119,9 +119,9 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field @field)
+        public async Task<IActionResult> Edit(string id, [Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,Tab,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field field)
         {
-            if (id != @field.Id)
+            if (id != field.Id)
             {
                 return NotFound();
             }
@@ -132,12 +132,12 @@ namespace Edux.Controllers
                 {
                     field.UpdateDate = DateTime.Now;
                     field.UpdatedBy = User.Identity.Name;
-                    _context.Update(@field);
+                    _context.Update(field);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FieldExists(@field.Id))
+                    if (!FieldExists(field.Id))
                     {
                         return NotFound();
                     }
@@ -148,11 +148,11 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", @field.FormId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @field.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", @field.PropertyId);
+            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", field.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", field.PropertyId);
             
-            return View(@field);
+            return View(field);
         }
 
         // GET: Fields/Delete/5

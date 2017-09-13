@@ -10,17 +10,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Edux.Models;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Edux.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        private IHostingEnvironment env;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IHostingEnvironment _env,ApplicationDbContext context)
         {
             _context = context;
+            this.env = _env;
         }
 
         public async Task<IActionResult> Index(string slug)
@@ -44,7 +48,7 @@ namespace Edux.Controllers
                             .ThenInclude(x => x.ParameterValues)
                                 .ThenInclude(x => x.Parameter)
                     .FirstOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
-                
+
 
                 if (page == null)
                 {
@@ -63,9 +67,10 @@ namespace Edux.Controllers
             }
         }
         [HttpPost]
-        public IActionResult SaveForm(IFormCollection form)
+        public async Task<IActionResult> SaveForm(IFormCollection form, IFormFile[] upload)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 long rowId = 1;
                 string mode = form["Mode"].ToString().ToLowerInvariant();
                 if (String.IsNullOrEmpty(mode))
@@ -84,23 +89,48 @@ namespace Edux.Controllers
                         rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
                     }
                 }
-                
+
                 
                 foreach (var key in form.Keys)
                 {
-                    if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key)) {
+                    if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key))
+                    {
 
                         PropertyValue value;
                         if (mode == "create")
                         {
                             value = new PropertyValue();
-                        } else
+                        }
+                        else
                         {
                             value = _context.PropertyValues.Where(pv => pv.PropertyId == key && pv.RowId == rowId).FirstOrDefault();
                         }
-                        if (mode == "create" || mode == "edit") { 
+                        if (mode == "create" || mode == "edit")
+                        {
                             value.Value = form[key];
                             value.EntityId = form[key + ".EntityId"];
+                            if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
+                            {
+                                int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
+                                if (upload != null && upload.Count() >= (uploadIndex + 1) && upload[uploadIndex] != null)
+                                {
+                                    string category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                                    string uploadLocation = env.WebRootPath + "\\uploads\\" + category + "\\";
+                                    string fileName = Path.GetFileName(upload[uploadIndex].FileName);
+                                    var filePath = Path.Combine(uploadLocation, fileName);
+                                    if (!Directory.Exists(uploadLocation))
+                                    {
+                                        Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
+                                    }
+                                    using (var stream = new FileStream(filePath, FileMode.Create))
+                                    {
+                                        await upload[uploadIndex].CopyToAsync(stream);
+                                    }
+                                    value.Value = "/uploads/" + category + "/" + fileName;
+
+                                }
+                            
+                            }
                             if (mode == "create")
                             {
                                 value.PropertyId = key;
@@ -115,10 +145,12 @@ namespace Edux.Controllers
                         if (mode == "create")
                         {
                             _context.Add(value);
-                        } else if (mode == "edit")
+                        }
+                        else if (mode == "edit")
                         {
                             _context.Update(value);
-                        } else if (mode == "delete")
+                        }
+                        else if (mode == "delete")
                         {
                             _context.Remove(value);
                         }
@@ -130,23 +162,73 @@ namespace Edux.Controllers
             }
             return Redirect(form["ReturnUrl"].ToString() + "?status=validationerror");
         }
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
 
-            return View();
+        public JsonResult AjaxUpload(string Title, string Description, IFormFile uploadFile)
+        {
+             
+            IFormFile file = Request.Form.Files[0];
+            if (ModelState.IsValid)
+            {
+              
+                if (uploadFile != null)
+                {
+                    Media media = new Media();
+                    media.Name = uploadFile.FileName;
+                    media.Description = Description;
+                    media.FileSize = (uploadFile.Length / 1024);
+                    media.CreatedBy = User.Identity.Name ?? "username";
+                    media.CreateDate = DateTime.Now;
+                    media.UpdatedBy = User.Identity.Name ?? "username";
+                    media.UpdateDate = DateTime.Now;
+
+
+                    string category = DateTime.Now.Month + "-" + DateTime.Now.Year + "-ProductImages";
+                    string FilePath = env.WebRootPath + "\\uploads\\" + category + "\\";
+                    string dosyaismi = Path.GetFileName(uploadFile.FileName);
+                    var yuklemeYeri = Path.Combine(FilePath, dosyaismi);
+                    media.FilePath = "uploads/" + category + "/" + dosyaismi;
+
+                    if (!Directory.Exists(FilePath))
+                    {
+                        Directory.CreateDirectory(FilePath);//Eðer klasör yoksa oluþtur    
+                    }
+                    using (var stream = new FileStream(yuklemeYeri, FileMode.Create))
+                    {
+                        uploadFile.CopyTo(stream);
+                    }
+
+
+                    _context.Add(media);
+                    _context.SaveChangesAsync();
+                    return Json(new { result = FilePath + media.FilePath + media.Name });
+
+                }
+                else
+                {
+                    ModelState.AddModelError("FileName", "Dosya uzantýsý izin verilen uzantýlardan olmalýdýr.");
+                }
+            }
+            else { ModelState.AddModelError("FileExist", "Lütfen bir dosya seçiniz!"); }        
+            return Json(new { result = "false" });
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+public IActionResult About()
+{
+    ViewData["Message"] = "Your application description page.";
 
-            return View();
-        }
+    return View();
+}
 
-        public IActionResult Error()
-        {
-            return View();
-        }
+public IActionResult Contact()
+{
+    ViewData["Message"] = "Your contact page.";
+
+    return View();
+}
+
+public IActionResult Error()
+{
+    return View();
+}
     }
 }

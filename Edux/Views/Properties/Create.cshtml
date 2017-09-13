@@ -149,4 +149,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    function LoadProperties(elm) {
+            // seçilen ülkenin id sini al
+            var entityId = $(elm).val();
+
+            // secilen ülkenin id sini kullanarak Konum controller
+            // sınıfı içerisindeki Sehirler metoduna çağrıda bulunuyoruz.
+            // bu metod dan dönen listeyi kullanarak .each fonksiyonu ile
+            // sehirleri dolduruyoruz...
+            if (entityId != null && entityId != '') {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("GetProperties", "Properties")',
+                    data: { entityId: entityId },
+                    success: function (data) {
+                        $("#DataSourcePropertyId").empty();
+                        $.each(data, function (index, Property) {
+                            $('#DataSourcePropertyId').append($('<option/>', {
+                                value: data[index].id,
+                                text: data[index].name
+                            }));
+                        });
+                    },
+                    error: function () {
+
+                        alert("Hata");
+                    }
+
+                });
+            }
+        }
+    $(document).ready(function () {
+        // ülke seçildiğinde bu fonksiyon çalışır
+        LoadProperties($("#DataSourceEntityId"));
+        $('#DataSourceEntityId').change(function () { LoadProperties(this); });
+    });
+</script>
 }

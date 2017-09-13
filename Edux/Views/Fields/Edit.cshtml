@@ -134,7 +134,8 @@
                         $.each(data, function (index, Property) {
                             $('#PropertyId').append($('<option/>', {
                                 value: data[index].id,
-                                text: data[index].name
+                                text: data[index].name,
+                                selected: (data[index].id == '@Model.PropertyId')
                             }));
                         });
                     },
