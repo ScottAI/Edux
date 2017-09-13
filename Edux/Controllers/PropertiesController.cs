@@ -189,5 +189,12 @@ namespace Edux.Controllers
         {
             return _context.Properties.Any(e => e.Id == id);
         }
+        public IActionResult GetProperties(string entityId)
+        {
+            var properties = _context.Properties.Where(p => p.EntityId == entityId).Select(p => new { Id = p.Id, Name = p.Name }).ToList();
+            ;
+
+            return Ok(properties);
+        }
     }
 }
