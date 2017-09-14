@@ -132,6 +132,10 @@ namespace Edux.Controllers
             bool isSavedSuccessfully = true;
             string category = "";
             string fileName = "";
+            var extension = "";
+            float Filesize=0;
+            int Year=0;
+            int Month=0;
             try
             {
                 foreach (var upload in Request.Form.Files)
@@ -143,8 +147,11 @@ namespace Edux.Controllers
                         category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
                         string uploadLocation = _hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
                         fileName = Path.GetFileName(upload.FileName);
-                        ViewBag.extension = Path.GetExtension(fileName).ToLower();
+                        extension = Path.GetExtension(fileName).ToLower();
+                        Filesize = ((float)upload.Length) / ((float)1024);
                         var filePath = Path.Combine(uploadLocation, fileName);
+                         Year = DateTime.Now.Year;
+                        Month = DateTime.Now.Month;
                         if (!Directory.Exists(uploadLocation))
                         {
                             Directory.CreateDirectory(uploadLocation); //Eðer klasör yoksa oluþtur    
@@ -166,7 +173,7 @@ namespace Edux.Controllers
 
             if (isSavedSuccessfully)
             {
-                return Json(new { Message = "/uploads/" + category + "/" + fileName, success = true });
+                return Json(new { Message = "/uploads/" + category + "/" + fileName, Extension = extension,Filesize=Filesize,Year=Year, Month = Month,success = true });
             }
             else
             {

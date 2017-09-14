@@ -36,8 +36,29 @@
         <div class="form-group">
             <label asp-for="Extension" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input @ViewBag.extension asp-for="Extension" class="form-control"/>
+                <input readonly asp-for="Extension" class="form-control" />
                 <span asp-validation-for="Extension" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FileSize" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input readonly asp-for="FileSize" class="form-control" />
+                <span asp-validation-for="FileSize" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Year" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input readonly asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Month" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input readonly asp-for="Month" class="form-control" />
+                <span asp-validation-for="Month" class="text-danger"></span>
             </div>
         </div>
         @Html.HiddenFor(model => model.CreateDate)
@@ -101,6 +122,22 @@ jQuery(document).ready(function() {
                 $("#FilePath").val(res.message);
                 if (res.success == false) {
                     $("#FilePath").css("border-color", "red");
+                }
+                $("#Extension").val(res.extension);
+                if (res.success == false) {
+                    $("#Extension").css("border-color", "red");
+                }
+                $("#FileSize").val(res.filesize);
+                if (res.success == false) {
+                    $("#FileSize").css("border-color", "red");
+                }
+                $("#Year").val(res.year);
+                if (res.success == false) {
+                    $("#Year").css("border-color", "red");
+                }
+                $("#Month").val(res.month);
+                if (res.success == false) {
+                    $("#Month").css("border-color", "red");
                 }
             });
         }
