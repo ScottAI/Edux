@@ -30,7 +30,7 @@ namespace Edux.Models
         [DisplayName("Dosya Yolu")]
         public string FilePath { get; set; }
         [DisplayName("Dosya Boyutu")]
-        public float FileSize { get; set; }
+        public double? FileSize { get; set; }
         [DisplayName("Yıl")]
         public int Year { get; set; }
         [DisplayName("Ay")]
