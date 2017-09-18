@@ -13,6 +13,9 @@ namespace Edux.Models
         Select=4,
         Checkbox=5,
         ImageUpload =6,
-        Media=7
+        Media=7,
+        DatePicker = 8,
+        DateTimePicker = 9,
+        TimePicker = 10
     }
 }
