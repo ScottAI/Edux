@@ -53,7 +53,7 @@ namespace Edux.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+      
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -195,6 +195,18 @@ namespace Edux.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
                 return View();
             }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Lock(string returnUrl = null)
+        {
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.FullName = User.Identity.Name;
+            ViewData["ReturnUrl"] = returnUrl;
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            return View();
         }
 
         [HttpGet]
