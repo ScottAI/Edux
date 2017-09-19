@@ -153,5 +153,11 @@
     <input class="btn btn-primary" type="submit" value="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?"Kaydet":(ViewBag.Mode.ToString().ToLowerInvariant() == "delete"?"Sil":"Oluştur"))" />
 
 </form>
-
+@if(ViewBag.Mode == "delete") { 
+<script>
+    $(function () {
+        $("#@form.Name").attr('novalidate', 'novalidate');
+    });
+</script>
+}
 <script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
