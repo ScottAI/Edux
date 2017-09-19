@@ -83,9 +83,9 @@
                                                             @if (!String.IsNullOrEmpty(field.OptionLabel))
                                                             {
                                                                 <option value="">@field.OptionLabel</option>
-                                                            }                                                         @if (field.Property.DataSourceProperty != null)
+                                                            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
                                                             {
-                                                                foreach (var value in field.Property.DataSourceProperty.PropertyValues)
+                                                                foreach (var value in ((IDictionary<string,IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                                                 {
                                                                     <option value="@value.Id" selected="@(value.Value==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue))">@value.Value</option>
                                                                 }
