@@ -104,6 +104,14 @@ namespace Edux.Controllers
                         else
                         {
                             value = _context.PropertyValues.Where(pv => pv.PropertyId == key && pv.RowId == rowId).FirstOrDefault();
+                            if (value == null)
+                            {
+                                value = new PropertyValue();
+                                value.PropertyId = key;
+                                value.RowId = rowId;
+                                value.CreateDate = DateTime.Now;
+                                value.CreatedBy = User.Identity.Name;
+                            }
                         }
                         if (mode == "create" || mode == "edit")
                         {

@@ -39,7 +39,7 @@ namespace Edux.ViewComponents
             var entityName = ((Form)ViewBag.Form).EntityName;
             if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
-                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p => p.DataSourceProperty).Include("Property.DataSourceEntity").Where(pv => pv.Entity.Name == entityName && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
+                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p => p.DataSourceProperty).ThenInclude(v => v.PropertyValues).Include("Property.DataSourceEntity").Where(pv => pv.Entity.Name == entityName && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
                
             }
             IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues = new Dictionary<string, IList<PropertyValue>>();
