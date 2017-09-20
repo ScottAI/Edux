@@ -42,10 +42,20 @@
                     
                        @if (item.Property.DataSourceProperty == null)
                        {
-                        @values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value
-                       } else
+                           var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
+                           if (val!=null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                           { @String.Format(val.Property.DisplayFormat,val?.Value) }
+                           else
+                           { @val?.Value}
+                       }
+                       else
                        {
-                           @item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value)?.Value
+                           var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
+                           if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                           { @String.Format(val.Property.DisplayFormat, val?.Value) }
+                           else
+                           { @val?.Value}
+                           
 
 
 }
