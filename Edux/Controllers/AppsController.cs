@@ -10,13 +10,12 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class AppsController : Controller
+    public class AppsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+   
 
-        public AppsController(ApplicationDbContext context)
+        public AppsController(ApplicationDbContext context):base(context)
         {
-            _context = context;
         }
 
         // GET: Sites

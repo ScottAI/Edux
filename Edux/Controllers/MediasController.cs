@@ -16,15 +16,15 @@ using Microsoft.AspNetCore.Http;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class MediasController : Controller
+    public class MediasController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public MediasController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
+        public MediasController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment):base(context)
         {
             _hostingEnvironment = hostingEnvironment;
-            _context = context;    
+            
         }
 
         // GET: Medias

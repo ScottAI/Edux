@@ -16,14 +16,13 @@ using Microsoft.AspNetCore.Hosting;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         private IHostingEnvironment env;
-        private readonly ApplicationDbContext _context;
 
-        public HomeController(IHostingEnvironment _env,ApplicationDbContext context)
+        public HomeController(IHostingEnvironment _env,ApplicationDbContext context):base(context)
         {
-            _context = context;
+            
             this.env = _env;
         }
 
@@ -35,10 +34,7 @@ namespace Edux.Controllers
             }
             else
             {
-                var apps = await _context.Apps.ToListAsync();
-                var app = apps.FirstOrDefault();
-                ViewBag.Apps = apps;
-                ViewBag.App = app;
+                
                 var model = new DisplayViewModel();
 
                 // Getting the page with the slug that user entered

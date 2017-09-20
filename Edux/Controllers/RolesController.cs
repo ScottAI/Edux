@@ -11,13 +11,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+     
 
-        public RolesController(ApplicationDbContext context)
+        public RolesController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
         }
 
         // GET: Roles

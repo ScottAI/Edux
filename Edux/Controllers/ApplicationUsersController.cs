@@ -10,13 +10,11 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class ApplicationUsersController : Controller
+    public class ApplicationUsersController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public ApplicationUsersController(ApplicationDbContext context)
+        public ApplicationUsersController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
+           
         }
 
         // GET: ApplicationUsers

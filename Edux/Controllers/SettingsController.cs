@@ -10,13 +10,12 @@ using Edux.Models;
 
 namespace Edux.Controllers
 {
-    public class SettingsController : Controller
+    public class SettingsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
-        public SettingsController(ApplicationDbContext context)
+        public SettingsController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
+        
         }
 
         // GET: Settings

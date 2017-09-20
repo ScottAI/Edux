@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class DataTablesController : Controller
+    public class DataTablesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
 
-        public DataTablesController(ApplicationDbContext context)
+        public DataTablesController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
+    
         }
 
         // GET: DataTables

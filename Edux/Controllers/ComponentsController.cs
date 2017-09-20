@@ -15,13 +15,13 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class ComponentsController : Controller
+    public class ComponentsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+      
 
-        public ComponentsController(ApplicationDbContext context)
+        public ComponentsController(ApplicationDbContext context):base(context)
         {
-            _context = context;
+            
         }
 
         // GET: Components

@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class MenuItemsController : Controller
+    public class MenuItemsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
 
-        public MenuItemsController(ApplicationDbContext context)
+        public MenuItemsController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
+            
         }
 
         // GET: MenuItems
