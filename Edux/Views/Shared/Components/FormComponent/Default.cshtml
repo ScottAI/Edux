@@ -88,7 +88,7 @@
                                                             {
                                                                 foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                                                 {
-                                                                    <option value="@value.Id" selected="@(value.Value==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@value.Value</option>
+                                                                    <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@value.Value</option>
                                                                 }
                                                             }
                                                             else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
@@ -109,7 +109,8 @@
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
                                                     <div class="col-md-10">
-                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" checked="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" /><br />
+                                                        <input name="@(field.PropertyId)CheckBox" id="@(field.Name)CheckBox" type="checkbox" placeholder="@field.DisplayName" @(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)==0)?"checked=checked":"") onclick="$('#@(field.Name)').val($('#@(field.Name)CheckBox')[0].checked)"/>
+                                                        <input name="@field.PropertyId" id="@field.Name" type="hidden" value="@(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)==0).ToString().ToLower())" /><br />
                                                     </div>
                                                 </div>
 
