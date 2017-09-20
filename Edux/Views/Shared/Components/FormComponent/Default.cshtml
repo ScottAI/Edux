@@ -145,7 +145,39 @@
                                                     <span class="label label-success">NOT!</span> Resim Uzantısı .jpg .jpeg yada .png olmalıdır..
                                                 </div>
                                                                     break;
-                                                                case EditorType.DatePicker:
+                                                                case EditorType.Media:
+
+                                                                    <div class="form-group">
+                                                                        <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
+                                                                        <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
+                                                                        @{ uploadIndex++; }
+                                                                        
+
+
+                                                                        <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
+                                                                        <div class="col-md-10">
+
+                                                                            <div class="input-group">
+                                                                                <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                <span class="input-group-btn">
+                                                                                    <a class="btn btn-info" id="uploadModal" onclick="browseMedia('Foto')">...</a>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        @Html.ValidationMessageFor(model => field.Name, "", new { @class = "text-danger" })
+                                                                    </div>
+
+                                                                    @Html.Partial("_BrowseMedia", new ViewDataDictionary(this.ViewData) { { "element", "Photo" } })
+
+                                                             
+                                                                                        break;
+
+
+
+
+
+
+                                                                                    case EditorType.DatePicker:
                                                                     <div class="form-group">
                                                                         <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
                                                                             <input type="date" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
