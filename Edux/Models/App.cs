@@ -15,6 +15,7 @@ namespace Edux.Models
             CreatedBy = "username";
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
+            Pages = new HashSet<Page>();
         }
 
         [Required]
@@ -37,5 +38,11 @@ namespace Edux.Models
         [Display(Name = "Varsayılan Sayfa")]
         [StringLength(200)]
         public string DefaultPage { get; set; }
+
+        [Display(Name = "Aktif mi?")]
+        public bool IsActive { get; set; }
+
+        [Display(Name = "Sayfalar")]
+        public virtual ICollection<Page> Pages { get; set; }
     }
 }

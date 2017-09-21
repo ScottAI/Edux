@@ -44,7 +44,7 @@ namespace Edux.Data
             public static void AddAppTenants(HostDbContext context,Theme theme)
         {
             var appTenant = new AppTenant();
-            appTenant.Name = "BilgiKolejiEdux";
+            appTenant.Name = "EduxBilgiKoleji";
             appTenant.Title = "Bilgi Koleji Edux";
             appTenant.Hostname = "localhost:60005";
             appTenant.Folder = "bilgikoleji";

@@ -154,7 +154,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <ul class="dropdown-menu dropdown-menu-default">
                                 @foreach (App app in (IList<App>)ViewBag.Apps) { 
                                 <li>
-                                    <a href="/@app.Slug">
+                                    <a href="/edux@(app.Slug)">
                                         <i class="icon-diamond"></i> @app.Name
                                     </a>
                                 </li>

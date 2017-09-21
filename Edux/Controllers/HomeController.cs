@@ -26,14 +26,21 @@ namespace Edux.Controllers
             this.env = _env;
         }
 
-        public async Task<IActionResult> Index(string slug)
+        public async Task<IActionResult> Index(string culture = "tr", string slug = "giris", string app = "centralpanel")
         {
-            if (slug == null)
+            
+            if (culture == "no")
             {
-                return Redirect("/tr/Giris");
+                return Redirect($"/edux{app}/tr/{slug}");
             }
             else
             {
+                app = app.ToLowerInvariant();
+                culture = culture.ToLowerInvariant();
+                slug = slug.ToLowerInvariant();
+                HttpContext.Items["App"] = app;
+                HttpContext.Items["Culture"] = app;
+                HttpContext.Items["Slug"] = slug;
                 
                 var model = new DisplayViewModel();
 
@@ -43,12 +50,12 @@ namespace Edux.Controllers
                     .Include(p => p.Components)
                             .ThenInclude(x => x.ParameterValues)
                                 .ThenInclude(x => x.Parameter)
-                    .FirstOrDefaultAsync(m => m.Slug.Equals(slug.ToLower()) && m.IsPublished == true);
+                    .FirstOrDefaultAsync(m => m.Slug.Equals(slug) && m.IsPublished == true && m.Language.Culture == culture && m.App.Slug == app);
 
 
                 if (page == null)
                 {
-                    return Content($"'{slug}' adresli bulunamadı!");
+                    return Content($"'edux{app}/{culture}/{slug}' adresli bulunamadı!");
                 }
                 else
                 {

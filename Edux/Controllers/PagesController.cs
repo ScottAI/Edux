@@ -49,7 +49,12 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var page = new Page();
+            string culture = "tr";
+            page.LanguageId = _context.Languages.FirstOrDefault(l => l.Culture == culture).Id;
+            page.AppId = ((App)ViewBag.App).Id;
             ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title");
+            ViewData["LanguageId"] = new SelectList(_context.Languages, "Id", "NativeName");
+            ViewData["AppId"] = new SelectList(_context.Apps, "Id", "Name");
             return View(page);
       
         }
@@ -59,7 +64,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Create([Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,AppId,LanguageId")] Page page)
         {
             if (ModelState.IsValid)
             {
@@ -73,6 +78,8 @@ namespace Edux.Controllers
                 return RedirectToAction("Edit", new { id = page.Id });
             }
             ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
+            ViewData["LanguageId"] = new SelectList(_context.Languages, "Id", "NativeName", page.LanguageId);
+            ViewData["AppId"] = new SelectList(_context.Apps, "Id", "Name", page.AppId);
             return View(page);
         }
 
@@ -90,6 +97,8 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
+            ViewData["LanguageId"] = new SelectList(_context.Languages, "Id", "NativeName", page.LanguageId);
+            ViewData["AppId"] = new SelectList(_context.Apps, "Id", "Name", page.AppId);
             return View(page);
         }
 
@@ -98,7 +107,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Page page)
+        public async Task<IActionResult> Edit(string id, [Bind("Title,Slug,View,LayoutView,ParentPageId,MetaTitle,MetaDescription,MetaKeywords,IsPublished,ViewCount,Position,AllowedRoles,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,AppId,LanguageId")] Page page)
         {
             if (id != page.Id)
             {
@@ -126,6 +135,8 @@ namespace Edux.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ParentPageId"] = new SelectList(_context.Pages, "Id", "Title", page.ParentPageId);
+            ViewData["LanguageId"] = new SelectList(_context.Languages, "Id", "NativeName", page.LanguageId);
+            ViewData["AppId"] = new SelectList(_context.Apps, "Id", "Name", page.AppId);
             return View(page);
         }
 

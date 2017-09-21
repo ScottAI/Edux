@@ -89,6 +89,22 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="AppId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="AppId" class="form-control" asp-items="ViewBag.AppId">
+                    <option value=""> Seçiniz..</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LanguageId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.LanguageId">
+                    <option value=""> Seçiniz..</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="AllowedRoles" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="AllowedRoles" class="form-control" />

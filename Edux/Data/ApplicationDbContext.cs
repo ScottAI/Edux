@@ -12,7 +12,7 @@ namespace Edux.Data
 {
         public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Role, string>
         {
-            private readonly AppTenant tenant;
+            public readonly AppTenant tenant;
             private readonly IHttpContextAccessor _accessor;
             public ApplicationDbContext() { }
             public ApplicationDbContext(AppTenant tenant, IHttpContextAccessor accessor)
@@ -37,6 +37,7 @@ namespace Edux.Data
                 optionsBuilder.UseSqlServer((tenant != null ? tenant.ConnectionString : "Server=.;Database=TenantDb;Trusted_Connection=True;MultipleActiveResultSets=true"));
                 base.OnConfiguring(optionsBuilder);
             }
+            public DbSet<Language> Languages { get; set; }
             public DbSet<Entity> Entities { get; set; }
             public DbSet<Property> Properties { get; set; }
             public DbSet<PropertyValue> PropertyValues { get; set; }

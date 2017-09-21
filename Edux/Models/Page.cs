@@ -20,7 +20,6 @@ namespace Edux.Models
             UpdatedBy = "username";
             View = "Page";
             LayoutView = "_metronicLayout";
-
         }
         [Required]
         [Display(Name = "Başlık")]
@@ -63,5 +62,15 @@ namespace Edux.Models
         public string AllowedRoles { get; set; }
         [Display(Name = "Bileşenler")]
         public virtual ICollection<Component> Components { get; set; }
+        [Display(Name="Uygulama")]
+        public string AppId { get; set; }
+        [ForeignKey("AppId")]
+        [Display(Name="Uygulama")]
+        public App App { get; set; }
+        [Display(Name = "Dil")]
+        public string LanguageId { get; set; }
+        [ForeignKey("LanguageId")]
+        [Display(Name = "Dil")]
+        public Language Language { get; set; }
     }
 }

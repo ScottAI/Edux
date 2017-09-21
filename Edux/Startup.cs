@@ -113,9 +113,8 @@ namespace Edux
             {
                 routes.MapRoute(
                     name: "cultureRoute",
-
-                    template: "tr/{*slug}",
-                    defaults: new { controller = "Home", action = "Index", culture = "no", slug = "Giris" },
+                    template: "edux{app}/{culture}/{*slug}",
+                    defaults: new { controller = "Home", action = "Index", app = "centralpanel", culture = "no", slug = "giris" },
                     constraints: new
                     {
                         culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-Z]{2})?$")

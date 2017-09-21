@@ -18,7 +18,11 @@ namespace Edux.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var apps = _context.Apps.ToList();
-            var app = apps.FirstOrDefault();
+            string appSlug = "centralpanel";
+            if (context.RouteData.Values["app"] != null) { 
+                appSlug = context.RouteData.Values["app"].ToString().ToLowerInvariant();
+            }
+            var app = apps.FirstOrDefault(a => a.Slug == appSlug);
             ViewBag.Apps = apps;
             ViewBag.App = app;
         }
