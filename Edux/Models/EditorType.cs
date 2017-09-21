@@ -16,6 +16,10 @@ namespace Edux.Models
         Media=7,
         DatePicker = 8,
         DateTimePicker = 9,
-        TimePicker = 10
+        TimePicker = 10,
+        Tel=11,
+        Email=12,
+        Number=13
+
     }
 }

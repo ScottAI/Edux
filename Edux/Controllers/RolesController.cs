@@ -8,21 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Edux.Controllers
 {
     public class RolesController : ControllerBase
     {
-     
 
-        public RolesController(ApplicationDbContext context):base(context)
+        private readonly RoleManager<Role> _roleManager;
+        public RolesController(RoleManager<Role> roleManager, ApplicationDbContext context):base(context)
         {
+            this._roleManager = roleManager;
         }
 
         // GET: Roles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Role.ToListAsync());
+            return View(await _roleManager.Roles.ToListAsync());
         }
 
         // GET: Roles/Details/5
@@ -33,13 +35,12 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var role = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Id == id);
             if (role == null)
             {
                 return NotFound();
             }
-
+            
             return View(role);
         }
 
@@ -54,12 +55,11 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppTenantId,Description,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
+        public async Task<IActionResult> Create([Bind("AppTenantId,Description,Id,Name")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(role);
-                await _context.SaveChangesAsync();
+                await _roleManager.CreateAsync(role);
                 return RedirectToAction("Index");
             }
             return View(role);
@@ -73,7 +73,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role.SingleOrDefaultAsync(m => m.Id == id);
+            var role = await _roleManager.Roles.SingleOrDefaultAsync(m => m.Id == id);
             if (role == null)
             {
                 return NotFound();
@@ -86,7 +86,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Description,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
+        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Description,Id,Name")] Role role)
         {
             if (id != role.Id)
             {
@@ -97,7 +97,7 @@ namespace Edux.Controllers
             {
                 try
                 {
-                    _context.Update(role);
+                    await _roleManager.UpdateAsync(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,7 +124,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role
+            var role = await _roleManager.Roles
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (role == null)
             {
@@ -139,15 +139,14 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var role = await _context.Role.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Role.Remove(role);
-            await _context.SaveChangesAsync();
+            var role = await _roleManager.Roles.SingleOrDefaultAsync(m => m.Id == id);
+            await _roleManager.DeleteAsync(role);
             return RedirectToAction("Index");
         }
 
         private bool RoleExists(string id)
         {
-            return _context.Role.Any(e => e.Id == id);
+            return _roleManager.Roles.Any(e => e.Id == id);
         }
     }
 }

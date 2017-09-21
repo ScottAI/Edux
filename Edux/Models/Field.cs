@@ -55,5 +55,11 @@ namespace Edux.Models
         [StringLength(200)]
         [Display(Name = "Seçenek Etiketi")]
         public string OptionLabel { get; set; }
+        [StringLength(200)]
+        public string OnChange { get; set; }
+        [StringLength(200)]
+        public string OnClick { get; set; }
+        [StringLength(200)]
+        public string CssClass { get; set; }
     }
 }
