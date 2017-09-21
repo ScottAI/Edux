@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class FieldsController : Controller
+    public class FieldsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        
 
-        public FieldsController(ApplicationDbContext context)
+        public FieldsController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
+            
         }
 
         // GET: Fields

@@ -13,12 +13,13 @@ using Microsoft.Extensions.Options;
 using Edux.Models;
 using Edux.Models.ManageViewModels;
 using Edux.Services;
+using Edux.Data;
 
 namespace Edux.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class ManageController : Controller
+    public class ManageController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -33,7 +34,7 @@ namespace Edux.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder, ApplicationDbContext context):base(context)
         {
             _userManager = userManager;
             _signInManager = signInManager;

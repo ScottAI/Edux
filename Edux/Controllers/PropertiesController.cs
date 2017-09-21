@@ -13,13 +13,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class PropertiesController : Controller
+    public class PropertiesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public PropertiesController(ApplicationDbContext context)
-        {
-            _context = context;    
+        
+        public PropertiesController(ApplicationDbContext context):base(context)
+        { 
         }
 
         // GET: Properties

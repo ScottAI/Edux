@@ -13,13 +13,10 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class PagesController : Controller
+    public class PagesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public PagesController(ApplicationDbContext context)
+        public PagesController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
         }
 
         // GET: Pages

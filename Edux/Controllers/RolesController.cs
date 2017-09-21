@@ -11,15 +11,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
-    [Authorize(Roles = "ADMIN")]
-    [Area("CmsCore")]
-    public class RolesController : Controller
+    public class RolesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+     
 
-        public RolesController(ApplicationDbContext context)
+        public RolesController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
         }
 
         // GET: Roles
@@ -57,7 +54,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppTenantId,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
+        public async Task<IActionResult> Create([Bind("AppTenantId,Description,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +86,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
+        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Description,Id,Name,NormalizedName,ConcurrencyStamp")] Role role)
         {
             if (id != role.Id)
             {

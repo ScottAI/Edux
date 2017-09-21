@@ -12,13 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class ParameterValuesController : Controller
+    public class ParameterValuesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
-        public ParameterValuesController(ApplicationDbContext context)
+        public ParameterValuesController(ApplicationDbContext context):base(context)
         {
-            _context = context;    
         }
 
         // GET: ParameterValues

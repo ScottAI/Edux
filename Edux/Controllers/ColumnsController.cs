@@ -12,13 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class ColumnsController : Controller
+    public class ColumnsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public ColumnsController(ApplicationDbContext context)
+        public ColumnsController(ApplicationDbContext context):base(context)
         {
-            _context = context;
         }
 
         // GET: Columns
@@ -53,6 +50,7 @@ namespace Edux.Controllers
         public IActionResult Create(string DataTableId)
         {
             var column = new Column();
+            column.DataTableId = DataTableId;
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
@@ -79,7 +77,7 @@ namespace Edux.Controllers
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
+            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", column.EntityId);
             return View(column);
         }
 

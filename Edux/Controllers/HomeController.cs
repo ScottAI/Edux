@@ -16,14 +16,13 @@ using Microsoft.AspNetCore.Hosting;
 namespace Edux.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         private IHostingEnvironment env;
-        private readonly ApplicationDbContext _context;
 
-        public HomeController(IHostingEnvironment _env,ApplicationDbContext context)
+        public HomeController(IHostingEnvironment _env,ApplicationDbContext context):base(context)
         {
-            _context = context;
+            
             this.env = _env;
         }
 
@@ -35,10 +34,7 @@ namespace Edux.Controllers
             }
             else
             {
-                var apps = await _context.Apps.ToListAsync();
-                var app = apps.FirstOrDefault();
-                ViewBag.Apps = apps;
-                ViewBag.App = app;
+                
                 var model = new DisplayViewModel();
 
                 // Getting the page with the slug that user entered
@@ -89,8 +85,16 @@ namespace Edux.Controllers
                         rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
                     }
                 }
+                if (mode == "delete")
+                {
+                    var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityName;
+                    foreach (PropertyValue item in _context.PropertyValues.Include(i=>i.Entity).Where(pv=>pv.Entity.Name == eName && pv.RowId == rowId).ToList()) {
+                        _context.Remove(item);
+                    }
+                    _context.SaveChanges();
+                }
+                else { 
 
-                
                 foreach (var key in form.Keys)
                 {
                     if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key))
@@ -104,6 +108,14 @@ namespace Edux.Controllers
                         else
                         {
                             value = _context.PropertyValues.Where(pv => pv.PropertyId == key && pv.RowId == rowId).FirstOrDefault();
+                            if (value == null)
+                            {
+                                value = new PropertyValue();
+                                value.PropertyId = key;
+                                value.RowId = rowId;
+                                value.CreateDate = DateTime.Now;
+                                value.CreatedBy = User.Identity.Name;
+                            }
                         }
                         if (mode == "create" || mode == "edit")
                         {
@@ -150,13 +162,10 @@ namespace Edux.Controllers
                         {
                             _context.Update(value);
                         }
-                        else if (mode == "delete")
-                        {
-                            _context.Remove(value);
-                        }
                         _context.SaveChanges();
                     }
 
+                }
                 }
                 return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
             }

@@ -12,9 +12,6 @@
 <table class="table table-striped table-hover" id="tblRecords">
     <thead>
         <tr>
-            <th class="text-nowrap all">
-               AppTenantId
-            </th>
             <th class="text-nowrap">
                Kullanıcı Adı
             </th>
@@ -52,9 +49,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppTenantId)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>

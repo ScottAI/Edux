@@ -53,14 +53,14 @@
                                             case EditorType.Text:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" class="form-control" />
+                                                        <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
                                                     </div>
                                                 </div>
                                                 break;
                                             case EditorType.TextArea:
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") class="form-control">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)</textarea>
+                                                        <textarea name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") class="form-control">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)</textarea>
                                                     </div>
                                                 </div>
                                                 break;
@@ -68,7 +68,7 @@
 
                                                 <div class="form-group">
                                                     <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)</textarea>
+                                                        <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)</textarea>
                                                         <script>
                                                         CKEDITOR.replace(' @field.Name');
                                                         </script>
@@ -76,6 +76,7 @@
                                                 </div>
 
                                                 break;
+
                                             case EditorType.Select:
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
@@ -83,18 +84,18 @@
                                                             @if (!String.IsNullOrEmpty(field.OptionLabel))
                                                             {
                                                                 <option value="">@field.OptionLabel</option>
-                                                            }                                                         @if (field.Property.DataSourceProperty != null)
+                                                            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
                                                             {
-                                                                foreach (var value in field.Property.DataSourceProperty.PropertyValues)
+                                                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                                                 {
-                                                                    <option value="@value.Id" selected="@(value.Value==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue))">@value.Value</option>
+                                                                    <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@value.Value</option>
                                                                 }
                                                             }
                                                             else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                                                             {
                                                                 foreach (var item in field.Property.PresetValues.Split(','))
                                                                 {
-                                                                    <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue))">@item</option>
+                                                                    <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@item</option>
                                                                 }
 
                                                             }
@@ -108,50 +109,118 @@
                                                 <div class="form-group">
                                                     <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
                                                     <div class="col-md-10">
-                                                        <input name="@field.PropertyId" id="@field.Name" type="checkbox" placeholder="@field.DisplayName" checked="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" /><br />
+                                                        <input name="@(field.PropertyId)CheckBox" id="@(field.Name)CheckBox" type="checkbox" placeholder="@field.DisplayName" @(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)==0)?"checked=checked":"") onclick="$('#@(field.Name)').val($('#@(field.Name)CheckBox')[0].checked)"/>
+                                                        <input name="@field.PropertyId" id="@field.Name" type="hidden" value="@(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)==0).ToString().ToLower())" /><br />
                                                     </div>
                                                 </div>
 
                                                 break;
+                                            
 
-                                            case EditorType.DatePicker:
+                                            case EditorType.ImageUpload:
 
                                                 <div class="form-group">
-                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="date" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" class="form-control" />
+                                                    <label for="@field.Name" class="control-label" style="padding-left:15px;">@field.DisplayName</label>
+                                                    <div class="col-md-12">
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+
+                                                            <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
+                                                            <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
+                                                            @{ uploadIndex++; }
+                                                            <div value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"><img src="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)"> </div>
+                                                               <div>
+                                                                <span class="btn red btn-outline btn-file">
+                                                                    <span class="fileinput-new"> Resim Seç </span>
+                                                                    <span class="fileinput-exists"> Değiştir </span>
+                                                                    <input type="file" name="upload" />
+                                                                </span>
+                                                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Kaldır </a>
+
+
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                                break;
-                                            case EditorType.DateTimePicker:
-                                                <div class="form-group">
-                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="datetime-local" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" class="form-control" />
-                                                    </div>
+                                                <div class="clearfix margin-top-10" style="padding-bottom:10px;">
+                                                    <span class="label label-success">NOT!</span> Resim Uzantısı .jpg .jpeg yada .png olmalıdır..
                                                 </div>
-                                                break;
-                                            case EditorType.TimePicker:
-                                                <div class="form-group">
-                                                    <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
-                                                        <input type="time" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId).Value:field.Property.DefaultValue)" class="form-control" />
-                                                    </div>
-                                                </div>
-                                                break;
+                                                                    break;
+                                                                case EditorType.Media:
+
+                                                                    <div class="form-group">
+                                                                        <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
+                                                                        <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
+                                                                        @{ uploadIndex++; }
+                                                                        
+
+
+                                                                        <label for=" @field.Name" class="control-label col-md-2">@field.DisplayName</label>
+                                                                        <div class="col-md-10">
+
+                                                                            <div class="input-group">
+                                                                                <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                <span class="input-group-btn">
+                                                                                    <a class="btn btn-info" id="uploadModal" onclick="browseMedia('Foto')">...</a>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        @Html.ValidationMessageFor(model => field.Name, "", new { @class = "text-danger" })
+                                                                    </div>
+
+                                                                    @Html.Partial("_BrowseMedia", new ViewDataDictionary(this.ViewData) { { "element", "Photo" } })
+
+                                                             
+                                                                                        break;
 
 
 
-                                        }
-                                    }
+
+
+
+                                                                                    case EditorType.DatePicker:
+                                                                    <div class="form-group">
+                                                                        <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                                            <input type="date" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                    break;
+                                                                case EditorType.DateTimePicker:
+                                                                    <div class="form-group">
+                                                                        <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                                            <input type="datetime-local" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                    break;
+                                                                case EditorType.TimePicker:
+                                                                    <div class="form-group">
+                                                                        <label for="@field.Name" class="control-label col-md-2">@field.DisplayName</label><div class="col-md-10">
+                                                                            <input type="time" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                            break;
+
+
+
+                                                                    }
+                                                                }
                                 </div>
-                                                                                                        }
+                                                                }
 
                         </div>
-                                                                                                        }
+                                                                }
                 </div>
             </div>
-                                                                                                        }
+                                                                }
     </div>
     <input class="btn btn-primary" type="submit" value="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?"Kaydet":(ViewBag.Mode.ToString().ToLowerInvariant() == "delete"?"Sil":"Oluştur"))" />
 
 </form>
-
+@if(ViewBag.Mode == "delete") { 
+<script>
+    $(function () {
+        $("#@form.Name").attr('novalidate', 'novalidate');
+    });
+</script>
+}
 <script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
