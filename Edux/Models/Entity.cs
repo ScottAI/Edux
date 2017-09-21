@@ -31,6 +31,7 @@ namespace Edux.Models
         public virtual ICollection<Property> DataSourceProperties { get; set; }
         [Display(Name = "ÖzelliklerDeğerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
-        public virtual ICollection<Column> Columns { get; set; }
+        public virtual ICollection<Column> Columns { get; set; }        
+        public string OnLoad { get; set; }
     }
 }
