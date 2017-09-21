@@ -57,7 +57,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Create([Bind("Name,PluralName,OnLoad,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,PluralName,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,PluralName,Id,OnLoad,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Entity entity)
         {
             if (id != entity.Id)
             {

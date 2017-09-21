@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170921082832_eventsAdded")]
+    partial class eventsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,8 +42,6 @@ namespace Edux.Migrations
 
                     b.Property<string>("DefaultPage")
                         .HasMaxLength(200);
-
-                    b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -472,43 +471,6 @@ namespace Edux.Migrations
                     b.ToTable("Forms");
                 });
 
-            modelBuilder.Entity("Edux.Models.Language", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AppTenantId")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Culture")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("NativeName")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Languages");
-                });
-
             modelBuilder.Entity("Edux.Models.Media", b =>
                 {
                     b.Property<string>("Id")
@@ -642,8 +604,6 @@ namespace Edux.Migrations
 
                     b.Property<string>("AllowedRoles");
 
-                    b.Property<string>("AppId");
-
                     b.Property<string>("AppTenantId")
                         .HasMaxLength(200);
 
@@ -653,8 +613,6 @@ namespace Edux.Migrations
                         .HasMaxLength(200);
 
                     b.Property<bool>("IsPublished");
-
-                    b.Property<string>("LanguageId");
 
                     b.Property<string>("LayoutView")
                         .HasMaxLength(200);
@@ -688,10 +646,6 @@ namespace Edux.Migrations
                     b.Property<long>("ViewCount");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppId");
-
-                    b.HasIndex("LanguageId");
 
                     b.HasIndex("ParentPageId");
 
@@ -874,7 +828,8 @@ namespace Edux.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Name")
                         .HasMaxLength(256);
@@ -1083,14 +1038,6 @@ namespace Edux.Migrations
 
             modelBuilder.Entity("Edux.Models.Page", b =>
                 {
-                    b.HasOne("Edux.Models.App", "App")
-                        .WithMany("Pages")
-                        .HasForeignKey("AppId");
-
-                    b.HasOne("Edux.Models.Language", "Language")
-                        .WithMany("Pages")
-                        .HasForeignKey("LanguageId");
-
                     b.HasOne("Edux.Models.Page", "ParentPage")
                         .WithMany("ChildPages")
                         .HasForeignKey("ParentPageId");

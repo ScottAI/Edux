@@ -33,6 +33,13 @@
                         <span asp-validation-for="PluralName" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label asp-for="OnLoad" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="OnLoad" class="form-control" ></textarea>
+                        <span asp-validation-for="OnLoad" class="text-danger"></span>
+                    </div>
+                </div>
                 <input type="hidden" asp-for="Id" />
 
                 <input asp-for="CreateDate" class="form-control" type="hidden" />
