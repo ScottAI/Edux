@@ -148,14 +148,14 @@ License: You must have a valid license purchased only from themeforest(the above
                         @if (ViewBag.App != null) { 
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <span class="username username-hide-on-mobile"> @(((App)ViewBag.App).Name)</span>
+                                <span class="username username-hide-on-mobile"><i class="@(((App)ViewBag.App).Icon)"></i> @(((App)ViewBag.App).DisplayName)</span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 @foreach (App app in (IList<App>)ViewBag.Apps) { 
                                 <li>
                                     <a href="/edux@(app.Slug)">
-                                        <i class="icon-diamond"></i> @app.Name
+                                        <i class="@app.Icon"></i> @app.DisplayName
                                     </a>
                                 </li>
                                 }

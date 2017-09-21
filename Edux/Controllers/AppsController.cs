@@ -54,7 +54,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] App app)
+        public async Task<IActionResult> Create([Bind("Name,Slug,DisplayName,Icon,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] App app)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Slug,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] App app)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Slug,DisplayName,Icon,DefaultLayout,AllowedRoles,DefaultPage,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] App app)
         {
             if (id != app.Id)
             {

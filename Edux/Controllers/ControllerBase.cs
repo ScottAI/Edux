@@ -1,6 +1,7 @@
 ﻿using Edux.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Edux.Controllers
         }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var apps = _context.Apps.ToList();
+            var apps = _context.Apps.AsNoTracking().OrderBy(a=>a.DisplayName).ToList();
             string appSlug = "centralpanel";
             if (context.RouteData.Values["app"] != null) { 
                 appSlug = context.RouteData.Values["app"].ToString().ToLowerInvariant();

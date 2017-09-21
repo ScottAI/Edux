@@ -24,6 +24,16 @@ namespace Edux.Models
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Uygulama Görünen Adı")]
+        [StringLength(200)]
+        public string DisplayName { get; set; }
+
+        [Required]
+        [Display(Name = "Simge")]
+        [StringLength(200)]
+        public string Icon { get; set; }
+
+        [Required]
         [Display(Name = "Bağlantı")]
         [StringLength(200)]
         public string Slug { get; set; }

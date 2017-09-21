@@ -26,6 +26,20 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="DisplayName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Icon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Icon" class="form-control" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="DefaultLayout" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="DefaultLayout" class="form-control" />

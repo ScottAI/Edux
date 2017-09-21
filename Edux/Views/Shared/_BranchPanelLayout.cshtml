@@ -38,6 +38,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="/metronic/global/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
     <link href="/metronic/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
     <link href="/metronic/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/global/plugins/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/global/plugins/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="/metronic/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
@@ -49,8 +51,10 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="/metronic/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- END THEME LAYOUT STYLES -->
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/colreorder/1.4.0/css/colReorder.dataTables.min.css" />
     <link rel="stylesheet" href="//cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" />
+
     <script src="~/metronic/global/plugins/jquery.min.js" type="text/javascript"></script>
     <script src="~/metronic/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/metronic/global/plugins/js.cookie.min.js" type="text/javascript"></script>
@@ -94,16 +98,21 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="~/metronic/global/scripts/app.min.js" type="text/javascript"></script>
     <!-- END THEME GLOBAL SCRIPTS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="~/metronic/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
     <script src="~/metronic/pages/scripts/dashboard.min.js" type="text/javascript"></script>
+
+
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="~/metronic/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
     <script src="~/metronic/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
     <script src="~/metronic/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
     <script src="~/metronic/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
-    <script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/colreorder/1.4.0/js/dataTables.colReorder.min.js"></script>
     <script src="//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
 </head>
 <!-- END HEAD -->
 
@@ -136,6 +145,22 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!-- DOC: Apply "dropdown-dark" class after "dropdown-extended" to change the dropdown styte -->
                         <!-- DOC: Apply "dropdown-hoverable" class after below "dropdown" and remove data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to enable hover dropdown mode -->
                         <!-- DOC: Remove "dropdown-hoverable" and add data-toggle="dropdown" data-hover="dropdown" data-close-others="true" attributes to the below A element with dropdown-toggle class -->
+                        @if (ViewBag.App != null) { 
+                        <li class="dropdown dropdown-user">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <span class="username username-hide-on-mobile"><i class="@(((App)ViewBag.App).Icon)"></i> @(((App)ViewBag.App).DisplayName)</span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-default">
+                                @foreach (App app in (IList<App>)ViewBag.Apps) { 
+                                <li>
+                                    <a href="/edux@(app.Slug)">
+                                        <i class="@app.Icon"></i> @app.DisplayName
+                                    </a>
+                                </li>
+                                }
+                            </ul>
+                        </li>
                         <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <i class="icon-bell"></i>
@@ -152,6 +177,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </li>
                             </ul>
                         </li>
+                        }
                         <!-- END NOTIFICATION DROPDOWN -->
                         <!-- BEGIN INBOX DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -222,7 +248,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </li>
                                 <li class="divider"> </li>
                                 <li>
-                                    <a href="page_user_lock_1.html">
+                                    <a href="/Account/Lock?returnUrl=@Context.Request.Path">
                                         <i class="icon-lock"></i> Ekranı Kilitle
                                     </a>
                                 </li>
@@ -317,14 +343,20 @@ License: You must have a valid license purchased only from themeforest(the above
                             <h3 class="uppercase">Modüller</h3>
                         </li>
                         @await Component.InvokeAsync("MenuComponent", new { location = "Primary1" })
-                        <li class="nav-item start active open">
+                        <li class="nav-item start">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-settings"></i>
                                 <span class="title">Özelleştir</span>
-                                <span class="selected"></span>
-                                <span class="arrow open"></span>
+                                <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
+                                <li class="nav-item  ">
+                                    <a href="@Url.Action("Index", "AppTenants")" class="nav-link nav-toggle">
+                                        <i class="icon-settings"></i>
+                                        <span class="title">Kiracılar</span>
+                                        <span class="arrow"></span>
+                                    </a>
+                                </li>
                                 <li class="nav-item  ">
                                     <a href="@Url.Action("Index", "Entities")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
@@ -332,7 +364,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  ">
+                                @*<li class="nav-item  ">
                                     <a href="@Url.Action("Index", "Properties")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
                                         <span class="title">Özellikler</span>
@@ -345,21 +377,21 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="title">Özellik Değerleri</span>
                                         <span class="arrow"></span>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li class="nav-item  ">
                                     <a href="@Url.Action("Index", "DataTables")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
-                                        <span class="title">Veri Tablosu</span>
+                                        <span class="title">Veri Tabloları</span>
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  ">
+                                @*<li class="nav-item  ">
                                     <a href="@Url.Action("Index", "Columns")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
                                         <span class="title">Sütunlar</span>
                                         <span class="arrow"></span>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li class="nav-item  ">
                                     <a href="@Url.Action("Index", "Forms")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
@@ -367,13 +399,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  ">
+                                @*<li class="nav-item  ">
                                     <a href="@Url.Action("Index", "Fields")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
                                         <span class="title">Alanlar</span>
                                         <span class="arrow"></span>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li class="nav-item  ">
                                     <a href="@Url.Action("Index","Pages")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
@@ -381,7 +413,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  ">
+                                @*<li class="nav-item  ">
                                     <a href="@Url.Action("Index","Components")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
                                         <span class="title">Bileşenler</span>
@@ -394,7 +426,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="title">Parametre Değerleri</span>
                                         <span class="arrow"></span>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li class="nav-item  ">
                                     <a href="@Url.Action("Index", "ComponentTypes")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
@@ -402,13 +434,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  ">
+                                @*<li class="nav-item  ">
                                     <a href="@Url.Action("Index","Parameters")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
                                         <span class="title">Parametreler</span>
                                         <span class="arrow"></span>
                                     </a>
-                                </li>
+                                </li>*@
 
 
                                 <li class="nav-item  ">
@@ -418,13 +450,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-                                <li class="nav-item  ">
+                                @*<li class="nav-item  ">
                                     <a href="@Url.Action("Index", "MenuItems")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
                                         <span class="title">Menü Öğeleri</span>
                                         <span class="arrow"></span>
                                     </a>
-                                </li>
+                                </li>*@
 
 
                                 <li class="nav-item  ">
@@ -434,15 +466,35 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
-
                                 <li class="nav-item  ">
-                                    <a href="/tr/yardim" class="nav-link nav-toggle">
+                                    <a href="@Url.Action("Index", "Apps")" class="nav-link nav-toggle">
                                         <i class="icon-settings"></i>
-                                        <span class="title">Yardım</span>
+                                        <span class="title">Uygulamalar</span>
+                                        <span class="arrow"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="@Url.Action("Index", "ApplicationUsers")" class="nav-link nav-toggle">
+                                        <i class="icon-settings"></i>
+                                        <span class="title">Kullanıcılar</span>
+                                        <span class="arrow"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item  ">
+                                    <a href="@Url.Action("Index", "Roles")" class="nav-link nav-toggle">
+                                        <i class="icon-settings"></i>
+                                        <span class="title">Roller</span>
                                         <span class="arrow"></span>
                                     </a>
                                 </li>
 
+                                <li class="nav-item  ">
+                                    <a href="/settings" class="nav-link nav-toggle">
+                                        <i class="icon-settings"></i>
+                                        <span class="title">Ayarlar</span>
+                                        <span class="arrow"></span>
+                                    </a>
+                                </li>
 
                             </ul>
                         </li>
@@ -1103,12 +1155,19 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END THEME LAYOUT SCRIPTS -->
     <script>
         $(document).ready(function () {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust()
+                    .responsive.recalc();
+            }); 
             $('#tblRecords').DataTable({
                 "responsive": true,
+                "colReorder": true,
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Turkish.json"
                 }
             });
+            
             $('#clickmewow').click(function () {
                 $('#radio1003').attr('checked', 'checked');
             });

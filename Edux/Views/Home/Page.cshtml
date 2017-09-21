@@ -3,7 +3,7 @@
     ViewData["Title"] = Model.Page.MetaTitle;
     ViewData["Description"] = Model.Page.MetaDescription;
     ViewData["Keywords"] = Model.Page.MetaKeywords;
-    Layout = Model.Page.LayoutView;
+    Layout = Model.Page.LayoutView ?? ((App)ViewBag.App).DefaultLayout;
 }
 <h1>@Model.Page.Title</h1>
 

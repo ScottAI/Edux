@@ -34,7 +34,7 @@ namespace Edux.Data
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
-                optionsBuilder.UseSqlServer((tenant != null ? tenant.ConnectionString : "Server=.;Database=TenantDb;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                optionsBuilder.UseSqlServer((tenant != null ? tenant.ConnectionString : "Server=.;Database=EduxTenantDb;Trusted_Connection=True;MultipleActiveResultSets=true"));
                 base.OnConfiguring(optionsBuilder);
             }
             public DbSet<Language> Languages { get; set; }

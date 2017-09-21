@@ -60,7 +60,11 @@ namespace Edux.Data
         {
             var a = new App();
             a.Name = "CentralPanel";
+            a.DisplayName = "Genel Merkez Paneli";
             a.Slug = "centralpanel";
+            a.Icon = "fa fa-cubes";
+            a.DefaultLayout = "_CentralPanelLayout";
+            a.DefaultPage = "start";
             a.IsActive = true;
             a.CreateDate = DateTime.Now;
             a.CreatedBy = "UserName";
@@ -71,7 +75,11 @@ namespace Edux.Data
 
             var a1 = new App();
             a1.Name = "BranchPanel";
+            a1.DisplayName = "Şube Paneli";
             a1.Slug = "branchpanel";
+            a1.Icon = "fa fa-building-o";
+            a1.DefaultLayout = "_BranchPanelLayout";
+            a1.DefaultPage = "start";
             a1.IsActive = true;
             a1.CreateDate = DateTime.Now;
             a1.CreatedBy = "UserName";
@@ -82,7 +90,11 @@ namespace Edux.Data
 
             var a2 = new App();
             a2.Name = "StudentPanel";
+            a2.DisplayName = "Öğrenci Paneli";
             a2.Slug = "studentpanel";
+            a2.Icon = "fa fa-graduation-cap";
+            a2.DefaultLayout = "_StudentPanelLayout";
+            a2.DefaultPage = "start";
             a2.IsActive = true;
             a2.CreateDate = DateTime.Now;
             a2.CreatedBy = "UserName";
@@ -93,7 +105,11 @@ namespace Edux.Data
 
             var a3 = new App();
             a3.Name = "TeacherPanel";
+            a3.DisplayName = "Öğretmen Paneli";
             a3.Slug = "teacherpanel";
+            a3.Icon = "icon-user";
+            a3.DefaultLayout = "_TeacherPanelLayout";
+            a3.DefaultPage = "start";
             a3.IsActive = true;
             a3.CreateDate = DateTime.Now;
             a3.CreatedBy = "UserName";
