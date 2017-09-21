@@ -1,4 +1,5 @@
 ﻿using Edux.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace Edux.Data
 {
     public static class ApplicationDbContextInitializer
     {
-        public static void Initialize(ApplicationDbContext context)
+        public static void Initialize(this ApplicationDbContext context, IHttpContextAccessor accessor)
         {
             context.Database.Migrate();
 
