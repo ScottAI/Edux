@@ -1,0 +1,84 @@
+﻿@model Edux.Models.AppTenant
+
+@{
+    ViewData["Title"] = "AppTenant Detaylar";
+}
+
+<h2>Detaylar</h2>
+
+<div>
+    <h4>AppTenant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hostname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hostname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ThemeName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ThemeName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ConnectionString)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ConnectionString)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Folder)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Folder)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RequireSSL)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RequireSSL)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerUserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OwnerUserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TrialEndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TrialEndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Theme)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Theme.CreatedBy)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AppTenantId" class="btn btn-primary">Düzenle</a>
+    <a asp-action="Index">Listeye Geri Dön </a>
+</div>
