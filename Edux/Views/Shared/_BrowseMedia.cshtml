@@ -16,12 +16,11 @@
 </div>
 <script>
     function browseMedia(element) {
-
         $.ajax({
             cache: false,
             type: "GET",
             data: {element:element},
-            url: "/tr/Medias",
+            url: "/Medias/CreatePopup",
             success: function (view) {
                 $('#modalBody'+element).html(view);
                 $('#modal'+element).modal();

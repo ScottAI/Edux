@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,7 +55,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var media = new Media();
-           
+
             return View(media);
         }
 
@@ -154,7 +154,7 @@ namespace Edux.Controllers
                         Month = DateTime.Now.Month;
                         if (!Directory.Exists(uploadLocation))
                         {
-                            Directory.CreateDirectory(uploadLocation); //E�er klas�r yoksa olu�tur    
+                            Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
                         }
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
@@ -213,5 +213,97 @@ namespace Edux.Controllers
         {
             return _context.Media.Any(e => e.Id == id);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        public IActionResult CreatePopup(string element = "Photo")
+        {
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                ViewBag.Element = "Photo";
+                return View("ModalCreate");
+            }
+            return View();
+        }
+
+        public JsonResult ModalCreate(string Name, string Description, IFormFile uploadFile)
+        {
+            //IFormFileCollection uploadedFiles = Request.Form.Files;
+            //IFormFile uploadedFile = uploadedFiles[0];
+            IFormFile file = Request.Form.Files[0];
+            if (ModelState.IsValid)
+            {
+                var extension = "";
+                if (uploadFile != null)
+                {
+                    extension = Path.GetExtension(uploadFile.FileName.ToLowerInvariant());
+                }
+                if (uploadFile != null)
+                {
+                    Media media = new Media();
+                    media.Name = Name;
+                    media.Description = Description;
+
+                    media.CreatedBy = User.Identity.Name ?? "username";
+                    media.CreateDate = DateTime.Now;
+                    media.UpdatedBy = User.Identity.Name ?? "username";
+                    media.UpdateDate = DateTime.Now;
+
+
+                    
+
+                    if (extension == ".doc"
+                    || extension == ".pdf"
+                    || extension == ".rtf"
+                    || extension == ".docx"
+                    || extension == ".jpg"
+                    || extension == ".gif"
+                    || extension == ".png"
+                    || extension == ".mp4"
+                    || extension == ".mp4"
+                     )
+                    {
+                        string category = DateTime.Now.Month + "-" + DateTime.Now.Year + "-ProductImages";
+                        string FilePath = _hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
+                        string dosyaismi = Path.GetFileName(uploadFile.FileName);
+                        var yuklemeYeri = Path.Combine(FilePath, dosyaismi);
+                        media.FilePath = "uploads/" + category + "/" + dosyaismi;
+
+                        if (!Directory.Exists(FilePath))
+                        {
+                            Directory.CreateDirectory(FilePath);//Eðer klasör yoksa oluþtur    
+                        }
+                        using (var stream = new FileStream(yuklemeYeri, FileMode.Create))
+                        {
+                            uploadFile.CopyTo(stream);
+                        }
+
+
+                        _context.Add(media);
+                        _context.SaveChangesAsync();
+                        return Json(new { result = FilePath + media.FilePath + media.Name });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("FileName", "Dosya uzantısı izin verilen uzantılardan olmalıdır.");
+                    }
+                }
+                else { ModelState.AddModelError("FileExist", "Lütfen bir dosya seçiniz!"); }
+            }
+            return Json(new { result = "false" });
+        }
+
+
+
     }
 }
