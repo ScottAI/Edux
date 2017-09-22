@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Edux.Models
 {
-    public class Role:IdentityRole
+    public class Role : IdentityRole
     {
         [StringLength(200)]
         public string AppTenantId { get; set; }
         public string Description { get; set; }
-    }
+    } 
 }
