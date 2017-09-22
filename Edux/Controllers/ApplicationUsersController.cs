@@ -7,14 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Edux.Controllers
 {
     public class ApplicationUsersController : ControllerBase
     {
-        public ApplicationUsersController(ApplicationDbContext context):base(context)
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ApplicationUsersController(RoleManager<Role> roleManager,UserManager<ApplicationUser> userManager, ApplicationDbContext context):base(context)
         {
-           
+            this._roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // GET: ApplicationUsers
@@ -71,11 +75,17 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
+            List<Role> Roles = _roleManager.Roles.ToList();
             var applicationUser = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
             }
+            ViewBag.Roles = Roles.ToList();
+            ViewBag.SelectedRoles = await _userManager.GetRolesAsync(applicationUser);
+
+           
+
             return View(applicationUser);
         }
 
@@ -84,7 +94,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Edit(string id, [Bind("AppTenantId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser, string[] selectedRoles)
         {
             if (id != applicationUser.Id)
             {
@@ -109,6 +119,11 @@ namespace Edux.Controllers
                     applicationUserOld.LockoutEnabled = applicationUser.LockoutEnabled;
                     applicationUserOld.AccessFailedCount = applicationUser.AccessFailedCount;
                     await _context.SaveChangesAsync();
+                    await _userManager.RemoveFromRolesAsync(applicationUserOld, await _userManager.GetRolesAsync(applicationUserOld));
+                    foreach (var r in selectedRoles) {
+                        await _userManager.AddToRoleAsync(applicationUserOld, r);
+                       
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
