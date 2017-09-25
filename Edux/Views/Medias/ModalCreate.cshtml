@@ -41,11 +41,12 @@
                             </div>
                             <div class="form-group">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                                    <div class="input-group input-large">
-                                        <span class="input-group-addon btn default btn-file">
+                                    
+                                        
                                             <input type="file" id="Name" name="uploadFile">
-                                        </span>
-                                    </div>
+                                            
+                                        
+                                    
                                     @Html.ValidationMessage("FileExist", new { @class = "text-danger" })
                                     <span class="text-danger" asp-validation-for="Name"></span>
                                 </div>

@@ -303,6 +303,22 @@ namespace Edux.Controllers
             return Json(new { result = "false" });
         }
 
+        public IEnumerable<Media> MediaGallery(string word, int? year, int? month, string category)
+        {
+            var mediagallery = _context.Media.Where(w => w.CreateDate.Year == year && w.CreateDate.Month == month && w.Extension == category).ToList();
+
+            if (!string.IsNullOrEmpty(word))
+            {
+                mediagallery = mediagallery.Where(w => w.Name.Contains(word) || w.Description.Contains(word)).ToList();
+            }
+            return mediagallery;
+        }
+
+        public JsonResult ModalGallery(string word, int year, int month, string category)
+        {
+            var mediagallery = MediaGallery(word, year, month, category);
+            return Json(new { result = mediagallery });
+        }
 
 
     }
