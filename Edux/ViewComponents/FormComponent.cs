@@ -49,7 +49,9 @@ namespace Edux.ViewComponents
                 {
                     var entityId = item.Property.DataSourceProperty.EntityId;
                     var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
-                    DataSourcePropertyValues.Add(item.Property.DataSourceProperty.Id, pvs);
+                    if (!DataSourcePropertyValues.ContainsKey(item.Property.DataSourceProperty.Id)) { 
+                        DataSourcePropertyValues.Add(item.Property.DataSourceProperty.Id, pvs);
+                    }
                 }
             }
             ViewBag.DataSourcePropertyValues = DataSourcePropertyValues;

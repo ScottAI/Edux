@@ -104,7 +104,7 @@ namespace Edux.Controllers
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == component.PageId), "Id", "Name", component.ParentComponentId);
-            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title", component.PageId);
 
             return View(component);
         }
@@ -124,7 +124,7 @@ namespace Edux.Controllers
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c=>c.PageId==component.PageId),  "Id", "Name", component.ParentComponentId);
-            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title", component.PageId);
 
             return View(component);
         }
@@ -181,11 +181,11 @@ namespace Edux.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Pages", new { id = component.PageId });
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.PageId == component.PageId), "Id", "Name", component.ParentComponentId);
-            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title");
+            ViewData["Pages"] = new SelectList(_context.Pages, "Id", "Title", component.PageId);
 
 
             return View(component);

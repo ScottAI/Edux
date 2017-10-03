@@ -145,7 +145,7 @@ namespace Edux.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit","Entities", new { id = property.EntityId });
             }
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
             ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
