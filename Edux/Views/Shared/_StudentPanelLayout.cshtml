@@ -336,16 +336,16 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <li class="nav-item start active open">
 
                                 </li>
-                                @await Component.InvokeAsync("MenuComponent", new { location = "Primary2" })
+                                @await Component.InvokeAsync("MenuComponent", new { location = "StudentPanelDashboardsMenu" })
                             </ul>
                         </li>
                         <li class="heading">
                             <h3 class="uppercase">Modüller</h3>
                         </li>
-                        @await Component.InvokeAsync("MenuComponent", new { location = "Primary1" })
+                        @await Component.InvokeAsync("MenuComponent", new { location = "StudentPanelModulesMenu" })
                         <li class="nav-item start">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-settings"></i>
+                                <i class="fa fa-cogs"></i>
                                 <span class="title">Özelleştir</span>
                                 <span class="arrow"></span>
                             </a>

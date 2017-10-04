@@ -22,7 +22,7 @@ namespace Edux.ViewComponents
 
             if (!String.IsNullOrEmpty(location))
             {
-                var menu = await _context.Menus.Include(c => c.MenuItems).Where(m => m.MenuLocation == location).FirstOrDefaultAsync();
+                var menu = await _context.Menus.Include(c => c.MenuItems).ThenInclude(t => t.ChildMenuItems).Where(m => m.MenuLocation == location).FirstOrDefaultAsync();
                 if (menu == null)
                 {
                     menu = new Models.Menu();

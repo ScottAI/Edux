@@ -1,8 +1,25 @@
 ﻿@model Edux.Models.Menu
-    @foreach (var item in Model.MenuItems.Where(m=>m.IsPublished==true).OrderBy(m=>m.Position))
+    @foreach (var item in Model.MenuItems.Where(m => m.IsPublished == true && m.ParentMenuItem == null).OrderBy(m => m.Position))
     {
-        <li class="nav-item"><a href="@item.Url" target="@item.Target" class="nav-link nav-toggle @item.CssClass">
-    <i class="@item.Icon"></i> <span class="title">@item.Name</span>
-    @*<span class="arrow"></span>*@
-</a></li>
-    }
+        <li class="nav-item">
+            <a href="@item.Url" target="@item.Target" class="nav-link nav-toggle @item.CssClass">
+                <i class="@item.Icon"></i> <span class="title">@item.Name</span>
+                @if (item.ChildMenuItems != null && item.ChildMenuItems.Count() > 0)
+                {
+                    <span class="arrow"></span>}
+            </a>
+@if (item.ChildMenuItems != null && item.ChildMenuItems.Count() > 0)
+{
+            <ul class="sub-menu">
+@foreach (var subitem in item.ChildMenuItems.Where(m => m.IsPublished == true).OrderBy(m => m.Position))
+{
+                <li class="nav-item  ">
+                    <a href="@subitem.Url" target="@subitem.Target" class="nav-link nav-toggle @subitem.CssClass">
+                        <i class="@subitem.Icon"></i> <span class="title">@subitem.Name</span>
+                    </a>
+                </li>
+}
+            </ul>
+}
+</li>
+}
