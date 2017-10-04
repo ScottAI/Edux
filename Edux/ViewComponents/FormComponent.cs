@@ -35,7 +35,12 @@ namespace Edux.ViewComponents
             ViewBag.Mode = mode;
             var rowId = Request.Query["id"].ToString();
             ViewBag.RowId = rowId;
-            ViewBag.Form = await _context.Forms.Include(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
+            var frm = await _context.Forms.Include(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
+            if (frm == null)
+            {
+                throw new Exception($"\"{formName}\"adında bir form bulunamadı.");
+            }
+            ViewBag.Form = frm;
             var entityName = ((Form)ViewBag.Form).EntityName;
             if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
@@ -49,7 +54,9 @@ namespace Edux.ViewComponents
                 {
                     var entityId = item.Property.DataSourceProperty.EntityId;
                     var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
-                    DataSourcePropertyValues.Add(item.Property.DataSourceProperty.Id, pvs);
+                    if (!DataSourcePropertyValues.ContainsKey(item.Property.DataSourceProperty.Id)) { 
+                        DataSourcePropertyValues.Add(item.Property.DataSourceProperty.Id, pvs);
+                    }
                 }
             }
             ViewBag.DataSourcePropertyValues = DataSourcePropertyValues;

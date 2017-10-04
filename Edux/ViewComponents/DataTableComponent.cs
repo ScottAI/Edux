@@ -33,7 +33,11 @@ namespace Edux.ViewComponents
             ViewBag.DeleteButtonText = DeleteButtonText;
             var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
             ViewBag.DeleteButtonHref = DeleteButtonHref;
-            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).SingleOrDefaultAsync(e => e.Name == DataTableName);
+            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).FirstOrDefaultAsync(e => e.Name == DataTableName);
+            if (datatable == null)
+            {
+                throw new Exception($"\"{DataTableName}\"adında bir veri tablosu bulunamadı.");
+            }
             ViewBag.DataTable = datatable;
             var entityName = datatable.EntityName;
             var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v=>v.PropertyValues).Where(x => x.Entity.Name == entityName && _context.PropertyValues.Where(

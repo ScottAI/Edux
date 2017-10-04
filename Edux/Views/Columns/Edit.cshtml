@@ -100,10 +100,15 @@
                     data: { entityId: entityId },
                     success: function (data) {
                         $("#PropertyId").empty();
+                        $('#PropertyId').append($('<option/>', {
+                                value: "",
+                                text: "Seçiniz",
+                                selected: (data[index].id == '@ViewBag.SelectedPropertyId')
+                            }));
                         $.each(data, function (index, Property) {
                             $('#PropertyId').append($('<option/>', {
                                 value: data[index].id,
-                                text: data[index].name
+                                text: data[index].name,
                                 selected: (data[index].id == '@ViewBag.SelectedPropertyId')
                             }));
                         });

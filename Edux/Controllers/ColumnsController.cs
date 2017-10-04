@@ -135,7 +135,7 @@ namespace Edux.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "DataTables", new { id = column.DataTableId });
             }
             ViewData["DataTableId"] = new SelectList(_context.DataTables, "Id", "Name", column.DataTableId);
             ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", column.PropertyId);
