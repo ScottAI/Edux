@@ -11,7 +11,7 @@
 <link href="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
 <!-- END THEME GLOBAL STYLES -->
 <link href="~/metronic/global/css/components-md.min.css" rel="stylesheet" type="text/css" />
-<h2>@Model.DisplayName</h2>
+<h2>@Model.DisplayName @(ViewBag.Mode.ToString().ToLowerInvariant() == "edit" ? "Düzenle" : (ViewBag.Mode.ToString().ToLowerInvariant() == "delete" ? "Sil" : "Oluştur"))</h2>
 <br />
 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data">
     <input type="hidden" name="FormId" id="FormId" value="@form.Id" />
@@ -233,7 +233,10 @@
                                                                 }
     </div>
     <input class="btn btn-primary" type="submit" value="@(ViewBag.Mode.ToString().ToLowerInvariant() == "edit"?"Kaydet":(ViewBag.Mode.ToString().ToLowerInvariant() == "delete"?"Sil":"Oluştur"))" />
-
+    @if (!String.IsNullOrEmpty(ViewBag.ReturnUrl))
+    {
+        <a class="btn btn-default" href="@ViewBag.ReturnUrl">İptal</a>
+    }
 </form>
 @if(ViewBag.Mode == "delete") { 
 <script>

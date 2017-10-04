@@ -43,7 +43,7 @@
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="presetValuesFormField" style="display:none">
             <label asp-for="PresetValues" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="PresetValues" class="form-control" />
@@ -68,7 +68,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" id="dataSourceEntityIdFormField" style="display:none">
             <label asp-for="DataSourceEntityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="DataSourceEntityId" class="form-control" asp-items="@ViewBag.DataSourceEntityId">
@@ -78,7 +78,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" id="dataSourcePropertyIdFormField" style="display:none">
             <label asp-for="DataSourcePropertyId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="DataSourcePropertyId" class="form-control" asp-items="@ViewBag.DataSourcePropertyId">
@@ -96,7 +96,7 @@
             </div>
         </div>
         
-        <div class="form-group">
+        <div class="form-group" id="stringLengthFormField" style="display:none">
             <label asp-for="StringLength" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="StringLength" class="form-control" />
@@ -181,6 +181,58 @@
             }
         }
     $(document).ready(function () {
+        $('#PropertyType').change(function () {
+            if ($(this).val() == "6" || ($(this).val() == "7")) {
+
+                $('#dataSourcePropertyIdFormField').show();
+                $('#dataSourceEntityIdFormField').show();
+
+                $('#PresetValues').val("");
+                $('#presetValuesFormField').hide();
+
+                $('#StringLength').val("0");
+                $('#stringLengthFormField').hide();
+
+            } else if (($(this).val() == "8")) {
+
+                $('#DataSourcePropertyId').val("");
+                $('#dataSourcePropertyIdFormField').hide();
+
+                $('#DataSourceEntityId').val("");
+                $('#dataSourceEntityIdFormField').hide();
+
+                $('#presetValuesFormField').show();
+
+                $('#StringLength').val("0");
+                $('#stringLengthFormField').hide();
+
+            } else if (($(this).val() == "5")) {
+
+                $('#DataSourcePropertyId').val("");
+                $('#dataSourcePropertyIdFormField').hide();
+
+                $('#DataSourceEntityId').val("");
+                $('#dataSourceEntityIdFormField').hide();
+
+                $('#PresetValues').val("");
+                $('#presetValuesFormField').hide();
+
+                $('#stringLengthFormField').show();
+            } else {
+                $('#DataSourcePropertyId').val("");
+                $('#dataSourcePropertyIdFormField').hide();
+
+                $('#DataSourceEntityId').val("");
+                $('#dataSourceEntityIdFormField').hide();
+
+                $('#PresetValues').val("");
+                $('#presetValuesFormField').hide();
+
+                $('#StringLength').val("0");
+                $('#stringLengthFormField').hide();
+            }
+            
+});
         // ülke seçildiğinde bu fonksiyon çalışır
         LoadProperties($("#DataSourceEntityId"));
         $('#DataSourceEntityId').change(function () { LoadProperties(this); });
