@@ -48,6 +48,9 @@
                 @Html.DisplayNameFor(model => model.Form)
             </th>
             <th class="text-nowrap ">
+                @Html.DisplayNameFor(model => model.Entity)
+            </th>
+            <th class="text-nowrap ">
                 @Html.DisplayNameFor(model => model.Property)
             </th>
             <th class="text-nowrap ">
@@ -102,10 +105,13 @@
                 @Html.DisplayFor(modelItem => item.Form.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Property.Id)
+                @Html.DisplayFor(modelItem => item.EntityId) - @Html.DisplayFor(modelItem => item.Entity.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PropertyValue.Id)
+                @Html.DisplayFor(modelItem => item.PropertyId) - @Html.DisplayFor(modelItem => item.Property.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PropertyValue.Value)
             </td>
             <td class="text-nowrap">
                 <a asp-action="Edit" asp-controller="Fields" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a>
