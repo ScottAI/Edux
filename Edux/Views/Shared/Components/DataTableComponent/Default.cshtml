@@ -4,90 +4,117 @@
     var entityId = "";
 }
 
-<h2>@Model.DisplayName</h2>
-<br />
-@if (!String.IsNullOrEmpty(ViewBag.CreateButtonText)) { 
-<a class="btn btn-success" href="@ViewBag.CreateButtonHref">@ViewBag.CreateButtonText </a>
-<br />
-<br />
-}
-<table class="table table-striped table-hover dt-responsive" id="@datatable.Name" width="100%">
-    <thead>
-        <tr>@{ var order = "";
-            var colIndex = 0; }
-            @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-            {
-                if (item.OrderBy.HasValue) {
-                    order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+
+            <span class="caption-subject bold uppercase">
+                @Model.DisplayName
+            </span>
+        </div>
+
+
+    </div>
+    <div class="portlet-body">
+
+        @if (!String.IsNullOrEmpty(ViewBag.CreateButtonText))
+        {<div class="table-toolbar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group">
+                        <a class="btn sbold green" href="@ViewBag.CreateButtonHref">
+                            @ViewBag.CreateButtonText
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
                 }
-                entityId = item.Property.EntityId;
-                <th class="text-nowrap">
-                    @item.Property.DisplayName
-                </th>
-                colIndex++;
-            }
-    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-    {
-            <th data-orderable="false" class="all">Eylemler</th>
-    }
-        </tr>
-    </thead>
-    <tbody>
-        @{  var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
-        @foreach (var id in rowIds) { 
-        <tr>
-            @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-            {
-                <td>
-                    
-                       @if (item.Property.DataSourceProperty == null)
-                       {
-                           var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
-                           if (val!=null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                           { @String.Format(val.Property.DisplayFormat,val?.Value) }
-                           else
-                           { @val?.Value}
-                       }
-                       else
-                       {
-                           var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
-                           if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                           { @String.Format(val.Property.DisplayFormat, val?.Value) }
-                           else
-                           { @val?.Value}
-                           
+                <table class="table table-striped table-hover dt-responsive table-bordered order-column" id="@datatable.Name">
+                    <thead>
+                        <tr>
+                            @{ var order = "";
+                                var colIndex = 0; }
+                            @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+                            {
+                                if (item.OrderBy.HasValue)
+                                {
+                                    order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
+                                }
+                                entityId = item.Property.EntityId;
+                                <th class="text-nowrap">
+                                    @item.Property.DisplayName
+                                </th>
+                                colIndex++;
+                            }
+                            @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                            {
+                                <th data-orderable="false" class="all">Eylemler</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{  var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
+                        @foreach (var id in rowIds)
+                        {
+                            <tr>
+                                @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+                                {
+                                    <td>
+
+                                        @if (item.Property.DataSourceProperty == null)
+                                        {
+                                            var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
+                                            if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                                            { @String.Format(val.Property.DisplayFormat, val?.Value) }
+                                            else
+                                            { @val?.Value}
+                                        }
+                                        else
+                                        {
+                                            var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
+                                            if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                                            { @String.Format(val.Property.DisplayFormat, val?.Value) }
+                                            else
+                                            { @val?.Value}
 
 
-}
+
+                                        }
 
 
-                </td>
-            }
-            <td class="text-nowrap">
-                @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
-                {
+                                    </td>
+                                }
+                                <td class="text-nowrap">
+                                    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
+                                    {
 
-                    <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
-                }
-                @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-                {
-    
-                    <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+                                        <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
+                                    }
+                                    @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                                    {
 
-                }
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-<script>
+                                        <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
         $(document).ready(function () {
             $('#@datatable.Name').DataTable({
                 "order": [@Html.Raw(order)],
                 "responsive": true,
+                "pageLength": 100,
+                "colReorder": true,
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
                 }
             });
         });
-</script>
+        </script>

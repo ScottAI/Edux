@@ -5,7 +5,7 @@
     ViewData["Keywords"] = Model.Page.MetaKeywords;
     Layout = Model.Page.LayoutView ?? ((App)ViewBag.App).DefaultLayout;
 }
-<h1>@Model.Page.Title</h1>
+<h1 class="page-title">@Model.Page.Title</h1>
 
 @await Component.InvokeAsync(Model.Page.Components.FirstOrDefault(c=>c.Name=="Container").ComponentType.Name, new { component = Model.Page.Components.FirstOrDefault(c=>c.Name=="Container") })
 @section scripts {
