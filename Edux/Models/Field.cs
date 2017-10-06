@@ -54,13 +54,25 @@ namespace Edux.Models
         public string OnClick { get; set; }
         [StringLength(200)]
         public string CssClass { get; set; }
+        [Display(Name="Salt Okunur")]
         public bool IsReadOnly { get; set; }
+        [Display(Name = "Görünür mü?")]
+        public bool IsVisible { get; set; }
+        [Display(Name="Şu Rollere Görünmez")]
+        public string InvisibleToRoles { get; set; }
+        [Display(Name = "Şu Rollere Görünür")]
         public string VisibleToRoles { get; set; }
+        [Display(Name="Şu Rollere Salt Okunur")]
         public string ReadOnlyToRoles { get; set; }
+        [Display(Name = "Şu Roller Düzenleyebilir")]
+        public string EditableToRoles { get; set; }
+        [Display(Name="Alan Grubu")]
         [StringLength(200)]
         public string FieldSet { get; set; }
         [StringLength(200)]
+        [Display(Name="Veri Tablosu")]
         public string DataTableId { get; set; }
+        [Display(Name = "Veri Tablosu")]
         [ForeignKey("DataTableId")]
         public DataTable DataTable { get; set; }
     }

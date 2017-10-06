@@ -31,6 +31,11 @@ namespace Edux.Models
         [Display(Name = "Filtreleme Değeri")]
         [StringLength(200)]
         public string FilterValue { get; set; }
+        [StringLength(200)]
+        [Display(Name="Css Sınıfı")]
+        public string CssClass { get; set; }
+        [Display(Name = "Görünür mü?")]
+        public bool IsVisible { get; set; }
         
     }
 }

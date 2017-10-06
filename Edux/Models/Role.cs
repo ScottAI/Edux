@@ -12,6 +12,7 @@ namespace Edux.Models
     {
         [StringLength(200)]
         public string AppTenantId { get; set; }
+        [Display(Name = "Açıklama")]
         public string Description { get; set; }
     } 
 }

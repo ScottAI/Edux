@@ -12,6 +12,9 @@ namespace Edux.Models
         {
             Properties = new HashSet<Property>();
             PropertyValues = new HashSet<PropertyValue>();
+            Columns = new HashSet<Column>();
+            DataTables = new HashSet<DataTable>();
+            Forms = new HashSet<Form>();
             CreateDate = DateTime.Now;
             CreatedBy = "username";
             UpdateDate = DateTime.Now;
@@ -29,10 +32,17 @@ namespace Edux.Models
         public virtual ICollection<Property> Properties { get; set; }
         [Display(Name = "Özellikler")]
         public virtual ICollection<Property> DataSourceProperties { get; set; }
+        [Display(Name = "Özellikler 2")]
+        public virtual ICollection<Property> DataSourceProperties2 { get; set; }
+        [Display(Name = "Özellikler 3")]
+        public virtual ICollection<Property> DataSourceProperties3 { get; set; }
         [Display(Name = "ÖzelliklerDeğerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
+        [Display(Name="Sütunlar")]
         public virtual ICollection<Column> Columns { get; set; }
+        [Display(Name = "Veri Tabloları")]
         public virtual ICollection<DataTable> DataTables { get; set; }
+        [Display(Name = "Formlar")]
         public virtual ICollection<Form> Forms { get; set; }
     }
 }

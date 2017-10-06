@@ -12,6 +12,7 @@ namespace Edux.Models
         public DataTable()
         {
             Top = 5000;
+            Columns = new HashSet<Column>();
         }
         [Required]
         [StringLength(200)]
@@ -21,15 +22,15 @@ namespace Edux.Models
         [StringLength(200)]
         [Display(Name = "Veri Tablosu Görünen Adı")]
         public string DisplayName { get; set; }
+        [Display(Name="Sütunlar")]
         public virtual ICollection<Column> Columns { get; set; }
         public int Top { get; set; }
-        [StringLength(200)]
-        [Display(Name="Varlık Adı")]
-        public string EntityName { get; set; }
         [Display(Name = "Varlık")]
         public string EntityId { get; set; }
         [Display(Name = "Varlık")]
         [ForeignKey("EntityId")]
         public Entity Entity { get; set; }
+        [Display(Name="Alanlar")]
+        public virtual ICollection<Field> Fields { get; set; }
     }
 }
