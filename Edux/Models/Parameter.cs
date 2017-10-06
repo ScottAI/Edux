@@ -30,6 +30,27 @@ namespace Edux.Models
         public ComponentType ComponentType { get; set; }
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
+        public ParameterType ParameterType { get; set; }
+        public string PresetValues { get; set; }
+        [StringLength(200)]
+        public string OptionLabel { get; set; }
+        [ForeignKey("DataSourceEntityId")]
+        public Entity DataSourceEntity { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği")]
+        public string DataSourcePropertyId { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği")]
+        [ForeignKey("DataSourcePropertyId")]
+        public Property DataSourceProperty { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği 2")]
+        public string DataSourcePropertyId2 { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği 2")]
+        [ForeignKey("DataSourcePropertyId2")]
+        public Property DataSourceProperty2 { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği 3")]
+        public string DataSourcePropertyId3 { get; set; }
+        [Display(Name = "Veri Kaynağı Özelliği 3")]
+        [ForeignKey("DataSourcePropertyId3")]
+        public Property DataSourceProperty3 { get; set; }
         [Display(Name = "Parametre Değerleri")]
         public virtual ICollection<ParameterValue> ParameterValues { get; set; }
 

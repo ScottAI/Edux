@@ -19,7 +19,12 @@ namespace Edux.Models
         TimePicker = 10,
         Tel=11,
         Email=12,
-        Number=13
-
+        Number=13,
+        SelectMultiple=14,
+        TreeView=15,
+        DataTableSingleSelect=16,
+        DataTableMultipleSelect=17,
+        DataTableAddRemove=18,
+        DataTableIndependent=19
     }
 }
