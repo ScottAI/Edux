@@ -71,6 +71,7 @@ namespace Edux.Models
         [ForeignKey("LanguageId")]
         [Display(Name = "Dil")]
         public Language Language { get; set; }
+        [Display(Name = "Betikler")]
         public string Scripts { get; set; }
     }
 }

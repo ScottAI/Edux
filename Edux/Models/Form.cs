@@ -23,7 +23,9 @@ namespace Edux.Models
         public string EntityId { get; set; }
         [ForeignKey("EntityId")]
         public Entity Entity { get; set; }
+        [Display(Name = "Alanlar")]
         public virtual ICollection<Field> Fields { get; set; }
+        [Display(Name = "Betikler")]
         public string Scripts { get; set; }   
     }
 }

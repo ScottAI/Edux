@@ -30,8 +30,11 @@ namespace Edux.Models
         public ComponentType ComponentType { get; set; }
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
+        [Display(Name = "Parametre Türü")]
         public ParameterType ParameterType { get; set; }
+        [Display(Name = "Ön Tanımlı Değerler")]
         public string PresetValues { get; set; }
+        [Display(Name = "Seçenek Etiketi")]
         [StringLength(200)]
         public string OptionLabel { get; set; }
         [ForeignKey("DataSourceEntityId")]

@@ -8,11 +8,15 @@ namespace Edux.Models
 {
     public class Function:BaseEntity
     {
+        [Display(Name="İşlev Adı")]
         [Required]
         [StringLength(200)]
         public string Name { get; set; }
+        [Display(Name = "Kod")]
         public string Code { get; set; }
-        public bool IsAuthorized { get; set; }
+        [Display(Name = "Anonim Mi?")]
+        public bool IsAnonymous { get; set; }
+        [Display(Name = "İzin Verilen Roller")]
         public string AllowedRoles { get; set; }
     }
 }
