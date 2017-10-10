@@ -42,6 +42,18 @@
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.Entity)
             </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.PropertyType)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.PresetValues)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.DataSourceEntity)
+            </th>
+            <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.DataSourceProperty)
+            </th>
             <th data-orderable="false" class="text-nowrap all">
                 Eylemler
             </th>
@@ -86,6 +98,18 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Entity.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PresetValues)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataSourceEntity.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataSourceProperty.Id)
                 </td>
                 <td class="text-nowrap">
                     <a asp-action="Edit" asp-controller="Properties" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a>

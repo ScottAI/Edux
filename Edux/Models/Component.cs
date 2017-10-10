@@ -12,6 +12,7 @@ namespace Edux.Models
         public Component() : base()
         {
             ParameterValues = new HashSet<ParameterValue>();
+            ChildComponents = new HashSet<Component>();
             View = "Default";
             UpdateDate = DateTime.Now;
             Position = 0;

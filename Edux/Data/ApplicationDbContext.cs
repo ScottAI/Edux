@@ -54,7 +54,9 @@ namespace Edux.Data
             public DbSet<MenuItem> MenuItems { get; set; }
             public DbSet<Chart> Charts { get; set; }
             public DbSet<Setting> Settings { get; set; }
-            public DbSet<App> Apps{ get; set; }
+            public DbSet<App> Apps { get; set; }
+            public DbSet<Tab> Tabs { get; set; }
+            public DbSet<RoleGroup> RoleGroups { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

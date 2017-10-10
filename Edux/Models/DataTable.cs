@@ -13,6 +13,7 @@ namespace Edux.Models
         {
             Top = 5000;
             Columns = new HashSet<Column>();
+            Fields = new HashSet<Field>();
         }
         [Required]
         [StringLength(200)]

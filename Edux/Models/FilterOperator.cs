@@ -15,6 +15,10 @@ namespace Edux.Models
         LessThan = 5,
         LessThanOrEquals = 6,
         GreaterThan = 7,
-        GreaterThanOrEquals = 8
+        GreaterThanOrEquals = 8,
+        Between=9,
+        NotBetween=10,
+        In = 11,
+        NotIn = 12
     }
 }
