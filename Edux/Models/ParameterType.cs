@@ -20,10 +20,12 @@ namespace Edux.Models
         Tel = 11,
         Email = 12,
         Number = 13,
-        SelectMultiple = 14,
-        TreeView = 15,
-        SelectDataTable=16,
-        SelectForm=17,
-        SelectPage=18
+        Hidden = 14,
+        Password = 15,
+        SelectMultiple = 16,
+        TreeView = 17,
+        SelectDataTable=18,
+        SelectForm=19,
+        SelectPage=20
     }
 }

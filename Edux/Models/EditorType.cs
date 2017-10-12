@@ -21,11 +21,12 @@ namespace Edux.Models
         Email=12,
         Number=13,
         Hidden=14,
-        SelectMultiple=15,
-        TreeView=16,
-        DataTableSingleSelect=17,
-        DataTableMultipleSelect=18,
-        DataTableAddRemove=19,
-        DataTableIndependent=20
+        Password=15,
+        SelectMultiple=16,
+        TreeView=17,
+        DataTableSingleSelect=18,
+        DataTableMultipleSelect=19,
+        DataTableAddRemove=20,
+        DataTableIndependent=21
     }
 }

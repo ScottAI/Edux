@@ -80,7 +80,7 @@
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                             <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)</textarea>
                                                                             <script>
-                                                        CKEDITOR.replace(' @field.Name');
+                                                        CKEDITOR.replace('@field.Name');
                                                                             </script>
                                                                         </div>
                                                                     </div>

@@ -43,7 +43,7 @@
                                     order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
                                 }
                                 entityId = item.Property.EntityId;
-                                <th class="text-nowrap">
+                                <th class="text-nowrap @(colIndex==0?"all":"")">
                                     @item.Property.DisplayName
                                 </th>
                                 colIndex++;
