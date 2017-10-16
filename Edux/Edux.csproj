@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\metronic\" />
+    <Folder Include="wwwroot\shamcey\" />
   </ItemGroup>
  
 
