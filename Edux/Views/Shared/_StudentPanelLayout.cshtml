@@ -3,8 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shamcey - Metro Style Admin Template - shared on themelock.com</title>
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="/shamcey/css/style.default.css" type="text/css" />
+    <link rel="stylesheet" href="/shamcey/css/style.navyblue.css" type="text/css" />
     <link rel="stylesheet" href="/shamcey/css/responsive-tables.css">
     <link href="/metronic/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="/metronic/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
@@ -21,22 +22,34 @@
     <script type="text/javascript" src="/shamcey/js/flot/jquery.flot.resize.min.js"></script>
     <script type="text/javascript" src="/shamcey/js/custom.js"></script>
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
-    
+    <style>
+        .headmenu > li > a .headmenu-label {
+            opacity: 1;
+        }
+        .headmenu > li > a .head-icon {
+            opacity: 0.8;
+        }
+        .leftmenu .nav-tabs.nav-stacked a {
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="mainwrapper">
 
         <div class="header">
-            <div class="logo">
-                <a href="dashboard.html"><img src="/shamcey/images/logo.png" alt="" /></a>
+            <div class="logo text-center">
+                <a href="/">
+                    <img src="/metronic/layouts/layout/img/logo.png" alt="logo"/>
+                </a>
             </div>
             <div class="headerinner">
                 <ul class="headmenu">
-                    <li class="odd">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <li class="odd" style="background-color:navy">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#">
                             <span class="count">4</span>
-                            <span class="head-icon head-message"></span>
-                            <span class="headmenu-label">Messages</span>
+                            <span class="head-icon fa fa-calendar fa-2x"></span>
+                            <span class="headmenu-label">Ajanda</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Messages</li>
@@ -48,11 +61,11 @@
                             <li class="viewmore"><a href="messages.html">View More Messages</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+                    <li style="background-color:darkgreen">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" data-target="#">
                             <span class="count">10</span>
-                            <span class="head-icon head-users"></span>
-                            <span class="headmenu-label">New Users</span>
+                            <span class="head-icon fa fa-newspaper-o fa-2x"></span>
+                            <span class="headmenu-label">Sınav Sonuçları</span>
                         </a>
                         <ul class="dropdown-menu newusers">
                             <li class="nav-header">New Users</li>
@@ -93,11 +106,75 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="odd">
-                        <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+                    <li class="odd" style="background-color:brown">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" data-target="#">
                             <span class="count">1</span>
-                            <span class="head-icon head-bar"></span>
-                            <span class="headmenu-label">Statistics</span>
+                            <span class="head-icon fa fa-pencil fa-2x"></span>
+                            <span class="headmenu-label">Ödevler</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Statistics</li>
+                            <li><a href=""><span class="icon-align-left"></span> New Reports from <strong>Products</strong> <small class="muted"> - 19 hours ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Users</strong> <small class="muted"> - 2 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Comments</strong> <small class="muted"> - 3 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Popular in <strong>Products</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Viewed in <strong>Blog</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li class="viewmore"><a href="charts.html">View More Statistics</a></li>
+                        </ul>
+                    </li>
+                    <li style="background-color:darkorange">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" data-target="#">
+                            <span class="count">1</span>
+                            <span class="head-icon fa fa-search fa-2x"></span>
+                            <span class="headmenu-label">Evdeki Öğretmen</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Statistics</li>
+                            <li><a href=""><span class="icon-align-left"></span> New Reports from <strong>Products</strong> <small class="muted"> - 19 hours ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Users</strong> <small class="muted"> - 2 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Comments</strong> <small class="muted"> - 3 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Popular in <strong>Products</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Viewed in <strong>Blog</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li class="viewmore"><a href="charts.html">View More Statistics</a></li>
+                        </ul>
+                    </li>
+                    <li class="odd" style="background-color:darkmagenta">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" data-target="#">
+                            <span class="count">1</span>
+                            <span class="head-icon fa fa-home fa-2x"></span>
+                            <span class="headmenu-label">Ders Anlatımı</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Statistics</li>
+                            <li><a href=""><span class="icon-align-left"></span> New Reports from <strong>Products</strong> <small class="muted"> - 19 hours ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Users</strong> <small class="muted"> - 2 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Comments</strong> <small class="muted"> - 3 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Popular in <strong>Products</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Viewed in <strong>Blog</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li class="viewmore"><a href="charts.html">View More Statistics</a></li>
+                        </ul>
+                    </li>
+                    <li style="background-color:darkblue">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" data-target="#">
+                            <span class="count">1</span>
+                            <span class="head-icon fa fa-envelope fa-2x"></span>
+                            <span class="headmenu-label">Mesajlar</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Statistics</li>
+                            <li><a href=""><span class="icon-align-left"></span> New Reports from <strong>Products</strong> <small class="muted"> - 19 hours ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Users</strong> <small class="muted"> - 2 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> New Statistics from <strong>Comments</strong> <small class="muted"> - 3 days ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Popular in <strong>Products</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li><a href=""><span class="icon-align-left"></span> Most Viewed in <strong>Blog</strong> <small class="muted"> - 1 week ago</small></a></li>
+                            <li class="viewmore"><a href="charts.html">View More Statistics</a></li>
+                        </ul>
+                    </li>
+                    <li style="background-color:blue">
+                        <a class="dropdown-toggle text-center" data-toggle="dropdown" data-target="#">
+                            <span class="count">1</span>
+                            <span class="head-icon fa fa-bell fa-2x"></span>
+                            <span class="headmenu-label">Duyurular</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Statistics</li>
@@ -155,7 +232,7 @@
                 </li>
             </ul>
 
-            <div class="pageheader">
+            @*<div class="pageheader">
                 <form action="results.html" method="post" class="searchbar">
                     <input type="text" name="keyword" placeholder="To search type and hit enter..." />
                 </form>
@@ -164,9 +241,9 @@
                     <h5>All Features Summary</h5>
                     <h1>Dashboard</h1>
                 </div>
-            </div><!--pageheader-->
+            </div>*@<!--pageheader-->
 
-            <div class="maincontent">
+            @*<div class="maincontent">
                 <div class="maincontentinner">
                     <div class="row-fluid">
                         <div id="dashboard-left" class="span8">
@@ -532,8 +609,8 @@
                     </div><!--footer-->
 
                 </div><!--maincontentinner-->
-            </div><!--maincontent-->
-
+            </div>*@<!--maincontent-->
+            @RenderBody()
         </div><!--rightpanel-->
 
     </div><!--mainwrapper-->
