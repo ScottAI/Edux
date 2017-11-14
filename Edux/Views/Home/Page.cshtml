@@ -5,6 +5,24 @@
     ViewData["Keywords"] = Model.Page.MetaKeywords;
     Layout = Model.Page.LayoutView ?? ((App)ViewBag.App).DefaultLayout;
 }
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="/edux@(((App)ViewBag.App).Slug)/tr">Yönetim Paneli</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>@Model.Page.Title</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div id="dashboard-report-range" class="pull-right tooltips btn btn-sm" data-container="body" data-placement="bottom" data-original-title="Change dashboard date range">
+            <i class="icon-calendar"></i>&nbsp;
+            <span class="thin uppercase hidden-xs"></span>&nbsp;
+            <i class="fa fa-angle-down"></i>
+        </div>
+    </div>
+</div>
 <h1 class="page-title">@Model.Page.Title</h1>
 
 @await Component.InvokeAsync(Model.Page.Components.FirstOrDefault(c=>c.Name=="Container").ComponentType.Name, new { component = Model.Page.Components.FirstOrDefault(c=>c.Name=="Container") })
