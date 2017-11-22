@@ -39,13 +39,11 @@ namespace Edux.ViewComponents
                 throw new Exception($"\"{DataTableName}\"adında bir veri tablosu bulunamadı.");
             }
             ViewBag.DataTable = datatable;
-            var entityName = datatable.EntityName;
-            var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v=>v.PropertyValues).Where(x => x.Entity.Name == entityName && _context.PropertyValues.Where(
+            var entityId = datatable.EntityId;
+            var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v=>v.PropertyValues).Where(x => x.EntityId == entityId && _context.PropertyValues.Where(
                 p => (datatable.Columns.Any(c=>c.FilterOperator != Models.FilterOperator.None)?(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?
                     (p.Value == datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) : (datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Contains ? (p.Value.Contains(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue)) : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.DoesNotContain ? (!p.Value.Contains(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue)) : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.LessThan ? (p.Value.CompareTo(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) > 0) : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.LessThanOrEquals ? (p.Value.CompareTo(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) >= 0) : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.GreaterThan ? (p.Value.CompareTo(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) < 0) : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.GreaterThanOrEquals ? (p.Value.CompareTo(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterValue) <= 0) : false)))))))))))):true)).Any(f=>f.RowId==x.RowId)).OrderBy(r => r.RowId).Take(datatable.Top).ToList();
            
-
-
             ViewBag.Values = values;
             return await Task.FromResult(View(viewName, component));
         }

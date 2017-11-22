@@ -24,7 +24,7 @@ namespace Edux.Controllers
         // GET: Fields
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Fields.Include(x=> x.Form).Include(x => x.Property).Include(x => x.PropertyValue);
+            var applicationDbContext = _context.Fields.Include(x=> x.Form).Include(x => x.Property);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -40,7 +40,6 @@ namespace Edux.Controllers
             var @field = await _context.Fields
                 .Include(x => x.Form)
                 .Include(x => x.Property)
-                .Include(x => x.PropertyValue)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (@field == null)
             {
@@ -166,7 +165,7 @@ namespace Edux.Controllers
             var @field = await _context.Fields
                 .Include(x => x.Form)
                 .Include(x => x.Property)
-                .Include(x => x.PropertyValue)
+
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (@field == null)
             {
