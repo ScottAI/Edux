@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.DisplayName)
             </th>
             <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.EntityName)
+                @Html.DisplayNameFor(model => model.Entity.Name)
             </th>
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.Top)
@@ -54,7 +54,7 @@
                     @Html.DisplayFor(modelItem => item.DisplayName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EntityName)
+                    @Html.DisplayFor(modelItem => item.Entity.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Top)
