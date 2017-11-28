@@ -51,7 +51,7 @@ namespace Edux.Data
             appTenant.CreateDate = DateTime.Now;
             appTenant.ThemeName = "metronic";
             appTenant.Theme = theme;
-            appTenant.ConnectionString = $"Server=.;Database={appTenant.Name};Trusted_Connection=True;MultipleActiveResultSets=true";
+            appTenant.ConnectionString = $"Server=52.169.21.235;Database={appTenant.Name};User Id=Edux;Password=Turkcoin34;MultipleActiveResultSets=true";
             context.AppTenants.Add(appTenant);
             context.SaveChanges();
         }
