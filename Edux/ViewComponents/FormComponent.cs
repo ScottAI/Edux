@@ -35,7 +35,7 @@ namespace Edux.ViewComponents
             ViewBag.Mode = mode;
             var rowId = Request.Query["id"].ToString();
             ViewBag.RowId = rowId;
-            var frm = await _context.Forms.Include(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
+            var frm = await _context.Forms.Include(t=>t.Tabs).ThenInclude(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
             if (frm == null)
             {
                 throw new Exception($"\"{formName}\"adında bir form bulunamadı.");

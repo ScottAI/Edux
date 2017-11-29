@@ -1,10 +1,7 @@
 ﻿@model Component
 @{ var form = (Form)ViewBag.Form;}
-@{ var rowCount = form.Fields.Select(s => s.Row).Distinct().Count();}
-
-@{
-    var tabCount = form.Fields.Select(s => s.Tab).Distinct().Count();
-    var tabs = form.Fields.OrderBy(o => o.Position).Select(s => s.Tab).Distinct().ToArray();
+@{ 
+    var tabs = form.Tabs.OrderBy(o => o.Position).ToList();
 }
 
 <!-- BEGIN THEME GLOBAL STYLES -->
@@ -29,31 +26,34 @@
                         <input type="hidden" name="RowId" id="RowId" value="@ViewBag.RowId" />
                         <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.ReturnUrl" />
                         <ul class="nav nav-tabs">
-                            @for (var k = 1; k <= tabCount; k++)
+                            @{ var k = 1;}
+                            @foreach (var tab in tabs)
                             {
                                 <li @(k == 1 ? "class=active" : "")>
-                                    <a href="#tab_@k" data-toggle="tab"> @tabs[k - 1] </a>
+                                    <a href="#@tab.Name" data-toggle="tab"> @tab.DisplayName </a>
                                 </li>
+                                k++;
                             }
 
 
                         </ul>
                         <div class="tab-content">
-                            @for (var k = 1; k <= tabCount; k++)
+                            @{ k = 1;}
+                            @foreach (var tab in tabs)
                             {
-                                <div class="tab-pane fade @(k==1?"active":"") in" id="tab_@k">
+                                <div class="tab-pane fade @(k==1?"active":"") in" id="@tab.Name">
 
                                     <div class="form-horizontal">
 
-                                        @for (var i = 1; i <= rowCount; i++)
+                                        @for (var i = 1; i <= tab.Fields.Select(s => s.Row).Distinct().Count(); i++)
                 {
                                             <div class="row">
-                                                @{ var colCount = form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i).Select(s => s.Col).Distinct().Count(); }
+                                                @{ var colCount = tab.Fields.Where(s => s.TabId == tab.Id && s.Row == i).Select(s => s.Col).Distinct().Count(); }
                                                 @for (var j = 1; j <= colCount; j++)
                                                 {
 
                                                     <div class="col-md-@(12 / colCount)">
-                                                        @foreach (var field in form.Fields.Where(s => s.Tab == tabs[k - 1] && s.Row == i && s.Col == j).OrderBy(f => f.Position))
+                                                        @foreach (var field in tab.Fields.Where(s => s.TabId == tab.Id && s.Row == i && s.Col == j).OrderBy(f => f.Position))
                                                         {
                                                             int uploadIndex = 0;
                                                             <input type="hidden" name="@(field.PropertyId).EntityId" id="@(field.Name).EntityId" value="@field.Property.EntityId" />
@@ -234,6 +234,7 @@
                                                                                                     }
                                                                                                 }
                                                     </div>
+                                                                                                    k++;
                                                                                                 }
 
                                             </div>
