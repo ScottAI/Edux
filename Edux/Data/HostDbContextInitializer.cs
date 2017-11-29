@@ -44,14 +44,14 @@ namespace Edux.Data
             public static void AddAppTenants(HostDbContext context,Theme theme)
         {
             var appTenant = new AppTenant();
-            appTenant.Name = "EduxBilgiKoleji";
+            appTenant.Name = "Edux11BilgiKoleji";
             appTenant.Title = "Bilgi Koleji Edux";
             appTenant.Hostname = "localhost:60005";
             appTenant.Folder = "bilgikoleji";
             appTenant.CreateDate = DateTime.Now;
             appTenant.ThemeName = "metronic";
             appTenant.Theme = theme;
-            appTenant.ConnectionString = $"Server=52.169.21.235;Database={appTenant.Name};User Id=Edux;Password=Turkcoin34;MultipleActiveResultSets=true";
+            appTenant.ConnectionString = $"Server=edux.bilgikoleji.com;Database={appTenant.Name};User Id=Edux;Password=Turkcoin34;MultipleActiveResultSets=true";
             context.AppTenants.Add(appTenant);
             context.SaveChanges();
         }
