@@ -46,10 +46,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Tab" class="col-md-2 control-label"></label>
+            <label asp-for="TabId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Tab" class="form-control" />
-                <span asp-validation-for="Tab" class="text-danger"></span>
+                <select asp-for="TabId" class="form-control" asp-items="ViewBag.Tabs"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="TabId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

@@ -1,0 +1,90 @@
+﻿@model Edux.Models.Tab
+
+@{
+    ViewData["Title"] = "Yeni Sekme";
+}
+
+<h2>Oluştur</h2>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-horizontal">
+        <h4>Sekme</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DisplayName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <input title="FormIdRef" type="hidden" value="@ViewBag.FormIdRef" name="FormIdRef" class="form-control" />
+
+        <div class="form-group">
+            <label asp-for="FormId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="FormId" class ="form-control" asp-items="ViewBag.FormId"><option value="">Seçiniz</option></select>
+            </div>
+        </div>
+       
+       
+        <div class="form-group">
+            <label asp-for="Position" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsDisabled" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="IsDisabled" class="form-control" asp-items="Html.GetEnumSelectList<EditorType>()" />
+                <span asp-validation-for="IsDisabled" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsInvisible" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="IsInvisible" class="form-control" asp-items="Html.GetEnumSelectList<EditorType>()" />
+                <span asp-validation-for="IsInvisible" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="VisibleToRoles" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="VisibleToRoles" class="form-control" />
+                <span asp-validation-for="VisibleToRoles" class="text-danger"></span>
+            </div>
+        </div>
+            
+        
+                <input type="hidden" asp-for="Id" />
+                <input asp-for="CreateDate" class="form-control" type="hidden"/>
+                <input asp-for="CreatedBy" class="form-control" type="hidden"/>
+                <input asp-for="UpdateDate" class="form-control" type="hidden"/>
+                <input asp-for="UpdatedBy" class="form-control" type="hidden" />
+                <input asp-for="AppTenantId" class="form-control" type="hidden" />
+       
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Oluştur" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Listeye Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

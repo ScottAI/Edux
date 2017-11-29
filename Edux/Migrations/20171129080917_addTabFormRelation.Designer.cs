@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171129080917_addTabFormRelation")]
+    partial class addTabFormRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1058,10 +1059,6 @@ namespace Edux.Migrations
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(200);
 
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
                     b.Property<string>("FormId");
 
                     b.Property<bool>("IsDisabled");
@@ -1071,8 +1068,6 @@ namespace Edux.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
-
-                    b.Property<int>("Position");
 
                     b.Property<DateTime>("UpdateDate");
 

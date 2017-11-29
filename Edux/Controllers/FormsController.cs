@@ -49,6 +49,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var form = new Form();
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name");
             return View(form);
         }
 
@@ -69,6 +70,7 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Edit",new { id=form.Id});
             }
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name", form.EntityId);
             return View(form);
         }
 
@@ -85,6 +87,7 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name", form.EntityId);
             return View(form);
         }
 
@@ -122,6 +125,7 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name", form.EntityId);
             return View(form);
         }
 

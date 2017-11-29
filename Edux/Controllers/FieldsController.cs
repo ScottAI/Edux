@@ -53,10 +53,17 @@ namespace Edux.Controllers
         public IActionResult Create(string formId)
         {
             var field = new Field();
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name");
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name");
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name");
-            
+            ViewData["FormId"] = new SelectList(_context.Forms.OrderBy(f=>f.Name).ToList(), "Id", "Name");
+            ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name");
+            ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name");
+
+            ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == formId).OrderBy(o => o.Position).ToList(), "Id", "Name");
+
+            var form = _context.Forms.FirstOrDefault(f => f.Id == formId);
+            if (form!=null)
+            {
+                field.EntityId = form.EntityId;
+            }
             field.FormId = formId;
             ViewBag.FormIdRef = formId;
             return View(field);
@@ -80,15 +87,15 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 if (FormIdRef !=null)
                 {
-                    string url="/Forms/Edit/" + FormIdRef + "#tab_1_2";
+                    string url="/Forms/Edit/" + FormIdRef + "#tab_1_3";
                     return Redirect(url);
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["FormId"] = new SelectList(_context.Forms,"Name", field.FormId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", field.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", field.PropertyId);
-            
+            ViewData["FormId"] = new SelectList(_context.Forms.OrderBy(f => f.Name).ToList(), "Name", field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name", field.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name", field.PropertyId);
+            ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "Name", field.TabId);
             return View(field);
 
     }
@@ -106,10 +113,10 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", field.FormId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", field.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", field.PropertyId);
-            
+            ViewData["FormId"] = new SelectList(_context.Forms.OrderBy(f => f.Name).ToList(), "Id", "Name", field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name", field.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name", field.PropertyId);
+            ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "Name", field.TabId);
             return View(field);
         }
 
@@ -147,10 +154,10 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Edit", "Forms", new { id = field.FormId });
             }
-            ViewData["FormId"] = new SelectList(_context.Forms, "Id", "Name", field.FormId);
-            ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", field.EntityId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Name", field.PropertyId);
-            
+            ViewData["FormId"] = new SelectList(_context.Forms.OrderBy(f => f.Name).ToList(), "Id", "Name", field.FormId);
+            ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name", field.EntityId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name", field.PropertyId);
+            ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "Name", field.TabId);
             return View(field);
         }
 
@@ -192,8 +199,7 @@ namespace Edux.Controllers
         }
         public IActionResult GetProperties(string entityId)
         {
-            var properties = _context.Properties.Where(p => p.EntityId == entityId).Select(p => new { Id = p.Id, Name = p.Name }).ToList();
-            ;
+            var properties = _context.Properties.Where(p => p.EntityId == entityId).OrderBy(f => f.Name).Select(p => new { Id = p.Id, Name = p.Name }).ToList();
 
             return Ok(properties);
         }

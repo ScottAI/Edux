@@ -27,5 +27,7 @@ namespace Edux.Models
         public virtual ICollection<Field> Fields { get; set; }
         [Display(Name = "Betikler")]
         public string Scripts { get; set; }   
+        [Display(Name = "Sekmeler")]
+        public ICollection<Tab> Tabs { get; set; }
     }
 }
