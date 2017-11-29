@@ -862,10 +862,6 @@ namespace Edux.Migrations
 
                     b.Property<string>("EntityId");
 
-                    b.Property<string>("EntityId1");
-
-                    b.Property<string>("EntityId2");
-
                     b.Property<bool>("IsRequired");
 
                     b.Property<string>("Name")
@@ -889,11 +885,13 @@ namespace Edux.Migrations
 
                     b.HasIndex("DataSourceEntityId");
 
+                    b.HasIndex("DataSourcePropertyId");
+
+                    b.HasIndex("DataSourcePropertyId2");
+
+                    b.HasIndex("DataSourcePropertyId3");
+
                     b.HasIndex("EntityId");
-
-                    b.HasIndex("EntityId1");
-
-                    b.HasIndex("EntityId2");
 
                     b.ToTable("Properties");
                 });
@@ -1301,18 +1299,25 @@ namespace Edux.Migrations
                         .HasForeignKey("DataSourceEntityId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Edux.Models.Property", "DataSourceProperty")
+                        .WithMany("DataSourceProperties")
+                        .HasForeignKey("DataSourcePropertyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Edux.Models.Property", "DataSourceProperty2")
+                        .WithMany("DataSourceProperties2")
+                        .HasForeignKey("DataSourcePropertyId2")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Edux.Models.Property", "DataSourceProperty3")
+                        .WithMany("DataSourceProperties3")
+                        .HasForeignKey("DataSourcePropertyId3")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Edux.Models.Entity", "Entity")
                         .WithMany("Properties")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Edux.Models.Entity")
-                        .WithMany("DataSourceProperties2")
-                        .HasForeignKey("EntityId1");
-
-                    b.HasOne("Edux.Models.Entity")
-                        .WithMany("DataSourceProperties3")
-                        .HasForeignKey("EntityId2");
                 });
 
             modelBuilder.Entity("Edux.Models.PropertyValue", b =>

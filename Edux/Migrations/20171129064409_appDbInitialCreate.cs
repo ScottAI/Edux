@@ -5,22 +5,32 @@ using System.Collections.Generic;
 
 namespace Edux.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class appDbInitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "Apps",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
+                    AllowedRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DefaultLayout = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DefaultPage = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("PK_Apps", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,26 +106,6 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DataTables",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    EntityName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Top = table.Column<int>(type: "int", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DataTables", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Entities",
                 columns: table => new
                 {
@@ -134,22 +124,23 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Forms",
+                name: "Languages",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    EntityName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Culture = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    NativeName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Forms", x => x.Id);
+                    table.PrimaryKey("PK_Languages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,7 +155,7 @@ namespace Edux.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Extension = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     FilePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    FileSize = table.Column<float>(type: "real", nullable: false),
+                    FileSize = table.Column<double>(type: "float", nullable: true),
                     Month = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -195,37 +186,20 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pages",
+                name: "RoleGroups",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AllowedRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
-                    LayoutView = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    MetaDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaKeywords = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ParentPageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Position = table.Column<long>(type: "bigint", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    View = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    ViewCount = table.Column<long>(type: "bigint", nullable: false)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pages_Pages_ParentPageId",
-                        column: x => x.ParentPageId,
-                        principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_RoleGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,45 +227,23 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sites",
+                name: "Tabs",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AllowedRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    DefaultLayout = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    DefaultPage = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    IsDisabled = table.Column<bool>(type: "bit", nullable: false),
+                    IsInvisible = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    VisibleToRoles = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sites", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Tabs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,30 +288,6 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
@@ -380,28 +308,54 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Parameters",
+                name: "DataTables",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    ComponentTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    IsRequired = table.Column<bool>(type: "bit", nullable: false),
+                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Position = table.Column<int>(type: "int", nullable: false),
+                    Top = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parameters", x => x.Id);
+                    table.PrimaryKey("PK_DataTables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Parameters_ComponentTypes_ComponentTypeId",
-                        column: x => x.ComponentTypeId,
-                        principalTable: "ComponentTypes",
+                        name: "FK_DataTables_Entities_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Forms",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EntityName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Scripts = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Forms_Entities_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Entities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -416,6 +370,8 @@ namespace Edux.Migrations
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     DataSourceEntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DataSourcePropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataSourcePropertyId2 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataSourcePropertyId3 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DefaultValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisplayFormat = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -423,6 +379,7 @@ namespace Edux.Migrations
                     IsRequired = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
+                    PresetValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PropertyType = table.Column<int>(type: "int", nullable: false),
                     StringLength = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -444,9 +401,70 @@ namespace Edux.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Properties_Properties_DataSourcePropertyId2",
+                        column: x => x.DataSourcePropertyId2,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Properties_Properties_DataSourcePropertyId3",
+                        column: x => x.DataSourcePropertyId3,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Properties_Entities_EntityId",
                         column: x => x.EntityId,
                         principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AllowedRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
+                    LanguageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LayoutView = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    MetaDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MetaKeywords = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MetaTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentPageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Position = table.Column<long>(type: "bigint", nullable: false),
+                    Scripts = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    View = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ViewCount = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pages_Apps_AppId",
+                        column: x => x.AppId,
+                        principalTable: "Apps",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pages_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pages_Pages_ParentPageId",
+                        column: x => x.ParentPageId,
+                        principalTable: "Pages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -484,6 +502,237 @@ namespace Edux.Migrations
                         name: "FK_MenuItems_MenuItems_ParentMenuItemId",
                         column: x => x.ParentMenuItemId,
                         principalTable: "MenuItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AllowAll = table.Column<bool>(type: "bit", nullable: false),
+                    AllowCreate = table.Column<bool>(type: "bit", nullable: false),
+                    AllowDelete = table.Column<bool>(type: "bit", nullable: false),
+                    AllowRead = table.Column<bool>(type: "bit", nullable: false),
+                    AllowSpecial = table.Column<bool>(type: "bit", nullable: false),
+                    AllowUpdate = table.Column<bool>(type: "bit", nullable: false),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    RoleGroupId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoles_RoleGroups_RoleGroupId",
+                        column: x => x.RoleGroupId,
+                        principalTable: "RoleGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Columns",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CssClass = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DataTableId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FilterOperator = table.Column<int>(type: "int", nullable: false),
+                    FilterValue = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    IsVisible = table.Column<bool>(type: "bit", nullable: false),
+                    OrderBy = table.Column<bool>(type: "bit", nullable: true),
+                    Position = table.Column<int>(type: "int", nullable: false),
+                    PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Columns", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Columns_DataTables_DataTableId",
+                        column: x => x.DataTableId,
+                        principalTable: "DataTables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Columns_Entities_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Columns_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fields",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Col = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CssClass = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DataTableId = table.Column<string>(type: "nvarchar(450)", maxLength: 200, nullable: true),
+                    DefaultValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    EditableToRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EditorType = table.Column<int>(type: "int", nullable: false),
+                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FieldSet = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    FormId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    InvisibleToRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsReadOnly = table.Column<bool>(type: "bit", nullable: false),
+                    IsVisible = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    OnChange = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    OnClick = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    OptionLabel = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Position = table.Column<int>(type: "int", nullable: false),
+                    PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReadOnlyToRoles = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Row = table.Column<int>(type: "int", nullable: false),
+                    TabId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    VisibleToRoles = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fields", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fields_DataTables_DataTableId",
+                        column: x => x.DataTableId,
+                        principalTable: "DataTables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Fields_Entities_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Fields_Forms_FormId",
+                        column: x => x.FormId,
+                        principalTable: "Forms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Fields_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Fields_Tabs_TabId",
+                        column: x => x.TabId,
+                        principalTable: "Tabs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Parameters",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ComponentTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DataSourceEntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataSourcePropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataSourcePropertyId2 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataSourcePropertyId3 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    IsRequired = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    OptionLabel = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ParameterType = table.Column<int>(type: "int", nullable: false),
+                    Position = table.Column<int>(type: "int", nullable: false),
+                    PresetValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parameters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parameters_ComponentTypes_ComponentTypeId",
+                        column: x => x.ComponentTypeId,
+                        principalTable: "ComponentTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Parameters_Entities_DataSourceEntityId",
+                        column: x => x.DataSourceEntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Parameters_Properties_DataSourcePropertyId",
+                        column: x => x.DataSourcePropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Parameters_Properties_DataSourcePropertyId2",
+                        column: x => x.DataSourcePropertyId2,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Parameters_Properties_DataSourcePropertyId3",
+                        column: x => x.DataSourcePropertyId3,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyValues",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RowId = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PropertyValues_Entities_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "Entities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PropertyValues_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -530,76 +779,48 @@ namespace Edux.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Columns",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    DataTableId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FilterOperator = table.Column<int>(type: "int", nullable: false),
-                    FilterValue = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    OrderBy = table.Column<bool>(type: "bit", nullable: true),
-                    Position = table.Column<int>(type: "int", nullable: false),
-                    PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Columns", x => x.Id);
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Columns_DataTables_DataTableId",
-                        column: x => x.DataTableId,
-                        principalTable: "DataTables",
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Columns_Entities_EntityId",
-                        column: x => x.EntityId,
-                        principalTable: "Entities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Columns_Properties_PropertyId",
-                        column: x => x.PropertyId,
-                        principalTable: "Properties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PropertyValues",
+                name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    RowId = table.Column<long>(type: "bigint", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PropertyValues", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_PropertyValues_Entities_EntityId",
-                        column: x => x.EntityId,
-                        principalTable: "Entities",
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PropertyValues_Properties_PropertyId",
-                        column: x => x.PropertyId,
-                        principalTable: "Properties",
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -633,58 +854,6 @@ namespace Edux.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Fields",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppTenantId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Col = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    DefaultValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    EditorType = table.Column<int>(type: "int", nullable: false),
-                    EntityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FormId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Position = table.Column<int>(type: "int", nullable: false),
-                    PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PropertyValueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Row = table.Column<int>(type: "int", nullable: false),
-                    Tab = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fields", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Fields_Entities_EntityId",
-                        column: x => x.EntityId,
-                        principalTable: "Entities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Fields_Forms_FormId",
-                        column: x => x.FormId,
-                        principalTable: "Forms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Fields_Properties_PropertyId",
-                        column: x => x.PropertyId,
-                        principalTable: "Properties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Fields_PropertyValues_PropertyValueId",
-                        column: x => x.PropertyValueId,
-                        principalTable: "PropertyValues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -696,6 +865,11 @@ namespace Edux.Migrations
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoles_RoleGroupId",
+                table: "AspNetRoles",
+                column: "RoleGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -755,6 +929,16 @@ namespace Edux.Migrations
                 column: "ParentComponentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DataTables_EntityId",
+                table: "DataTables",
+                column: "EntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Fields_DataTableId",
+                table: "Fields",
+                column: "DataTableId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Fields_EntityId",
                 table: "Fields",
                 column: "EntityId");
@@ -770,9 +954,14 @@ namespace Edux.Migrations
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Fields_PropertyValueId",
+                name: "IX_Fields_TabId",
                 table: "Fields",
-                column: "PropertyValueId");
+                column: "TabId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forms_EntityId",
+                table: "Forms",
+                column: "EntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuItems_MenuId",
@@ -785,6 +974,16 @@ namespace Edux.Migrations
                 column: "ParentMenuItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pages_AppId",
+                table: "Pages",
+                column: "AppId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pages_LanguageId",
+                table: "Pages",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pages_ParentPageId",
                 table: "Pages",
                 column: "ParentPageId");
@@ -793,6 +992,26 @@ namespace Edux.Migrations
                 name: "IX_Parameters_ComponentTypeId",
                 table: "Parameters",
                 column: "ComponentTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parameters_DataSourceEntityId",
+                table: "Parameters",
+                column: "DataSourceEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parameters_DataSourcePropertyId",
+                table: "Parameters",
+                column: "DataSourcePropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parameters_DataSourcePropertyId2",
+                table: "Parameters",
+                column: "DataSourcePropertyId2");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parameters_DataSourcePropertyId3",
+                table: "Parameters",
+                column: "DataSourcePropertyId3");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ParameterValues_ComponentId",
@@ -813,6 +1032,16 @@ namespace Edux.Migrations
                 name: "IX_Properties_DataSourcePropertyId",
                 table: "Properties",
                 column: "DataSourcePropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_DataSourcePropertyId2",
+                table: "Properties",
+                column: "DataSourcePropertyId2");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_DataSourcePropertyId3",
+                table: "Properties",
+                column: "DataSourcePropertyId3");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_EntityId",
@@ -866,10 +1095,10 @@ namespace Edux.Migrations
                 name: "ParameterValues");
 
             migrationBuilder.DropTable(
-                name: "Settings");
+                name: "PropertyValues");
 
             migrationBuilder.DropTable(
-                name: "Sites");
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -884,7 +1113,7 @@ namespace Edux.Migrations
                 name: "Forms");
 
             migrationBuilder.DropTable(
-                name: "PropertyValues");
+                name: "Tabs");
 
             migrationBuilder.DropTable(
                 name: "Menus");
@@ -896,13 +1125,22 @@ namespace Edux.Migrations
                 name: "Parameters");
 
             migrationBuilder.DropTable(
-                name: "Properties");
+                name: "RoleGroups");
 
             migrationBuilder.DropTable(
                 name: "Pages");
 
             migrationBuilder.DropTable(
                 name: "ComponentTypes");
+
+            migrationBuilder.DropTable(
+                name: "Properties");
+
+            migrationBuilder.DropTable(
+                name: "Apps");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Entities");

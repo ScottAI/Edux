@@ -30,14 +30,11 @@ namespace Edux.Models
         public string PluralName { get; set; }
         [Display(Name="Özellikler")]
         public virtual ICollection<Property> Properties { get; set; }
-        [Display(Name = "Özellikler")]
-        public virtual ICollection<Property> DataSourceProperties { get; set; }
-        [Display(Name = "Özellikler 2")]
-        public virtual ICollection<Property> DataSourceProperties2 { get; set; }
-        [Display(Name = "Özellikler 3")]
-        public virtual ICollection<Property> DataSourceProperties3 { get; set; }
-        [Display(Name = "ÖzelliklerDeğerleri")]
+        [Display(Name = "Özellikler Değerleri")]
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
+        [Display(Name = "Veri Kaynağı Özellikleri")]
+        public virtual ICollection<Property> DataSourceProperties { get; set; }
+        
         [Display(Name="Sütunlar")]
         public virtual ICollection<Column> Columns { get; set; }
         [Display(Name = "Veri Tabloları")]

@@ -41,20 +41,23 @@ namespace Edux.Models
         [Display(Name = "Veri Kaynağı Varlığı")]
         [ForeignKey("DataSourceEntityId")]
         public Entity DataSourceEntity { get; set; }
+
+        public ICollection<Property> DataSourceProperties { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği")]
         public string DataSourcePropertyId { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği")]
-        [ForeignKey("DataSourcePropertyId")]
         public Property DataSourceProperty { get; set; }
+
+        public ICollection<Property> DataSourceProperties2 { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği 2")]
         public string DataSourcePropertyId2 { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği 2")]
-        [ForeignKey("DataSourcePropertyId2")]
         public Property DataSourceProperty2 { get; set; }
+
+        public ICollection<Property> DataSourceProperties3 { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği 3")]
         public string DataSourcePropertyId3 { get; set; }
         [Display(Name = "Veri Kaynağı Özelliği 3")]
-        [ForeignKey("DataSourcePropertyId3")]
         public Property DataSourceProperty3 { get; set; }
 
         [Display(Name = "Gerekli Mi?")]

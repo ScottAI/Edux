@@ -79,6 +79,17 @@ namespace Edux.Data
                 .WithMany(c => c.ParameterValues)
                 .HasForeignKey(pv => pv.ComponentId).OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Property>().HasOne(p => p.DataSourceProperty)
+                .WithMany(p => p.DataSourceProperties)
+                .HasForeignKey(p => p.DataSourcePropertyId).OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Property>().HasOne(p => p.DataSourceProperty2)
+                .WithMany(p => p.DataSourceProperties2)
+                .HasForeignKey(p => p.DataSourcePropertyId2).OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Property>().HasOne(p => p.DataSourceProperty3)
+                .WithMany(p => p.DataSourceProperties3)
+                .HasForeignKey(p => p.DataSourcePropertyId3).OnDelete(DeleteBehavior.Restrict);
 
 
         }
