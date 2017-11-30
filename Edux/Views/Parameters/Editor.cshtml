@@ -22,6 +22,20 @@
             </div>
                 break;
 
+
+            case ParameterType.Media:
+
+
+                break;
+
+            case ParameterType.TimePicker:
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <input type="time" name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "") value="@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")"/>
+                    </div>
+                </div>
+                break;
         }
 
     }
