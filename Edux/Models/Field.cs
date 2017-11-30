@@ -32,9 +32,17 @@ namespace Edux.Models
         [Display(Name = "Özellik")]
         [ForeignKey("PropertyId")]
         public Property Property { get; set; }
+
         public string TabId { get; set; }
         [ForeignKey("TabId")]
         public Tab Tab { get; set; }
+
+        [Display(Name="Alan Kümesi")]
+        public string FieldsetId { get; set; }
+        [ForeignKey("FieldsetId")]
+        [Display(Name = "Alan Kümesi")]
+        public Fieldset Fieldset { get; set; }
+
         [Display(Name = "Satır")]
         public int Row { get; set; }
         [Display(Name = "Sütun")]

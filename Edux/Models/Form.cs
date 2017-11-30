@@ -29,5 +29,7 @@ namespace Edux.Models
         public string Scripts { get; set; }   
         [Display(Name = "Sekmeler")]
         public ICollection<Tab> Tabs { get; set; }
+        [Display(Name = "Alan Kümeleri")]
+        public ICollection<Fieldset> Fieldset { get; set; }
     }
 }

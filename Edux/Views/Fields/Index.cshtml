@@ -57,9 +57,7 @@
             <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.Property)
             </th>
-            <th class="text-nowrap">
-                @Html.DisplayNameFor(model => model.PropertyValue)
-            </th>
+            
             <th data-orderable="false" class="all">Eylemler</th>
         </tr>
     </thead>
@@ -111,9 +109,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Property.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PropertyValue.Value)
-            </td>
+            
             <td class="text-nowrap">
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a> 
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a> 
