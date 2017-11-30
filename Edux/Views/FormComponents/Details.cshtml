@@ -1,13 +1,13 @@
-﻿@model Edux.Models.DataTable
+﻿@model Edux.Models.Component
 
 @{
-    ViewData["Title"] = "Veri Tablosu Ayrıntıları";
+    ViewData["Title"] = "Details";
 }
 
-<h2>Ayrıntılar</h2>
+<h2>Details</h2>
 
 <div>
-    <h4>Veri Tablosu Ayrıntıları</h4>
+    <h4>Component</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -23,16 +23,16 @@
             @Html.DisplayFor(model => model.DisplayName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EntityId)
+            @Html.DisplayNameFor(model => model.View)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EntityId)
+            @Html.DisplayFor(model => model.View)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Top)
+            @Html.DisplayNameFor(model => model.Position)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Top)
+            @Html.DisplayFor(model => model.Position)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.CreateDate)
@@ -64,9 +64,33 @@
         <dd>
             @Html.DisplayFor(model => model.AppTenantId)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ComponentType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ComponentType.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Form)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Form.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Page)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Page.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentComponent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentComponent.Id)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a> 
-    <a asp-action="Index">Listeye Geri Dön </a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>
