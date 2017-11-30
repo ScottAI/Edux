@@ -50,7 +50,12 @@ namespace Edux.Models
         [ForeignKey("PageId")]
         public Page Page { get; set; }
 
-     
+        [Display(Name = "Form")]
+        public string FormId { get; set; }
+        [Display(Name = "Form")]
+        [ForeignKey("FormId")]
+        public Form Form { get; set; }
+
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
     }
