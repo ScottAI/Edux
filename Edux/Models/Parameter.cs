@@ -32,6 +32,8 @@ namespace Edux.Models
         public int Position { get; set; }
         [Display(Name = "Parametre Türü")]
         public ParameterType ParameterType { get; set; }
+        [Display(Name = "Varsayılan Değer")]
+        public string DefaultValue { get; set; }
         [Display(Name = "Ön Tanımlı Değerler")]
         public string PresetValues { get; set; }
         [Display(Name = "Seçenek Etiketi")]
