@@ -78,10 +78,10 @@ namespace Edux.Models
         [StringLength(200)]
         public string FieldSet { get; set; }
         [StringLength(200)]
-        [Display(Name="Veri Tablosu")]
-        public string DataTableId { get; set; }
-        [Display(Name = "Veri Tablosu")]
-        [ForeignKey("DataTableId")]
-        public DataTable DataTable { get; set; }
+        [Display(Name="Bileşen")]
+        public string ComponentId { get; set; }
+        [Display(Name = "Bileşen")]
+        [ForeignKey("ComponentId")]
+        public Component Component { get; set; }
     }
 }
