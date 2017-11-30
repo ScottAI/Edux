@@ -6,6 +6,8 @@
 
 <!-- BEGIN THEME GLOBAL STYLES -->
 <link href="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+<link href="@(ViewBag.AssetsUrl)/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css">
+<script src="@(ViewBag.AssetsUrl)global/plugins/jstree/dist/jstree.js"></script>
 <!-- END THEME GLOBAL STYLES -->
 <link href="~/metronic/global/css/components-md.min.css" rel="stylesheet" type="text/css" />
 <div class="portlet light bordered">
@@ -21,6 +23,7 @@
     <div class="portlet-body form">                
                 <form id="@form.Name" asp-controller="Home" asp-action="SaveForm" method="post" enctype="multipart/form-data" role="form">
                     <div class="form-body">
+                        
                         <input type="hidden" name="FormId" id="FormId" value="@form.Id" />
                         <input type="hidden" name="Mode" id="Mode" value="@ViewBag.Mode" />
                         <input type="hidden" name="RowId" id="RowId" value="@ViewBag.RowId" />
@@ -121,6 +124,63 @@
                                                                         </div>
                                                                     </div>
 
+                                                                    break;
+                                                                case EditorType.TreeView:
+                                                                    <div class="form-group">
+                                                                        <div id="tree">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <script>
+        var handleSample = function () {
+            $('#tree').jstree({
+                'plugins': ["wholerow", "checkbox"],
+                'core': {
+                    "themes": {
+                        "responsive": false,
+                        "icons": false
+                    },
+                    'data': [
+
+                        @foreach(var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+
+                            {
+                                if(value.Id==null)
+                                {
+                        <text>
+                        { "id": '@value.Id', "parent": "#", "text": "@value.Name" },
+                        </text>
+                    }
+                                else
+                                {
+                        <text>
+                                    { "id": '@value.Id', "parent": "@value.ParentComponentId", "text": "@value.Name" },
+                        </text>
+                                }
+                            }
+                    ]
+                }
+            });
+            }
+        handleSample();
+                                                                    </script>
+                                                                    <script>
+                                                                        $(function () {
+                                                                            // 6 create an instance when the DOM is ready
+                                                                            $('#tree').jstree();
+                                                                            // 7 bind to events triggered on the tree
+                                                                            $('#tree').on("changed.jstree", function (e, data) {
+                                                                                console.log(data.selected);
+                                                                                $('#categoriesHidden').val(data.selected);
+                                                                            });
+                                                                            // 8 interact with the tree - either way is OK
+                                                                            $('button').on('click', function () {
+                                                                                $('#tree').jstree(true).select_node('child_node_1');
+                                                                                $('#tree').jstree('select_node', 'child_node_1');
+                                                                                $.jstree.reference('#tree').select_node('child_node_1');
+                                                                            });
+                                                                        });
+                                                                    </script>
                                                                     break;
                                                                 case EditorType.Checkbox:
 
