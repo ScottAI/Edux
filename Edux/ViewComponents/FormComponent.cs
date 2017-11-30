@@ -2,6 +2,7 @@
 using Edux.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace Edux.ViewComponents
         {
             var viewName = component.View ?? "Default";
             var formName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "FormName")?.Value;
+            var initialValues = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "InitialValues")?.Value;
+            var InitialValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(initialValues);
+            ViewBag.InitialValues = InitialValues;
             if (String.IsNullOrEmpty(Request.Query["returnUrl"].ToString())) {
                 ViewBag.ReturnUrl = Request.Path;
             } else

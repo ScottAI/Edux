@@ -63,7 +63,15 @@
                                                                 case EditorType.Text:
                                                                     <div class="form-group">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                            <input type="text" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                            <input
+                                                                                   type="text"
+                                                                                   name="@field.PropertyId"
+                                                                                   id="@field.Name"
+                                                                                   placeholder="@field.DisplayName"
+                                                                                   required="@(field.Property.IsRequired)"
+                                                                                   @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "")
+                                                                                   value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)"
+                                                                                   class="form-control" />
                                                                         </div>
                                                                     </div>
                                                                     break;
