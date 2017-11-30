@@ -10,12 +10,20 @@
     <div style="border:1px solid #cccccc; border-top-width:0px; padding:5px;">
     @foreach (var parameter in Model)
     {
-        <div class="form-group">
-            <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
-            <div class="col-md-10">
-                <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</textarea>
+        @switch (parameter.ParameterType)
+            {
+                case ParameterType.TextArea:
+
+            <div class="form-group">
+                <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                <div class="col-md-10">
+                    <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</textarea>
+                </div>
             </div>
-        </div>
+                break;
+
+        }
+
     }
         </div>
 </fieldset>

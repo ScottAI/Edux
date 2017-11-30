@@ -1,4 +1,5 @@
-﻿@model Component
+﻿
+@model Component
 @{ var form = (Form)ViewBag.Form;}
 @{ 
     var tabs = form.Tabs.OrderBy(o => o.Position).ToList();
