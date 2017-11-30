@@ -22,6 +22,43 @@
             </div>
                 break;
 
+
+            case ParameterType.Text:
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <input type="text" name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"") />
+                    </div>
+                </div>
+                break;
+
+            case ParameterType.Html:
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</textarea>
+                    </div>
+                </div>
+                break;
+
+            case ParameterType.Select:
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
+                    </div>
+                </div>
+                break;
+
+            case ParameterType.Checkbox:
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <input type="checkbox" name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "") />
+                    </div>
+                </div>
+                break;
+
         }
 
     }
