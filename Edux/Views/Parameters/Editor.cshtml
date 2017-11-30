@@ -10,6 +10,7 @@
     <div style="border:1px solid #cccccc; border-top-width:0px; padding:5px;">
     @foreach (var parameter in Model)
     {
+        int uploadIndex = 0;
         @switch (parameter.ParameterType)
             {
                 case ParameterType.TextArea:
@@ -81,8 +82,7 @@
                     </div>
                 </div>
                 break;
-
-
+                
 
             case ParameterType.Media:
 
@@ -97,8 +97,61 @@
                     </div>
                 </div>
                 break;
-        }
 
-    }
+
+            case ParameterType.DateTimePicker:
+
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <input type="datetime-local" name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "") value="@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")" />
+                    </div>
+                </div>
+
+                break;
+
+            case ParameterType.DatePicker:
+
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <input type="date" name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "") value="@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")" />
+                    </div>
+                </div>
+
+                break;
+            case ParameterType.ImageUpload:
+                @*<div class="form-group">
+                    <label for="@parameter.Name" class="control-label" style="padding-left:15px;">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
+                    <div class="col-md-12">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+
+                            <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
+                            <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
+                            @{ uploadIndex++; }
+                            <div value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"><img src="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)"> </div>
+                            <div>
+                                <span class="btn red btn-outline btn-file">
+                                    <span class="fileinput-new"> Resim Seç </span>
+                                    <span class="fileinput-exists"> Deðiþtir </span>
+                                    <input type="file" name="upload" />
+                                </span>
+                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Kaldýr </a>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                                                                    <div class="clearfix margin-top-10" style="padding-bottom:10px;">
+                                                                        <span class="label label-success">NOT!</span> Resim Uzantýsý .jpg .jpeg yada .png olmalýdýr..
+                                                                    </div>*@
+                                    break;
+                                }
+
+                                }
         </div>
 </fieldset>
