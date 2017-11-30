@@ -13,8 +13,12 @@
         <a href="#tab_1_2" data-toggle="tab"> Sekmeler </a>
     </li>
     <li>
+        <a href="#tab_1_4" data-toggle="tab"> Alan Kümeleri </a>
+    </li>
+    <li>
         <a href="#tab_1_3" data-toggle="tab"> Alanlar </a>
     </li>
+
 </ul>
 
 <div class="tab-content">
@@ -70,6 +74,9 @@
     </div>
     <div class="tab-pane fade" id="tab_1_3">
         @await Component.InvokeAsync("FieldsDataTable", new { formId = Model.Id })
+    </div>
+    <div class="tab-pane fade" id="tab_1_4">
+        @await Component.InvokeAsync("FieldsetsDataTable", new { formId = Model.Id })
     </div>
     </div>
 
