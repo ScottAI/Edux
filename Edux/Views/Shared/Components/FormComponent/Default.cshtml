@@ -1,4 +1,5 @@
-﻿@model Component
+﻿
+@model Component
 @{ var form = (Form)ViewBag.Form;}
 @{ 
     var tabs = form.Tabs.OrderBy(o => o.Position).ToList();
@@ -239,6 +240,12 @@
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
+                                                                                                    </div>
+                                                                                                    break;
+                                                                                                case EditorType.DataTableSingleSelect:
+                                                                                                    <div class="form-group">
+                                                                                                        Seçilen component gelecek
+                                                                                                        @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
                                                                                                     </div>
                                                                                                             break;
                                                                                                     }
