@@ -51,7 +51,7 @@
         <div class="form-group">
             <label asp-for="ParameterType" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ParameterType" class="form-control" asp-items="Html.GetEnumSelectList<EditorType>()"><option value="">Seçiniz</option></select>
+                <select asp-for="ParameterType" class="form-control" asp-items="Html.GetEnumSelectList<ParameterType>()"><option value="">Seçiniz</option></select>
                 <span asp-validation-for="ParameterType" class="text-danger"></span>
             </div>
         </div>
