@@ -26,10 +26,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Entity.Name" class="col-md-2 control-label"></label>
+            <label asp-for="EntityId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Entity.Name" class="form-control" />
-                <span asp-validation-for="Entity.Name" class="text-danger"></span>
+                <select asp-for="EntityId" class="form-control" asp-items="ViewBag.Entities"></select>
+                <span asp-validation-for="EntityId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
