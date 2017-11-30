@@ -47,6 +47,16 @@
                 <span asp-validation-for="Position" class="text-danger"></span>
             </div>
         </div>
+
+        <div class="form-group">
+            <label asp-for="ParameterType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ParameterType" class="form-control" asp-items="Html.GetEnumSelectList<ParameterType>()"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="ParameterType" class="text-danger"></span>
+            </div>
+        </div>
+
+
     <input type="hidden" asp-for="Id" />
 
         <input asp-for="CreateDate" class="form-control" type="hidden" />

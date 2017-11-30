@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171130105937_addFormComponent")]
+    partial class addFormComponent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -804,8 +805,6 @@ namespace Edux.Migrations
                     b.Property<string>("DataSourcePropertyId2");
 
                     b.Property<string>("DataSourcePropertyId3");
-
-                    b.Property<string>("DefaultValue");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()

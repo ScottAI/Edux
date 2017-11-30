@@ -49,7 +49,7 @@ namespace Edux.Controllers
         public IActionResult Create()
         {
             var datatable = new DataTable();
-
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name");
             return View(datatable);
         }
 
@@ -58,7 +58,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,EntityName")] DataTable dataTable, string columnsIdRef)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,EntityId")] DataTable dataTable, string columnsIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +92,7 @@ namespace Edux.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name", dataTable.EntityId);
             return View(dataTable);
         }
 
@@ -100,7 +101,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,EntityName")] DataTable dataTable)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,Top,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,EntityId")] DataTable dataTable)
         {
             if (id != dataTable.Id)
             {
@@ -127,6 +128,7 @@ namespace Edux.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            ViewBag.Entities = new SelectList(_context.Entities.ToList(), "Id", "Name", dataTable.EntityId);
             return View(dataTable);
         }
 

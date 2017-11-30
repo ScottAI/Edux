@@ -13,8 +13,12 @@
         <a href="#tab_1_2" data-toggle="tab"> Sekmeler </a>
     </li>
     <li>
+        <a href="#tab_1_4" data-toggle="tab"> Alan Kümeleri </a>
+    </li>
+    <li>
         <a href="#tab_1_3" data-toggle="tab"> Alanlar </a>
     </li>
+
 </ul>
 
 <div class="tab-content">
@@ -44,19 +48,26 @@
                     </div>
                 </div>
 
-
-                <input asp-for="CreateDate" class="form-control" type="hidden" />
-                <input asp-for="CreatedBy" class="form-control" type="hidden" />
-                <input asp-for="UpdateDate" class="form-control" type="hidden" />
-                <input asp-for="UpdatedBy" class="form-control" type="hidden" />
-                <input asp-for="AppTenantId" class="form-control" type="hidden" />
-
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Kaydet" class="btn btn-primary" />
+                    <label asp-for="Scripts" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="Scripts" class="form-control"></textarea>
+                        <span asp-validation-for="Scripts" class="text-danger"></span>
+                    </div>
+                    </div>
+
+                    <input asp-for="CreateDate" class="form-control" type="hidden" />
+                    <input asp-for="CreatedBy" class="form-control" type="hidden" />
+                    <input asp-for="UpdateDate" class="form-control" type="hidden" />
+                    <input asp-for="UpdatedBy" class="form-control" type="hidden" />
+                    <input asp-for="AppTenantId" class="form-control" type="hidden" />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Kaydet" class="btn btn-primary" />
+                        </div>
                     </div>
                 </div>
-            </div>
         </form>
         </div>
     <div class="tab-pane fade" id="tab_1_2">
@@ -64,6 +75,9 @@
     </div>
     <div class="tab-pane fade" id="tab_1_3">
         @await Component.InvokeAsync("FieldsDataTable", new { formId = Model.Id })
+    </div>
+    <div class="tab-pane fade" id="tab_1_4">
+        @await Component.InvokeAsync("FieldsetsDataTable", new { formId = Model.Id })
     </div>
     </div>
 
