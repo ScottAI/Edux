@@ -24,9 +24,6 @@ namespace Edux.Models
         Password=15,
         SelectMultiple=16,
         TreeView=17,
-        DataTableSingleSelect=18,
-        DataTableMultipleSelect=19,
-        DataTableAddRemove=20,
-        DataTableIndependent=21
+        Component = 18
     }
 }
