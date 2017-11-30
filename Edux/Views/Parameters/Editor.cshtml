@@ -23,6 +23,67 @@
                 break;
 
 
+            case ParameterType.SelectMultiple:
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <select multiple name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+                    </div>
+                </div>
+                break;
+
+            case ParameterType.TreeView:
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</textarea>
+                    </div>
+                </div>
+                break;
+
+            case ParameterType.SelectDataTable:
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+                    </div>
+                </div>
+                break;
+
+           
+
+            case ParameterType.SelectForm:
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+
+                        <form action="" id="@parameter.Name">
+                          @parameter.DisplayName: <input type="text" name="fname">
+                            <input type="submit">
+                        </form>
+
+
+                        <select name="@parameter.Id" id="@parameter.Name" form="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+                    </div>
+                </div>
+                break;
+
+            case ParameterType.SelectPage:
+
+                <div class="form-group">
+                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                    <div class="col-md-10">
+                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+                    </div>
+                </div>
+                break;
+
+
+
             case ParameterType.Media:
 
 
