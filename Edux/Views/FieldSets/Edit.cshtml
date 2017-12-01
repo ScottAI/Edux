@@ -39,43 +39,8 @@
                 <span asp-validation-for="FormId" class="text-danger"></span>
             </div>
         </div>
-        <input type="hidden" asp-for="Id" />
-        <div class="form-group">
-            <label asp-for="CreateDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreatedBy" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="UpdateDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UpdateDate" class="form-control" />
-                <span asp-validation-for="UpdateDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="UpdatedBy" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UpdatedBy" class="form-control" />
-                <span asp-validation-for="UpdatedBy" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="AppTenantId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="AppTenantId" class="form-control" />
-                <span asp-validation-for="AppTenantId" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+     
+</div>
     <input type="hidden" asp-for="Id" />
     <input asp-for="CreateDate" class="form-control" type="hidden" />
     <input asp-for="CreatedBy" class="form-control" type="hidden" />
@@ -88,9 +53,7 @@
                         <input type="submit" value="Kaydet" class="btn btn-primary" />
                     </div>
                 </div>
-          
-
-</form>
+    </form>
 
 <div>
     <a asp-action="Index">Listeye Geri Dön</a>
