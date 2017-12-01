@@ -76,7 +76,7 @@
                                                                                    placeholder="@field.DisplayName"
                                                                                    required="@(field.Property.IsRequired)"
                                                                                    @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "")
-                                                                                   value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)"
+                                                                                   value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name)?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))"
                                                                                    class="form-control" />
                                                                         </div>
                                                                     </div>
