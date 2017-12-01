@@ -7,8 +7,8 @@
 
 <!-- BEGIN THEME GLOBAL STYLES -->
 <link href="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
-<link href="@(ViewBag.AssetsUrl)/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css">
-<script src="@(ViewBag.AssetsUrl)global/plugins/jstree/dist/jstree.js"></script>
+<link href="/metronic/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css">
+<script src="/metronic/global/plugins/jstree/dist/jstree.js"></script>
 <!-- END THEME GLOBAL STYLES -->
 <link href="~/metronic/global/css/components-md.min.css" rel="stylesheet" type="text/css" />
 <div class="portlet light bordered">
@@ -95,7 +95,7 @@
 
                                                                     <div class="form-group">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                            <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)</textarea>
+                                                                            <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)</textarea>
                                                                             <script>
                                                         CKEDITOR.replace('@field.Name');
                                                                             </script>
@@ -115,14 +115,14 @@
                                                                                 {
                                                                                     foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                                                                     {
-                                                                                        <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@value.Value</option>
+                                                                                        <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@value.Value</option>
                                                                                     }
                                                                                 }
                                                                                 else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                                                                                 {
                                                                                     foreach (var item in field.Property.PresetValues.Split(','))
                                                                                     {
-                                                                                        <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@item</option>
+                                                                                        <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@item</option>
                                                                                     }
 
                                                                                 }
@@ -133,13 +133,13 @@
                                                                     break;
                                                                 case EditorType.TreeView:
                                                                     <div class="form-group">
-                                                                        <div id="tree">
+                                                                        <div id="@field.Name">
 
                                                                         </div>
                                                                     </div>
                                                                     <script>
-        var handleSample = function () {
-            $('#tree').jstree({
+        
+            $('#@field.Name').jstree({
                 'plugins': ["wholerow", "checkbox"],
                 'core': {
                     "themes": {
@@ -148,45 +148,32 @@
                     },
                     'data': [
 
-                        @foreach(var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                        @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+                        {
+                            foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
 
                             {
-                                if(value.Id==null)
+                                if (value.Id == null)
                                 {
                         <text>
-                        { "id": '@value.Id', "parent": "#", "text": "@value.Name" },
+                        { "id": '@value.Id', "parent": "#", "text": "@value.Value" },
                         </text>
-                    }
+                                }
                                 else
                                 {
                         <text>
-                                    { "id": '@value.Id', "parent": "@value.ParentComponentId", "text": "@value.Name" },
+                                    { "id": '@value.Id', "parent": "#", "text": "@value.Value" },
                         </text>
+                                    }
                                 }
                             }
                     ]
                 }
             });
-            }
-        handleSample();
+         
+        
                                                                     </script>
-                                                                    <script>
-                                                                        $(function () {
-                                                                            // 6 create an instance when the DOM is ready
-                                                                            $('#tree').jstree();
-                                                                            // 7 bind to events triggered on the tree
-                                                                            $('#tree').on("changed.jstree", function (e, data) {
-                                                                                console.log(data.selected);
-                                                                                $('#categoriesHidden').val(data.selected);
-                                                                            });
-                                                                            // 8 interact with the tree - either way is OK
-                                                                            $('button').on('click', function () {
-                                                                                $('#tree').jstree(true).select_node('child_node_1');
-                                                                                $('#tree').jstree('select_node', 'child_node_1');
-                                                                                $.jstree.reference('#tree').select_node('child_node_1');
-                                                                            });
-                                                                        });
-                                                                    </script>
+                                                                    
                                                                     break;
                                                                 case EditorType.Checkbox:
 
@@ -208,7 +195,7 @@
                                                                         <div class="col-md-12">
                                                                             <div class="fileinput fileinput-new" data-provides="fileinput">
 
-                                                                                <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
+                                                                                <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" />
                                                                                 <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
                                                                                 @{ uploadIndex++; }
                                                                                 <div value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"><img src="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)"> </div>
@@ -231,9 +218,9 @@
                                                                     </div>
                                                                                         break;
                                                                                     case EditorType.Media:
-
+                                                                                        @*Buraya onclick ve onchange eklenemedi.Sonra tekrar bakılacak*@
                                                                                         <div class="form-group">
-                                                                                            <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
+                                                                                            <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" />
                                                                                             <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
                                                                                             @{ uploadIndex++; }
 
@@ -261,25 +248,24 @@
 
 
 
-
                                                                                                 case EditorType.DatePicker:
                                                                                                     <div class="form-group">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="date" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="date" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.DateTimePicker:
                                                                                                     <div class="form-group">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="datetime-local" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="datetime-local" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.TimePicker:
                                                                                                     <div class="form-group">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="time" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="time" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
@@ -287,14 +273,14 @@
                                                                                                 case EditorType.Tel:
                                                                                                     <div class="form-group">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Email:
                                                                                                     <div class="form-group">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
@@ -303,7 +289,7 @@
                                                                                                     <div class="form-group">
 
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                        <input type="hidden" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                        <input type="hidden" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
@@ -311,20 +297,20 @@
                                                                                                     <div class="form-group">
 
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="password" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="password" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Number:
                                                                                                     <div class="form-group">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                                                            <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Component:
                                                                                                     <div class="form-group">
-                                                                                                        @*Seçilen component gelecek*@
+                                                                                                        Seçilen component gelecek
                                                                                                         @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
                                                                                                     </div>
                                                                                                             break;

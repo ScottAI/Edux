@@ -1,7 +1,7 @@
 ﻿@model Edux.Models.Component
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Yeni Bileşen";
 }
 
 <h2>Create</h2>
@@ -31,24 +31,26 @@
                 <input asp-for="View" class="form-control" />
                 <span asp-validation-for="View" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ParentComponentId" class="control-label"></label>
-                <select asp-for="ParentComponentId" class ="form-control" asp-items="ViewBag.ParentComponentId"></select>
+            <div class="form-group">       
+                    <label asp-for="ParentComponentId" class="control-label"></label>
+                    <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId">
+                        <option value="">Seçiniz</option>
+                    </select>     
             </div>
             <div class="form-group">
                 <label asp-for="PageId" class="control-label"></label>
-                <select asp-for="PageId" class ="form-control" asp-items="ViewBag.PageId"></select>
+                <select asp-for="PageId" class ="form-control" asp-items="ViewBag.PageId"><option value="">Seçiniz</option></select>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="FormId" class="control-label"></label>
                 <select asp-for="FormId" class ="form-control" asp-items="ViewBag.FormId"></select>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Position" class="control-label"></label>
                 <input asp-for="Position" class="form-control" />
                 <span asp-validation-for="Position" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="CreateDate" class="control-label"></label>
                 <input asp-for="CreateDate" class="form-control" />
                 <span asp-validation-for="CreateDate" class="text-danger"></span>
@@ -72,7 +74,7 @@
                 <label asp-for="AppTenantId" class="control-label"></label>
                 <input asp-for="AppTenantId" class="form-control" />
                 <span asp-validation-for="AppTenantId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -81,7 +83,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Listeye Geri Dön</a>
 </div>
 
 @section Scripts {

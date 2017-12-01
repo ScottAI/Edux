@@ -4,46 +4,51 @@
     ViewData["Title"] = "Yeni Alan Kümesi";
 }
 
-<h2>Yeni Alan Kümesi</h2>
+<h2>Oluştur</h2>
 
-<h4>Oluştur</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DisplayName" class="control-label"></label>
-                <input asp-for="DisplayName" class="form-control" />
-                <span asp-validation-for="DisplayName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CssClass" class="control-label"></label>
-                <input asp-for="CssClass" class="form-control" />
-                <span asp-validation-for="CssClass" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="AppTenantId" class="control-label"></label>
-                <input asp-for="AppTenantId" class="form-control" />
-                <span asp-validation-for="AppTenantId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Oluştur" class="btn btn-primary" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+          <form asp-action="Create"  enctype="multipart/form-data">
+              <div class="form-horizontal">
+                  <h4>Alan Kümesi</h4>
+                  <hr />
+                  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                  <div class="form-group">
+                      <label asp-for="DisplayName" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="DisplayName" class="form-control" />
+                          <span asp-validation-for="DisplayName" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="CssClass" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="CssClass" class="form-control" />
+                          <span asp-validation-for="CssClass" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="Position" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="Position" class="form-control" />
+                          <span asp-validation-for="Position" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="FormId" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <select asp-for="FormId" class="form-control" asp-items="ViewBag.FormId"><option value="">Seçiniz</option></select>
+                      </div>
+                  </div>
+                <div class="form-group">
+                      <div class="col-md-offset-2 col-md-10">
+                          <input type="submit" value="Oluştur" class="btn btn-primary" />
+                      </div>
+                  </div>
+              </div>
+</form>
+ 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Listeye Geri Dön</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
