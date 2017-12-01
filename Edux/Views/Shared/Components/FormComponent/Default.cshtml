@@ -231,7 +231,7 @@
                                                                     </div>
                                                                                         break;
                                                                                     case EditorType.Media:
-
+                                                                                        @*Buraya onclick ve onchange eklenemedi.Sonra tekrar bakılacak*@
                                                                                         <div class="form-group">
                                                                                             <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue)" />
                                                                                             <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
