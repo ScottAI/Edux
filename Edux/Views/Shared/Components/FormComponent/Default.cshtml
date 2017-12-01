@@ -115,14 +115,14 @@
                                                                                 {
                                                                                     foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                                                                     {
-                                                                                        <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@value.Value</option>
+                                                                                        <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@value.Value</option>
                                                                                     }
                                                                                 }
                                                                                 else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                                                                                 {
                                                                                     foreach (var item in field.Property.PresetValues.Split(','))
                                                                                     {
-                                                                                        <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@item</option>
+                                                                                        <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@item</option>
                                                                                     }
 
                                                                                 }
@@ -324,7 +324,7 @@
                                                                                                     break;
                                                                                                 case EditorType.Component:
                                                                                                     <div class="form-group">
-                                                                                                        @*Seçilen component gelecek*@
+                                                                                                        Seçilen component gelecek
                                                                                                         @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
                                                                                                     </div>
                                                                                                             break;
