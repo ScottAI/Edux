@@ -84,10 +84,10 @@
                 break;
                 
 
-            case ParameterType.Media:
+            
 
 
-                break;
+              
 
             case ParameterType.TimePicker:
                 <div class="form-group">
@@ -122,16 +122,17 @@
                 </div>
 
                 break;
+
             case ParameterType.ImageUpload:
                 <div class="form-group">
                     <label for="@parameter.Name" class="control-label" style="padding-left:15px;">@parameter.DisplayName@(parameter.IsRequired ? "*" : "")</label>
                     <div class="col-md-12">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
 
-                            <input type="hidden" name="@parameter.Id" id="@parameter.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == parameter.Id)?.Value: parameter.DefaultValue)" />
+                            <input type="hidden" name="@parameter.Id" id="@parameter.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value: parameter.DefaultValue)" />
                             <input type="hidden" name="@(parameter.Id).UploadIndex" value="@uploadIndex" />
                             @{ uploadIndex++; }
-                            <div value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == parameter.Id)?.Value:parameter.DefaultValue)" class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"><img src="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == parameter.Id)?.Value:parameter.DefaultValue)"> </div>
+                            <div value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == parameter.Id)?.Value:parameter.DefaultValue)" class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"><img src="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value:parameter.DefaultValue)"> </div>
                             <div>
                                 <span class="btn red btn-outline btn-file">
                                     <span class="fileinput-new"> Resim Seç </span>
@@ -149,11 +150,46 @@
                                                                     <div class="clearfix margin-top-10" style="padding-bottom:10px;">
                                                                         <span class="label label-success">NOT!</span> Resim Uzantýsý .jpg .jpeg yada .png olmalýdýr..
                                                                     </div>
-                                    break;
-                               
-                
 
-            case ParameterType.Text:
+                                    break;
+
+
+
+
+
+
+                                case ParameterType.Media:
+
+                                    <div class="form-group">
+                                        <input type="hidden" name="@parameter.Id" id="@parameter.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value: parameter.DefaultValue)" />
+                                        <input type="hidden" name="@(parameter.Id).UploadIndex" value="@uploadIndex" />
+                                        @{ uploadIndex++; }
+
+
+
+                                        <label for=" @parameter.Name" class="control-label col-md-3">@parameter.DisplayName</label>
+                                        <div class="col-md-9">
+
+                                            <div class="input-group">
+                                                <input type="text"  name="@parameter.Id" id="Photo" placeholder="@parameter.DisplayName" required="@(parameter.IsRequired)" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value:parameter.DefaultValue)" class="form-control" />
+                                                <span class="input-group-btn">
+                                                    <a class="btn btn-info" id="uploadModal" onclick="browseMedia('Photo')">...</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => parameter.Name, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.Partial("_BrowseMedia", new ViewDataDictionary(this.ViewData) { { "element", "Photo" } })
+
+
+
+
+                                                break;
+
+
+
+                                            case ParameterType.Text:
 
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
