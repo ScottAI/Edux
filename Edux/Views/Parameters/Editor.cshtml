@@ -1,3 +1,4 @@
+ï»¿
 @model IEnumerable<Edux.Models.Parameter>
 
 @{
@@ -135,11 +136,11 @@
                             <div value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == parameter.Id)?.Value:parameter.DefaultValue)" class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"><img src="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value:parameter.DefaultValue)"> </div>
                             <div>
                                 <span class="btn red btn-outline btn-file">
-                                    <span class="fileinput-new"> Resim Seç </span>
-                                    <span class="fileinput-exists"> Deðiþtir </span>
+                                    <span class="fileinput-new"> Resim SeÃ§ </span>
+                                    <span class="fileinput-exists"> DeÄŸiÅŸtir </span>
                                     <input type="file" name="upload" />
                                 </span>
-                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Kaldýr </a>
+                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> KaldÄ±r </a>
 
 
                             </div>
@@ -148,7 +149,7 @@
                     </div>
                 </div>
                              <div class="clearfix margin-top-10" style="padding-bottom:10px;">
-                                 <span class="label label-success">NOT!</span> Resim Uzantýsý .jpg .jpeg yada .png olmalýdýr..
+                                 <span class="label label-success">NOT!</span> Resim UzantÄ±sÄ± .jpg .jpeg yada .png olmalÄ±dÄ±r..
                                   </div>
             break;
                                                                    
