@@ -65,7 +65,7 @@
                                                             {
 
                                                                 case EditorType.Text:
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                             <input
                                                                                    type="text"
@@ -82,7 +82,7 @@
                                                                     </div>
                                                                     break;
                                                                 case EditorType.TextArea:
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                             <textarea name="@field.PropertyId" 
                                                                                       id="@field.Name" 
@@ -93,7 +93,7 @@
                                                                     break;
                                                                 case EditorType.Html:
 
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                             <textarea name="@field.PropertyId" id="@field.Name" required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)</textarea>
                                                                             <script>
@@ -105,7 +105,7 @@
                                                                     break;
 
                                                                 case EditorType.Select:
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                             <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)"  name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">
                                                                                 @if (!String.IsNullOrEmpty(field.OptionLabel))
@@ -132,7 +132,7 @@
 
                                                                     break;
                                                                 case EditorType.TreeView:
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <div id="@field.Name">
 
                                                                         </div>
@@ -177,7 +177,7 @@
                                                                     break;
                                                                 case EditorType.Checkbox:
 
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                                                                         <div class="col-md-9">
                                                                             <input onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@(field.PropertyId)CheckBox" id="@(field.Name)CheckBox" type="checkbox" placeholder="@field.DisplayName" @(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue) == 0) ? "checked=checked" : "") onclick="$('#@(field.Name)').val($('#@(field.Name)CheckBox')[0].checked)" />
@@ -190,7 +190,7 @@
 
                                                                 case EditorType.ImageUpload:
                                                                     @*Buraya onclick ve onchange eklenemedi.Sonra tekrar bakılacak*@
-                                                                    <div class="form-group">
+                                                                    <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label" style="padding-left:15px;">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                                                                         <div class="col-md-12">
                                                                             <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -219,7 +219,7 @@
                                                                                         break;
                                                                                     case EditorType.Media:
                                                                                         @*Buraya onclick ve onchange eklenemedi.Sonra tekrar bakılacak*@
-                                                                                        <div class="form-group">
+                                                                                        <div class="form-group @field.Name">
                                                                                             <input type="hidden" name="@field.PropertyId" id="@field.Name" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" />
                                                                                             <input type="hidden" name="@(field.PropertyId).UploadIndex" value="@uploadIndex" />
                                                                                             @{ uploadIndex++; }
@@ -249,21 +249,21 @@
 
 
                                                                                                 case EditorType.DatePicker:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="date" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.DateTimePicker:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="datetime-local" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.TimePicker:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="time" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
@@ -271,14 +271,14 @@
                                                                                                     break;
 
                                                                                                 case EditorType.Tel:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Email:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
@@ -286,7 +286,7 @@
                                                                                                     break;
 
                                                                                                 case EditorType.Hidden:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
 
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                         <input type="hidden" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
@@ -294,7 +294,7 @@
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Password:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
 
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="password" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
@@ -302,14 +302,14 @@
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Number:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             <input type="text" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     break;
                                                                                                 case EditorType.Component:
-                                                                                                    <div class="form-group">
+                                                                                                    <div class="form-group @field.Name">
                                                                                                         Seçilen component gelecek
                                                                                                         @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
                                                                                                     </div>
