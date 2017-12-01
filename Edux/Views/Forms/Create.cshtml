@@ -32,18 +32,27 @@
                 <span asp-validation-for="EntityId" class="text-danger"></span>
             </div>
         </div>
-        <input asp-for="CreateDate" class="form-control" type="hidden" />
-        <input asp-for="CreatedBy" class="form-control" type="hidden" />
-        <input asp-for="UpdateDate" class="form-control" type="hidden" />
-        <input asp-for="UpdatedBy" class="form-control" type="hidden" />
-        <input asp-for="AppTenantId" class="form-control" type="hidden" />
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Oluştur" class="btn btn-primary" />
+            <label asp-for="Scripts" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <textarea asp-for="Scripts" class="form-control"></textarea>
+                <span asp-validation-for="Scripts" class="text-danger"></span>
+            </div>
+            </div>
+
+            <input asp-for="CreateDate" class="form-control" type="hidden" />
+            <input asp-for="CreatedBy" class="form-control" type="hidden" />
+            <input asp-for="UpdateDate" class="form-control" type="hidden" />
+            <input asp-for="UpdatedBy" class="form-control" type="hidden" />
+            <input asp-for="AppTenantId" class="form-control" type="hidden" />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oluştur" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-    </div>
 </form>
 
 <div>

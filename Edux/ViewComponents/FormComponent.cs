@@ -23,8 +23,9 @@ namespace Edux.ViewComponents
             var viewName = component.View ?? "Default";
             var formName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "FormName")?.Value;
             var initialValues = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "InitialValues")?.Value;
-            var InitialValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(initialValues);
-            ViewBag.InitialValues = InitialValues;
+            if (initialValues != null) { 
+                ViewBag.InitialValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(initialValues);
+            }
             if (String.IsNullOrEmpty(Request.Query["returnUrl"].ToString())) {
                 ViewBag.ReturnUrl = Request.Path;
             } else
