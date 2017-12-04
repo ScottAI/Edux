@@ -10,91 +10,92 @@
 <div>
     <h4>Bileşen</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DisplayName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DisplayName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.View)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.View)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdateDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AppTenantId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AppTenantId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ComponentType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ComponentType.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Form)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Form.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Page)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Page.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ParentComponent)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ParentComponent.Id)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-route-id="@Model.Id">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DisplayName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DisplayName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.View)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.View)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Position)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Position)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreateDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdateDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AppTenantId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AppTenantId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ComponentType)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ComponentType.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Form)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Form.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Page)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Page.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ParentComponent)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ParentComponent.Id)
+            </dd>
+        </dl>
+
+
         <div class="form-actions no-color">
             <input type="submit" value="Sil" class="btn btn-danger" /> |
-            <a asp-action="Index">Listeye Geri Dön</a>
+            <a asp-controller="Forms" asp-action="Edit" asp-route-id="@Model.FormId">Listeye Geri Dön</a>
         </div>
     </form>
 </div>
