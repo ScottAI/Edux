@@ -58,6 +58,7 @@ namespace Edux.Controllers
             ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name");
 
             ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == formId).OrderBy(o => o.Position).ToList(), "Id", "Name");
+            ViewBag.Fieldsets = new SelectList(_context.Fieldsets.Where(t => t.FormId == formId).OrderBy(o => o.Position).ToList(), "Id", "DisplayName");
 
             var form = _context.Forms.FirstOrDefault(f => f.Id == formId);
             if (form!=null)
@@ -75,7 +76,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,TabId,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,OnChange,OnClick,CssClass,UpdatedBy,AppTenantId")] Field field,string FormIdRef)
+        public async Task<IActionResult> Create([Bind("FieldsetId,EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,PropertyValueId,TabId,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,OnChange,OnClick,CssClass,UpdatedBy,AppTenantId")] Field field,string FormIdRef)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +97,7 @@ namespace Edux.Controllers
             ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name", field.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name", field.PropertyId);
             ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "Name", field.TabId);
+            ViewBag.Fieldsets = new SelectList(_context.Fieldsets.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "DisplayName");
             return View(field);
 
     }
@@ -117,6 +119,7 @@ namespace Edux.Controllers
             ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name", field.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name", field.PropertyId);
             ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "Name", field.TabId);
+            ViewBag.Fieldsets = new SelectList(_context.Fieldsets.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "DisplayName");
             return View(field);
         }
 
@@ -125,7 +128,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,OnChange,OnClick,CssClass,PropertyValueId,TabId,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field field)
+        public async Task<IActionResult> Edit(string id, [Bind("FieldsetId,EntityId,OptionLabel,Name,DisplayName,FormId,PropertyId,OnChange,OnClick,CssClass,PropertyValueId,TabId,Row,Col,Position,EditorType,DefaultValue,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Field field)
         {
             if (id != field.Id)
             {
@@ -158,6 +161,7 @@ namespace Edux.Controllers
             ViewData["EntityId"] = new SelectList(_context.Entities.OrderBy(f => f.Name).ToList(), "Id", "Name", field.EntityId);
             ViewData["PropertyId"] = new SelectList(_context.Properties.OrderBy(f => f.Name).ToList(), "Id", "Name", field.PropertyId);
             ViewBag.Tabs = new SelectList(_context.Tabs.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "Name", field.TabId);
+            ViewBag.Fieldsets = new SelectList(_context.Fieldsets.Where(t => t.FormId == field.FormId).OrderBy(o => o.Position).ToList(), "Id", "DisplayName");
             return View(field);
         }
 
