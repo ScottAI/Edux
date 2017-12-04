@@ -225,7 +225,8 @@ namespace Edux.Controllers
             var component = await _context.Components.SingleOrDefaultAsync(m => m.Id == id);
             _context.Components.Remove(component);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            string url = "/Forms/Edit/" + component.FormId + "#tab_1_5";
+            return Redirect(url);
         }
 
         private bool ComponentExists(string id)
