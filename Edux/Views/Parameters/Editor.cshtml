@@ -4,6 +4,12 @@
     ViewData["Title"] = "Editor";
     Layout = null;
 }
+
+
+<link href="@(ViewBag.AssetsUrl)/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css">
+<script src="@(ViewBag.AssetsUrl)global/plugins/jstree/dist/jstree.js"></script>
+
+
 <br />
 <fieldset>
     <legend>Parametreler:</legend>
@@ -39,9 +45,64 @@
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
                     <div class="col-md-10">
-                        <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</textarea>
+                        <div id="tree">
+
+                        </div>
+                      </div>
                     </div>
-                </div>
+
+                <script>
+        var handleSample = function () {
+            $('#tree').jstree({
+                'plugins': ["wholerow", "checkbox"],
+                'core': {
+                    "themes": {
+                        "responsive": false,
+                        "icons": false
+                    },
+                    'data': [
+
+                        @foreach(var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+
+                            {
+                                if(value.Id==null)
+                                {
+                        <text>
+                        { "id": '@value.Id', "parent": "#", "text": "@value.Name" },
+                        </text>
+                    }
+                                else
+                                {
+                        <text>
+                                    { "id": '@value.Id', "parent": "@value.ParentComponentId", "text": "@value.Name" },
+                        </text>
+                                }
+                            }
+                    ]
+                }
+            });
+            }
+        handleSample();
+                </script>
+
+                <script>
+        $(function () {
+            // 6 create an instance when the DOM is ready
+            $('#tree').jstree();
+            // 7 bind to events triggered on the tree
+            $('#tree').on("changed.jstree", function (e, data) {
+                console.log(data.selected);
+                $('#categoriesHidden').val(data.selected);
+            });
+            // 8 interact with the tree - either way is OK
+            $('button').on('click', function () {
+                $('#tree').jstree(true).select_node('child_node_1');
+                $('#tree').jstree('select_node', 'child_node_1');
+                $.jstree.reference('#tree').select_node('child_node_1');
+            });
+        });
+                </script>
+
                 break;
 
             case ParameterType.SelectDataTable:
@@ -49,7 +110,9 @@
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
                     <div class="col-md-10">
-                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "") asp-items="ViewBag.DataTables">
+                            <option value="">Seçiniz</option>
+                        </select>
                     </div>
                 </div>
                 break;
@@ -67,8 +130,8 @@
                             <input type="submit">
                         </form>
 
-
                         <select name="@parameter.Id" id="@parameter.Name" form="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+
                     </div>
                 </div>
                 break;
