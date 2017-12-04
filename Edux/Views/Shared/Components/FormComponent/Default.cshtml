@@ -47,7 +47,7 @@
                             {
                                 <div class="tab-pane fade @(k==1?"active":"") in" id="@tab.Name">
                                     @* önce fieldset'lerin içindeki alanları görüntüle: *@
-                                    @{ var fieldsets = tab.Fields.Where(f => f.TabId == tab.Id && f.FieldsetId != null).OrderBy(fs => fs.Position).Select(s=>s.Fieldset).Distinct().ToList();}
+                                    @{ var fieldsets = tab.Fields.Where(f => f.TabId == tab.Id && f.FieldsetId != null).OrderBy(fs => fs.Fieldset.Position).Select(s=>s.Fieldset).Distinct().ToList();}
                                                                         @foreach (var fieldset in fieldsets)
                                                                         {
                                                                             <fieldset class="@fieldset.CssClass">
