@@ -30,7 +30,7 @@ namespace Edux.Models
         [Display(Name = "Sekmeler")]
         public ICollection<Tab> Tabs { get; set; }
         [Display(Name = "Alan Kümeleri")]
-        public ICollection<Fieldset> Fieldset { get; set; }
+        public ICollection<Fieldset> Fieldsets { get; set; }
         [Display(Name = "Bileşenler")]
         public virtual ICollection<Component> Components { get; set; }
     }
