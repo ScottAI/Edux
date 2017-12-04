@@ -48,14 +48,14 @@
                     @Html.DisplayFor(modelItem => item.View)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ComponentType)
+                    @Html.DisplayFor(modelItem => item.ComponentType.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ParentComponent)
+                    @Html.DisplayFor(modelItem => item.ParentComponent.Name)
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.Form.Id)
+                    @Html.DisplayFor(modelItem => item.Form.Name)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-controller="FormComponents" asp-route-id="@item.Id" class="btn btn-primary ">Düzenle</a>
