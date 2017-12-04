@@ -53,6 +53,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="FieldsetId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="FieldsetId" class="form-control" asp-items="ViewBag.Tabs"><option value="">Seçiniz</option></select>
+                <span asp-validation-for="FieldsetId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Row" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Row" class="form-control" type="number" />

@@ -91,9 +91,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        function onComponentTypeChange(elm) {
-            $("#parameters").load("/Parameters/Editor/" + $(elm).val());
-        }
-    </script>
 }
+
