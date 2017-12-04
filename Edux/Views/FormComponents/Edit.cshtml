@@ -42,7 +42,9 @@
         <div class="form-group">
             <label asp-for="ParentComponentId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId"></select>
+                <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId">
+                    <option value="">Seçiniz</option>
+                </select>
                 <span asp-validation-for="ParentComponentId" class="text-danger"></span>
             </div>
         </div>
