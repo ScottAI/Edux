@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171201092016_fieldset")]
+    partial class fieldset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1294,7 +1295,7 @@ namespace Edux.Migrations
             modelBuilder.Entity("Edux.Models.Fieldset", b =>
                 {
                     b.HasOne("Edux.Models.Form", "Form")
-                        .WithMany("Fieldsets")
+                        .WithMany("Fieldset")
                         .HasForeignKey("FormId");
                 });
 

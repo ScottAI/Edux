@@ -40,16 +40,16 @@ namespace Edux.ViewComponents
             ViewBag.Mode = mode;
             var rowId = Request.Query["id"].ToString();
             ViewBag.RowId = rowId;
-            var frm = await _context.Forms.Include(t=>t.Tabs).ThenInclude(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
+            var frm = await _context.Forms.Include(fs=>fs.Fieldsets).Include(t=>t.Tabs).ThenInclude(f => f.Fields).ThenInclude(ff => ff.Property).ThenInclude(d=>d.DataSourceProperty).Include("Fields.Property.PropertyValues").SingleOrDefaultAsync(f => f.Name == formName);
             if (frm == null)
             {
                 throw new Exception($"\"{formName}\"adında bir form bulunamadı.");
             }
             ViewBag.Form = frm;
-            var entityName = ((Form)ViewBag.Form).EntityName;
+            var formEntityId = ((Form)ViewBag.Form).EntityId;
             if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
-                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p => p.DataSourceProperty).ThenInclude(v => v.PropertyValues).Include("Property.DataSourceEntity").Where(pv => pv.Entity.Name == entityName && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
+                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p => p.DataSourceProperty).ThenInclude(v => v.PropertyValues).Include("Property.DataSourceEntity").Where(pv => pv.EntityId == formEntityId && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
                
             }
             IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues = new Dictionary<string, IList<PropertyValue>>();

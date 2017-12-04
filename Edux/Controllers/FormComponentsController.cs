@@ -56,7 +56,7 @@ namespace Edux.Controllers
         {
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name");
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.FormId == FormId), "Id", "Name");
-            ViewData["Forms"] = new SelectList(_context.Forms, "Id", "Title");
+            ViewBag.Forms = new SelectList(_context.Forms.ToList(), "Id", "Name");
             var component = new Component();
             component.FormId = FormId;
             ViewBag.FormId = FormId;
@@ -96,7 +96,7 @@ namespace Edux.Controllers
                 await _context.SaveChangesAsync();
                 if (FormIdRef != null)
                 {
-                    string url = "/Forms/Edit/" + FormIdRef + "#tab_1_2";
+                    string url = "/Forms/Edit/" + FormIdRef + "#tab_1_5";
                     return Redirect(url);
                 }
 
@@ -104,7 +104,7 @@ namespace Edux.Controllers
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.FormId == component.FormId), "Id", "Name", component.ParentComponentId);
-            ViewData["Forms"] = new SelectList(_context.Forms, "Id", "Title", component.FormId);
+            ViewBag.Forms = new SelectList(_context.Forms.ToList(), "Id", "Name", component.FormId);
 
             return View(component);
         }
@@ -124,7 +124,7 @@ namespace Edux.Controllers
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.FormId == component.FormId), "Id", "Name", component.ParentComponentId);
-            ViewData["Forms"] = new SelectList(_context.Forms, "Id", "Title", component.FormId);
+            ViewBag.Forms = new SelectList(_context.Forms.ToList(), "Id", "Name", component.FormId);
 
             return View(component);
         }
@@ -181,11 +181,12 @@ namespace Edux.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Edit", "Forms", new { id = component.FormId });
+                string url = "/Forms/Edit/" + component.FormId + "#tab_1_5";
+                return Redirect(url);
             }
             ViewData["ComponentTypeId"] = new SelectList(_context.ComponentTypes, "Id", "Name", component.ComponentTypeId);
             ViewData["ParentComponentId"] = new SelectList(_context.Components.Where(c => c.FormId == component.FormId), "Id", "Name", component.ParentComponentId);
-            ViewData["Forms"] = new SelectList(_context.Forms, "Id", "Title", component.FormId);
+            ViewBag.Forms = new SelectList(_context.Forms.ToList(), "Id", "Name", component.FormId);
 
 
             return View(component);

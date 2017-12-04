@@ -32,17 +32,14 @@ namespace Edux.Models
         [Display(Name = "Özellik")]
         [ForeignKey("PropertyId")]
         public Property Property { get; set; }
-
         public string TabId { get; set; }
         [ForeignKey("TabId")]
         public Tab Tab { get; set; }
-
         [Display(Name="Alan Kümesi")]
         public string FieldsetId { get; set; }
         [ForeignKey("FieldsetId")]
         [Display(Name = "Alan Kümesi")]
         public Fieldset Fieldset { get; set; }
-
         [Display(Name = "Satır")]
         public int Row { get; set; }
         [Display(Name = "Sütun")]
@@ -74,9 +71,6 @@ namespace Edux.Models
         public string ReadOnlyToRoles { get; set; }
         [Display(Name = "Şu Roller Düzenleyebilir")]
         public string EditableToRoles { get; set; }
-        [Display(Name="Alan Grubu")]
-        [StringLength(200)]
-        public string FieldSet { get; set; }
         [StringLength(200)]
         [Display(Name="Bileşen")]
         public string ComponentId { get; set; }
