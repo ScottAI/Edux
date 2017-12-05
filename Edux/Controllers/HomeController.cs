@@ -94,8 +94,8 @@ namespace Edux.Controllers
                 }
                 if (mode == "delete")
                 {
-                    var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityName;
-                    foreach (PropertyValue item in _context.PropertyValues.Include(i=>i.Entity).Where(pv=>pv.Entity.Name == eName && pv.RowId == rowId).ToList()) {
+                    var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityId;
+                    foreach (PropertyValue item in _context.PropertyValues.Include(i=>i.Entity).Where(pv=>pv.EntityId == eName && pv.RowId == rowId).ToList()) {
                         _context.Remove(item);
                     }
                     _context.SaveChanges();
