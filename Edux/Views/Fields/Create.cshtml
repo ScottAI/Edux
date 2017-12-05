@@ -67,6 +67,8 @@
                 <span asp-validation-for="Row" class="text-danger"></span>
             </div>
         </div>
+
+        
         <div class="form-group">
             <label asp-for="Col" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -102,6 +104,60 @@
                 <span asp-validation-for="OptionLabel" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label asp-for="IsReadOnly" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+              <input asp-for="IsReadOnly" class="checkbox">
+             <span asp-validation-for="IsReadOnly" class="text-danger"></span>
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for=" IsVisible" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for=" IsVisible" class="checkbox">
+                <span asp-validation-for=" IsVisible" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="InvisibleToRoles" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="InvisibleToRoles" class="form-control" />
+                <span asp-validation-for="InvisibleToRoles" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="VisibleToRoles" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="VisibleToRoles" class="form-control" />
+                <span asp-validation-for="VisibleToRoles" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ReadOnlyToRoles" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ReadOnlyToRoles" class="form-control" />
+                <span asp-validation-for="ReadOnlyToRoles" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EditableToRoles" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="EditableToRoles" class="form-control" />
+                <span asp-validation-for="EditableToRoles" class="text-danger"></span>
+            </div>
+        </div>
+
+
+
+
+
             <div class="form-group">
                 <label asp-for="OnClick" class="col-md-2 control-label"></label>
                 <div class="col-md-10">

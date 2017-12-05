@@ -11,6 +11,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Edux.Controllers
 {
+    public class ValueObject
+    {
+        public string Id { get; set; }
+        public string Value { get; set; }
+    }
     [Authorize]
     public class PropertyValuesController : ControllerBase
     {
@@ -18,6 +23,18 @@ namespace Edux.Controllers
 
         public PropertyValuesController(ApplicationDbContext context):base(context)
         { 
+        }
+
+        public IList<ValueObject> GetValuesByPropertyId(string propertyId)
+        {
+            var values = _context.PropertyValues.Where(pv => pv.PropertyId == propertyId).OrderBy(o=>o.Value).Select(v=> new ValueObject {Id=v.Id, Value=v.Value }).ToList();
+            return values;
+        }
+
+        public IList<ValueObject> GetValuesByParent(string propertyIdOfValues, string propertyIdOfParent, string valueIdOfParent)
+        {
+            var values = _context.PropertyValues.Where(pv => pv.PropertyId == propertyIdOfValues && _context.PropertyValues.Where(v=>v.PropertyId==propertyIdOfParent && v.Value == valueIdOfParent).Select(s=>s.RowId).Contains(pv.RowId)).Select(t=> new ValueObject { Id=t.Id, Value=t.Value}).ToList();
+            return values;
         }
 
         // GET: PropertyValues
