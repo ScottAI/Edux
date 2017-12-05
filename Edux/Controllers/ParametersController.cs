@@ -8,14 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using Edux.Data;
 using Edux.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Edux.Extensions;
 
 namespace Edux.Controllers
 {
     [Authorize]
     public class ParametersController : ControllerBase
     {
-        public ParametersController(ApplicationDbContext context):base(context)
+        private readonly IHostingEnvironment hostingEnvironment;
+        public ParametersController(IHostingEnvironment environment, ApplicationDbContext context):base(context)
         {
+            hostingEnvironment = environment;
         }
 
         // GET: Parameters
@@ -25,8 +30,9 @@ namespace Edux.Controllers
             return View(await parameters.ToListAsync());
         }
 
-        public async Task<IActionResult> Editor(string id, string componentId)
+        public async Task<IActionResult> Editor(string id, string componentId, Parameter parameter)
         {
+          
             var parameters = _context.Parameters.Include(p => p.ComponentType).Include(p=>p.ParameterValues).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
             ViewBag.ComponentId = componentId;
             return View(await parameters.ToListAsync());

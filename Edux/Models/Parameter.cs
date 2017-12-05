@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -58,6 +59,7 @@ namespace Edux.Models
         public Property DataSourceProperty3 { get; set; }
         [Display(Name = "Parametre Değerleri")]
         public virtual ICollection<ParameterValue> ParameterValues { get; set; }
+        
 
     }
 }
