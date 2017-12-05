@@ -28,7 +28,7 @@ namespace Edux.Controllers
         public async Task<IActionResult> Editor(string id, string componentId)
         {
 
-            ViewBag.DataTables = new SelectList(_context.DataTables.OrderBy(p => p.Name).ToList(), "Id", "DisplayName");
+            ViewBag.DataTables = _context.DataTables.OrderBy(p => p.Name).ToList();
             var parameters = _context.Parameters.Include(p => p.ComponentType).Include(p=>p.ParameterValues).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
             ViewBag.ComponentId = componentId;
             return View(await parameters.ToListAsync());

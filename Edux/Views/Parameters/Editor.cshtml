@@ -141,12 +141,14 @@
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
                     <div class="col-md-10">
 
-                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "") asp-items="ViewBag.DataTables">
+                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
                             <option value="">Seçiniz</option>
+                            @foreach (var item in ViewBag.DataTables)
+                            {
+
+                                <option value="@item.Id">@item.DisplayName</option>
+                            }
                         </select>
-
-                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
-
                     </div>
                 </div>
                 break;
