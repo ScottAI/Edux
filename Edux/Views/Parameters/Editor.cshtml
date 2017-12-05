@@ -18,8 +18,9 @@
     {
         int uploadIndex = 0;
         @switch (parameter.ParameterType)
-            {
-                case ParameterType.TextArea:
+        {
+           
+            case ParameterType.TextArea:
 
             <div class="form-group">
                 <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
@@ -51,7 +52,7 @@
                       </div>
                     </div>
 
-                <script>
+                    @*   <script>
         var handleSample = function () {
             $('#tree').jstree({
                 'plugins': ["wholerow", "checkbox"],
@@ -62,28 +63,28 @@
                     },
                     'data': [
 
-                        @*@foreach(var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])*@
+                        foreach (var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
 
-                            @*{
-                                if(value.Id==null)
-                                {
+                            {
+            if(value.Id==null)
+            {
                         <text>
                         { "id": '@value.Id', "parent": "#", "text": "@value.Name" },
                         </text>
                     }
-                                else
-                                {
+                               else
+                               {
                         <text>
                                     { "id": '@value.Id', "parent": "@value.ParentComponentId", "text": "@value.Name" },
                         </text>
                                 }
-                            }
+                           }
                     ]
-                }*@
-            //});
-            //}
-        handleSample();
-                </script>
+                }
+                       //});
+                       //}
+                       handleSample();
+                </script> *@
 
                 <script>
         $(function () {
