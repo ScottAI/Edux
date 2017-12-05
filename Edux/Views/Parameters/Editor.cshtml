@@ -36,9 +36,31 @@
 
 
                 <div class="form-group">
-                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
-                    <div class="col-md-10">
-                        <select multiple name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
+                    <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
+                    
+                    <div class="col-md-9">
+                    
+                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control selectpicker" multiple data-header="@field.DisplayName">
+                            @if (!String.IsNullOrEmpty(field.OptionLabel))
+                            {
+                                <option value="">@field.OptionLabel</option>
+                            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+                            {
+                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                {
+                                    <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@value.Value</option>
+                                }
+                            }
+                            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+                            {
+                                foreach (var item in field.Property.PresetValues.Split(','))
+                                {
+                                    <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@item</option>
+                                }
+
+                            }
+                       </select>
+                    
                     </div>
                 </div>
                 break;
