@@ -242,6 +242,13 @@ public IActionResult Contact()
     return View();
 }
 
+
+public IActionResult Search()
+        {
+
+            return View();
+        }
+
 public IActionResult Error()
 {
     return View();
