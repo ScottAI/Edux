@@ -8,7 +8,7 @@
 
 <link href="@(ViewBag.AssetsUrl)/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css">
 <script src="@(ViewBag.AssetsUrl)global/plugins/jstree/dist/jstree.js"></script>
-
+<script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 
 <br />
 <fieldset>
@@ -62,9 +62,9 @@
                     },
                     'data': [
 
-                        @foreach(var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                        @*@foreach(var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])*@
 
-                            {
+                            @*{
                                 if(value.Id==null)
                                 {
                         <text>
@@ -79,9 +79,9 @@
                                 }
                             }
                     ]
-                }
-            });
-            }
+                }*@
+            //});
+            //}
         handleSample();
                 </script>
 
