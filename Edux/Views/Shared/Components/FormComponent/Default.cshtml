@@ -74,9 +74,24 @@
                                                             {
 
                                                                 case EditorType.Text:
+                                                                    @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
+                                                                         (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                          (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                    {
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                            <input type="text"
+                                                                       @{
+                                                                           bool readOnly = false;
+
+                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                           {
+
+                                                                               readOnly = true;
+                                                                           }
+                                                                    }
+                                                                                   <input type="text" 
+                                                                                   @(readOnly ? "readonly=readonly" : "")
                                                                                    onclick="@Html.Raw(field.OnClick)"
                                                                                    onchange="@Html.Raw(field.OnChange)"
                                                                                    name="@field.PropertyId"
@@ -84,11 +99,13 @@
                                                                                    placeholder="@field.DisplayName"
                                                                                    required="@(field.Property.IsRequired)"
                                                                                    @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "")
-                                                                                   value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name)?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))"
+                                                                                   value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))"
                                                                                    class="form-control" />
                                                                         </div>
                                                                     </div>
-                                                                    break;
+                                                                        }
+                                                                       
+                                                                        break;
                                                                 case EditorType.TextArea:
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
@@ -117,21 +134,21 @@
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                             <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">
                                                                                 @if (!String.IsNullOrEmpty(field.OptionLabel))
-                                                                                {
+                                                                        {
                                                                                     <option value="">@field.OptionLabel</option>
                                                                                 }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                                                                                {
-                                                                                    foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                                                                    {
+                                                                        {
+                                                                            foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                                                            {
                                                                                         <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@value.Value</option>
                                                                                     }
-                                                                                }
+                                                                        }
                                                                                 else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                                                                                 {
                                                                                     foreach (var item in field.Property.PresetValues.Split(','))
                                                                                     {
                                                                                         <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@item</option>
-                                                                                    }
+                                                                    }
 
                                                                                 }
                                                                             </select>
@@ -148,7 +165,7 @@
                                                                                                                 <script>
 
             $('#@field.Name').jstree({
-                'plugins': ["wholerow", "checkbox"],
+                                                                        'plugins': ["wholerow", "checkbox"],
                 'core': {
                     "themes": {
                         "responsive": false,
@@ -265,7 +282,7 @@
                                                                                                     break;
                                                                                                 case EditorType.DateTimePicker:
                                                                                                     <div class="form-group @field.Name">
-                                                                                                        <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
+                                                                                                        <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "" )</label><div class="col-md-9">
                                                                                                             <input type="datetime-local" onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
@@ -355,20 +372,36 @@
                                                     {
 
                                                         case EditorType.Text:
+                                                            @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
+                                                                (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                 (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                            {
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                    <input type="text"
-                                                                           onclick="@Html.Raw(field.OnClick)"
+                                                               @{ 
+                                                                   bool readOnly = false;
+
+                                                                   if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                      (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                   {
+
+                                                                       readOnly= true;
+                                                                   }
+                                                                        }
+                                                                <input type="text" 
+                                                                       @(readOnly ? "readonly=readonly " :"")
+                                                                          onclick="@Html.Raw(field.OnClick)"
                                                                            onchange="@Html.Raw(field.OnChange)"
                                                                            name="@field.PropertyId"
                                                                            id="@field.Name"
                                                                            placeholder="@field.DisplayName"
                                                                            required="@(field.Property.IsRequired)"
                                                                            @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "")
-                                                                           value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name)?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))"
+                                                                           value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))"
                                                                            class="form-control" />
                                                                 </div>
                                                             </div>
+                                                            }
                                                             break;
                                                         case EditorType.TextArea:
                                                             <div class="form-group @field.Name">
@@ -398,21 +431,21 @@
                                                                 <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                     <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">
                                                                         @if (!String.IsNullOrEmpty(field.OptionLabel))
-                                                                        {
+                                                                            {
                                                                             <option value="">@field.OptionLabel</option>
                                                                         }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                                                                        {
-                                                                            foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                                                             {
+                                                                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                                                                {
                                                                                 <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@value.Value</option>
+                                                                                        }
                                                                             }
-                                                                        }
                                                                         else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                                                                         {
                                                                             foreach (var item in field.Property.PresetValues.Split(','))
                                                                             {
                                                                                 <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:(ViewBag.InitialValues != null &&((Dictionary<string,string>)ViewBag.InitialValues).ContainsKey(field.Name))?ViewBag.InitialValues[field.Name].ToString():field.Property.DefaultValue))">@item</option>
-                                                                            }
+                                                                        }
 
                                                                         }
                                                                     </select>
@@ -429,7 +462,7 @@
                                                                     <script>
 
             $('#@field.Name').jstree({
-                'plugins': ["wholerow", "checkbox"],
+                                                                            'plugins': ["wholerow", "checkbox"],
                 'core': {
                     "themes": {
                         "responsive": false,
