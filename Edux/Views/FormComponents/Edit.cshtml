@@ -93,7 +93,9 @@
 <script>
         function onComponentTypeChange(elm) {
             $("#parameters").load("/Parameters/Editor/" + $(elm).val());
-        }
+    }
+
+        $(function () { onComponentTypeChange($("#ComponentTypeId")); });
 </script>
 }
 
