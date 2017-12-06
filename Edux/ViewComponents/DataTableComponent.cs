@@ -19,8 +19,9 @@ namespace Edux.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(Models.Component component)
         {
             var viewName = component.View ?? "Default";
-            var DataTableName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTableName").Value;
-            ViewBag.dataTableName = DataTableName;
+            var dtId = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTable").Value;
+            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).FirstOrDefaultAsync(e => e.Id == dtId);
+            ViewBag.DataTable = datatable;
             var CreateButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CreateButtonText")?.Value;
             ViewBag.CreateButtonText = CreateButtonText;
             var CreateButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CreateButtonHref")?.Value;
@@ -33,12 +34,9 @@ namespace Edux.ViewComponents
             ViewBag.DeleteButtonText = DeleteButtonText;
             var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
             ViewBag.DeleteButtonHref = DeleteButtonHref;
-            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).FirstOrDefaultAsync(e => e.Name == DataTableName);
-            if (datatable == null)
-            {
-                throw new Exception($"\"{DataTableName}\"adında bir veri tablosu bulunamadı.");
-            }
-            ViewBag.DataTable = datatable;
+            
+            
+            
             var entityId = datatable.EntityId;
             var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v=>v.PropertyValues).Where(x => x.EntityId == entityId && _context.PropertyValues.Where(
                 p => (datatable.Columns.Any(c=>c.FilterOperator != Models.FilterOperator.None)?(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?
