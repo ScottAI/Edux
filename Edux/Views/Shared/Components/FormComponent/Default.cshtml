@@ -156,6 +156,38 @@
                                                                     </div>
 
                                                                     break;
+
+
+                                                                case EditorType.SelectMultiple:
+                                                                    <div class="form-group">
+                                                                        <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
+                                                                            <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control selectpicker" multiple data-header="@field.DisplayName">
+                                                                                @if (!String.IsNullOrEmpty(field.OptionLabel))
+                                                                                {
+                                                                                    <option value="">@field.OptionLabel</option>
+                                                                                }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+                                                                                {
+                                                                                    foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                                                                    {
+                                                                                        <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@value.Value</option>
+                                                                                    }
+                                                                                }
+                                                                                else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+                                                                                {
+                                                                                    foreach (var item in field.Property.PresetValues.Split(','))
+                                                                                    {
+                                                                                        <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@item</option>
+                                                                                    }
+
+                                                                                }
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    break;
+
+
+
                                                                 case EditorType.TreeView:
                                                                     <div class="form-group @field.Name">
                                                                         <div id="@field.Name">
@@ -632,8 +664,8 @@
                                                                                             break;
                                                                                         case EditorType.Component:
                                                                                             <div class="form-group @field.Name">
-                                                                                                Seçilen component gelecek
-                                                                                                @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
+                                                                                                
+                                                                                                @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component })
                                                                                             </div>
                                                                                                     break;
                                                                                             }

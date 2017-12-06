@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Edux.Data;
+using Edux.Models;
+using Edux.Models.PageViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Edux.Data;
-using Microsoft.AspNetCore.Mvc;
-using Edux.Models.PageViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Edux.Models;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Edux.Controllers
 {
@@ -94,8 +92,8 @@ namespace Edux.Controllers
                 }
                 if (mode == "delete")
                 {
-                    var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityName;
-                    foreach (PropertyValue item in _context.PropertyValues.Include(i=>i.Entity).Where(pv=>pv.Entity.Name == eName && pv.RowId == rowId).ToList()) {
+                    var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityId;
+                    foreach (PropertyValue item in _context.PropertyValues.Include(i=>i.Entity).Where(pv=>pv.EntityId == eName && pv.RowId == rowId).ToList()) {
                         _context.Remove(item);
                     }
                     _context.SaveChanges();
@@ -241,6 +239,14 @@ public IActionResult Contact()
 
     return View();
 }
+
+
+public IActionResult Search(string entityId)
+        {
+            ViewBag.Properties = _context.Properties.Where(p => p.EntityId == entityId);
+            
+            return View();
+        }
 
 public IActionResult Error()
 {
