@@ -1,54 +1,46 @@
 ﻿
 @{
     ViewData["Title"] = "Search";
-    
+
 }
 
 <div class="container-fluid">
-    <h1>Gelişmiş Arama</h1>
-    <div class="col-md-12">
-        <div class="form-group">
-            <label>Sorgu</label>
-            <input class="form-control" type="text" placeholder="Sorgu aracını kullanın" />
-            <small><a href="#">Sorguyu Temizle</a></small>
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>Giriş Elemanı</label>
-                <select class="form-control"><option selected>Seçiniz</option></select>
+    <h1>Gelişmiş Arama (Entity)</h1>
+    
+        <div class="row-fluid">
+            <div class="col-md-2">
+                <label>Özellik</label>
+                <select class="form-control"><option>Özellik Seçiniz</option></select>
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="form-group">
+            <div class="col-md-2">
+                <label>Operatör</label>
+                <select class="form-control"><option>Operatör Seçiniz</option></select>
+            </div>
+            <div class="col-md-8">
                 <label>Değer</label>
                 <div class="input-group">
+
+
                     <input class="form-control" type="text" />
-                    <div class="glyphicon glyphicon-remove" onclick=""></div>
+
+                    <div class="input-group-addon remove-field-item" onclick="">
+                        <a href="javascript:void(0)" title=""><i class="fa fa-trash"></i></a>
+                    </div>
+                    <div class="input-group-addon add-field-item" onclick="">
+                        <a href="javascript:void(0)" title=""><i class="fa fa-plus"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="form-group hidden ">
-                <label>&nbsp;</label>
-                <select class="form-control"> </select>
-            </div>
-        </div>     
     </div>
-    <div class="col-md-3">
-        <div class="form-group condition-form">
-            <label> &nbsp;</label>
-            <select class="form-control item-condition">
-                <option value="OR">VEYA</option>
-                <option value="AND">VE</option>
-                <option value="NOT">DEĞİL</option>
-            </select>
-        </div>
-    </div>
-    <div class="row-fluid col-md-12">
-        <input class="btn btn-success" type="button" value="Ara">
-    </div>
-</div>
+    
+ 
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+
+
+
+
 

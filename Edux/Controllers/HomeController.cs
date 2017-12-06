@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Edux.Data;
+using Edux.Models;
+using Edux.Models.PageViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Edux.Data;
-using Microsoft.AspNetCore.Mvc;
-using Edux.Models.PageViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Edux.Models;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Edux.Controllers
 {
@@ -243,9 +241,10 @@ public IActionResult Contact()
 }
 
 
-public IActionResult Search()
+public IActionResult Search(string entityId)
         {
-
+            ViewBag.Properties = _context.Properties.Where(p => p.EntityId == entityId);
+            
             return View();
         }
 
