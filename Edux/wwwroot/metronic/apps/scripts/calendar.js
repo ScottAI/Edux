@@ -95,7 +95,8 @@ var AppCalendar = function() {
             addEvent("My Event 6");
 
             $('#calendar').fullCalendar('destroy'); // destroy the calendar
-            $('#calendar').fullCalendar({ //re-initialize the calendar
+            $('#calendar').fullCalendar({
+                lang:'tr', //re-initialize the calendar
                 header: h,
                 defaultView: 'month', // change default view with available options from http://arshaw.com/fullcalendar/docs/views/Available_Views/ 
                 slotMinutes: 15,
