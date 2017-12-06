@@ -6,9 +6,6 @@
     Layout = null;
 }
 
-
-<link href="@(ViewBag.AssetsUrl)/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css">
-<script src="@(ViewBag.AssetsUrl)global/plugins/jstree/dist/jstree.js"></script>
 <script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 
 <br />
@@ -35,7 +32,7 @@
             case ParameterType.SelectMultiple:
 
 
-                <div class="form-group">
+                @*<div class="form-group">
                     <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                     
                     <div class="col-md-9">
@@ -62,7 +59,7 @@
                        </select>
                     
                     </div>
-                </div>
+                </div>*@
                 break;
 
 
@@ -145,7 +142,6 @@
                             <option value="">Seçiniz</option>
                             @foreach (var item in ViewBag.DataTables)
                             {
-
                                 <option value="@item.Id">@item.DisplayName</option>
                             }
                         </select>
