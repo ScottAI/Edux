@@ -12,7 +12,7 @@
 <script src="/metronic/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>  
 <script src="/metronic/apps/scripts/calendar.js" type="text/javascript"></script>
 <script src="/metronic/global/plugins/fullcalendar/lang-all.js"></script>
-<script src="~/js/bootstrap-datepicker.tr.js"></script>
+
 <div class="row">
     <div class="col-md-2">
         <div id="datepicker"></div>
@@ -25,18 +25,12 @@
     <script>
         $(document).ready()
         {
-            $("#datepicker").datepicker({
-                inline: true,
-                language: "tr"
-            });
+           
             $(document).ready(function () {
-                $('.datepicker').datepicker({
-                    autoclose: true,
-                    startDate: new Date()
+                $.datepicker.setDefaults($.datepicker.regional['tr']);
+                $("#datepicker").datepicker({
+                    inline: true,
                 });
-            });
-  
+ });
 }
-
-
-    </script>
+</script>
