@@ -5,6 +5,9 @@
     ViewData["Title"] = "Editor";
     Layout = null;
 }
+
+<script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+
 <br />
 <fieldset>
     <legend>Parametreler:</legend>
@@ -14,6 +17,7 @@
         int uploadIndex = 0;
         @switch (parameter.ParameterType)
         {
+           
             case ParameterType.TextArea:
 
             <div class="form-group">
@@ -27,22 +31,105 @@
 
             case ParameterType.SelectMultiple:
 
-                <div class="form-group">
-                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
-                    <div class="col-md-10">
-                        <select multiple name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
+
+                @*<div class="form-group">
+                    <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
+                    
+                    <div class="col-md-9">
+                    
+                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control selectpicker" multiple data-header="@field.DisplayName">
+                            @if (!String.IsNullOrEmpty(field.OptionLabel))
+                            {
+                                <option value="">@field.OptionLabel</option>
+                            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+                            {
+                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                {
+                                    <option value="@value.Id" selected="@(value.Id==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@value.Value</option>
+                                }
+                            }
+                            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+                            {
+                                foreach (var item in field.Property.PresetValues.Split(','))
+                                {
+                                    <option value="@item" selected="@(item==(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.PropertyId == field.PropertyId)?.Value:field.Property.DefaultValue))">@item</option>
+                                }
+
+                            }
+                       </select>
+                    
                     </div>
-                </div>
+                </div>*@
                 break;
+
+
 
             case ParameterType.TreeView:
 
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
                     <div class="col-md-10">
-                        <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</textarea>
+
+                        <div id="tree">
+
+                        </div>
+                      </div>
+              <textarea name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</textarea>
+
                     </div>
-                </div>
+
+                    @*   <script>
+        var handleSample = function () {
+            $('#tree').jstree({
+                'plugins': ["wholerow", "checkbox"],
+                'core': {
+                    "themes": {
+                        "responsive": false,
+                        "icons": false
+                    },
+                    'data': [
+
+                        foreach (var value in ((IDictionary<string, IList<Component>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+
+                            {
+            if(value.Id==null)
+            {
+                        <text>
+                        { "id": '@value.Id', "parent": "#", "text": "@value.Name" },
+                        </text>
+                    }
+                               else
+                               {
+                        <text>
+                                    { "id": '@value.Id', "parent": "@value.ParentComponentId", "text": "@value.Name" },
+                        </text>
+                                }
+                           }
+                    ]
+                }
+                       //});
+                       //}
+                       handleSample();
+                </script> *@
+
+                <script>
+        $(function () {
+            // 6 create an instance when the DOM is ready
+            $('#tree').jstree();
+            // 7 bind to events triggered on the tree
+            $('#tree').on("changed.jstree", function (e, data) {
+                console.log(data.selected);
+                $('#categoriesHidden').val(data.selected);
+            });
+            // 8 interact with the tree - either way is OK
+            $('button').on('click', function () {
+                $('#tree').jstree(true).select_node('child_node_1');
+                $('#tree').jstree('select_node', 'child_node_1');
+                $.jstree.reference('#tree').select_node('child_node_1');
+            });
+        });
+                </script>
+
                 break;
 
             case ParameterType.SelectDataTable:
@@ -50,7 +137,24 @@
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
                     <div class="col-md-10">
-                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
+
+                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
+                            <option value="">Seçiniz</option>
+                            @foreach (var item in ViewBag.DataTables)
+                            {
+                                if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id):false) {
+                                <option value="@item.Id" selected="selected">@item.DisplayName</option>
+                                }
+                                else {
+                                <option value="@item.Id">@item.DisplayName</option>
+
+                                    }
+                                
+
+                                
+
+                            }
+                        </select>
                     </div>
                 </div>
                 break;
@@ -69,7 +173,12 @@
                         </form>
 
 
+                        <select name="@parameter.Id" id="@parameter.Name" form="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
+
+
+
                         <select name="@parameter.Id" id="@parameter.Name" form="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
+
                     </div>
                 </div>
                 break;

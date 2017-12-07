@@ -25,13 +25,7 @@
                 <span asp-validation-for="DisplayName" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="ComponentTypeId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="ComponentTypeId" class="form-control" asp-items="ViewBag.ComponentTypeId"></select>
-                <span asp-validation-for="ComponentTypeId" class="text-danger"></span>
-            </div>
-        </div>
+       
         <div class="form-group">
             <label asp-for="View" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -42,7 +36,9 @@
         <div class="form-group">
             <label asp-for="ParentComponentId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId"></select>
+                <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId">
+                    <option value="">Seçiniz</option>
+                </select>
                 <span asp-validation-for="ParentComponentId" class="text-danger"></span>
             </div>
         </div>
@@ -61,7 +57,17 @@
                 <span asp-validation-for="Position" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label asp-for="ComponentTypeId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ComponentTypeId" class="form-control" asp-items="ViewBag.ComponentTypeId" onchange="onComponentTypeChange(this)">
+                    <option value="">Seçiniz</option>
+                </select>
+                <div id="parameters">
 
+                </div>
+            </div>
+        </div>
     </div>
   
     <input type="hidden" asp-for="Id" />
@@ -79,13 +85,21 @@
 </form>
 
 <div>
-    <a asp-action="Index">Listeye Geri Dön</a>
+    <a asp-controller="Forms" asp-action="Edit" asp-route-id="@Model.FormId">Listeye Geri Dön</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        function onComponentTypeChange(elm) {
+            $("#parameters").load("/Parameters/Editor/" + $(elm).val());
+    }
 
+        $(function () { onComponentTypeChange($("#ComponentTypeId")); });
+</script>
 }
+
+
 
 
 

@@ -42,14 +42,15 @@
                 <select asp-for="ParentComponentId" class="form-control" asp-items="ViewBag.ParentComponentId">
                     <option value="">Seçiniz</option>
                 </select>
+                <span asp-validation-for="ParentComponentId" class="text-danger"></span>
             </div>
         </div>
 
-        @*<input asp-for="CreateDate" class="form-control" type="hidden" />
+        <input asp-for="CreateDate" class="form-control" type="hidden" />
         <input asp-for="CreatedBy" class="form-control" type="hidden" />
         <input asp-for="UpdateDate" class="form-control" type="hidden" />
         <input asp-for="UpdatedBy" class="form-control" type="hidden" />
-        <input asp-for="AppTenantId" class="form-control" type="hidden" />*@
+        <input asp-for="AppTenantId" class="form-control" type="hidden" />
 
         <div class="form-group">
             <label asp-for="FormId" class="col-md-2 control-label"></label>
@@ -86,14 +87,14 @@
 </form>
 
 <div>
-    <a asp-action="Index">Listeye Geri Dön</a>
+    <a asp-controller="Forms" asp-action="Edit" asp-route-id="@Model.FormId">Listeye Geri Dön</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @*<script>
+    <script>
         function onComponentTypeChange(elm) {
             $("#parameters").load("/Parameters/Editor/" + $(elm).val());
         }
-    </script>*@
+    </script>
 }

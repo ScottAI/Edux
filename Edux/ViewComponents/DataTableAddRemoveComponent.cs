@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Edux.ViewComponents
 {
-    public class DataTableSingleSelectComponent : ViewComponent
+    public class DataTableAddRemoveComponent : ViewComponent
     {
+
         private readonly ApplicationDbContext _context;
-        public DataTableSingleSelectComponent(ApplicationDbContext context)
+        public DataTableAddRemoveComponent(ApplicationDbContext context)
         {
             this._context = context;
         }
@@ -34,9 +35,7 @@ namespace Edux.ViewComponents
             ViewBag.DeleteButtonText = DeleteButtonText;
             var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
             ViewBag.DeleteButtonHref = DeleteButtonHref;
-            
            
-            
             var entityId = datatable.EntityId;
             var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v => v.PropertyValues).Where(x => x.EntityId == entityId && _context.PropertyValues.Where(
                   p => (datatable.Columns.Any(c => c.FilterOperator != Models.FilterOperator.None) ? (datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?
@@ -44,7 +43,9 @@ namespace Edux.ViewComponents
 
             ViewBag.Values = values;
             return await Task.FromResult(View(viewName, component));
-        }
-    }
-}
 
+
+        }
+
+        }
+}
