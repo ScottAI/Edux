@@ -3,11 +3,18 @@
     ViewData["Title"] = "Search";
 
 }
+<style>
+    #hidden{
+        display:none;
+    }
+
+</style>
 
 <div class="container-fluid">
     <h1>Gelişmiş Arama (Entity)</h1>
-    
+    <form method="post" action="">
         <div class="row-fluid">
+
             <div class="col-md-2">
                 <label>Özellik</label>
                 <select class="form-control"><option>Özellik Seçiniz</option></select>
@@ -19,26 +26,59 @@
             <div class="col-md-8">
                 <label>Değer</label>
                 <div class="input-group">
-
-
                     <input class="form-control" type="text" />
 
-                    <div class="input-group-addon remove-field-item" onclick="">
-                        <a href="javascript:void(0)" title=""><i class="fa fa-trash"></i></a>
-                    </div>
-                    <div class="input-group-addon add-field-item" onclick="">
-                        <a href="javascript:void(0)" title=""><i class="fa fa-plus"></i></a>
+                  
+                    <div class="input-group-addon add-field-item">
+                        <a href="javascript:void(0)" id="add" title=""><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
             </div>
         </div>
+    </form>
     </div>
-    
- 
 
-<script src="https://code.jquery.com/jquery-3.2.1.js"
-        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-        crossorigin="anonymous"></script>
+
+ <div id="hidden">
+     <form id="hiddenform" method="post" action="">
+         <div class="row-fluid">
+
+             <div class="col-md-2">
+                 <label>Özellik</label>
+                 <select class="form-control"><option>Özellik Seçiniz</option></select>
+             </div>
+             <div class="col-md-2">
+                 <label>Operatör</label>
+                 <select class="form-control"><option>Operatör Seçiniz</option></select>
+             </div>
+             <div class="col-md-8">
+                 <label>Değer</label>
+                 <div class="input-group">
+                    <input class="form-control" type="text" />
+
+                     <div class="input-group-addon remove-field-item">
+                         <a href="javascript:void(0)" id="removehidden" title=""><i class="fa fa-trash"></i></a>
+                     </div>
+                    
+                 </div>
+             </div>
+         </div>
+     </form>
+ </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#add").click(function () {   
+            $("#hiddenform").clone(true).appendTo(".container-fluid");
+        });
+
+        $("#removehidden").click(function () {
+
+            $(this).closest("#hiddenform").remove();
+        });
+    });
+</script>
 
 
 
