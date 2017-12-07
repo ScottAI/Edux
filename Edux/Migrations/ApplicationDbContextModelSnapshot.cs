@@ -819,6 +819,9 @@ namespace Edux.Migrations
 
                     b.Property<int>("ParameterType");
 
+                    b.Property<string>("Photo")
+                        .HasMaxLength(200);
+
                     b.Property<int>("Position");
 
                     b.Property<string>("PresetValues");

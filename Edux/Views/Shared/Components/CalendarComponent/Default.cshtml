@@ -1,12 +1,36 @@
 ﻿@model Component
-    
-<link href="/metronic/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
 
+<link href="/js/jquery-ui.css" rel="stylesheet" />
+<link href="/js/jquery-ui.min.css" rel="stylesheet" />
+<link href="/js/jquery-ui.structure.css" rel="stylesheet" />
+<link href="/js/jquery-ui.structure.min.css" rel="stylesheet" />
+<link href="/js/jquery-ui.theme.css" rel="stylesheet" />
+<link href="/js/jquery-ui.theme.min.css" rel="stylesheet" />
+<link href="/metronic/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
 <script src="/metronic/global/plugins/moment.min.js" type="text/javascript"></script>
 <script src="/metronic/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="/metronic/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/metronic/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>  
 <script src="/metronic/apps/scripts/calendar.js" type="text/javascript"></script>
 <script src="/metronic/global/plugins/fullcalendar/lang-all.js"></script>
 
-<div id="calendar" class="has-toolbar"> </div>
+<div class="row">
+    <div class="col-md-2">
+        <div id="datepicker"></div>
+    </div>
+    <div class="col-md-10">
+        <div id="calendar" class="has-toolbar"></div>
+    </div>
+</div>
 
+    <script>
+        $(document).ready()
+        {
+           
+            $(document).ready(function () {
+                $.datepicker.setDefaults($.datepicker.regional['tr']);
+                $("#datepicker").datepicker({
+                    inline: true,
+                });
+ });
+}
+</script>

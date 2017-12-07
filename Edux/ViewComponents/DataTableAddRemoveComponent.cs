@@ -35,7 +35,18 @@ namespace Edux.ViewComponents
             ViewBag.DeleteButtonText = DeleteButtonText;
             var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
             ViewBag.DeleteButtonHref = DeleteButtonHref;
-           
+            var AddButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "AddButtonText")?.Value;
+            ViewBag.AddButtonText = AddButtonText;
+            var AddButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "AddButtonHref")?.Value;
+            ViewBag.AddButtonHref = AddButtonHref;
+            var RemoveButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "RemoveButtonText")?.Value;
+            ViewBag.RemoveButtonText = RemoveButtonText;
+            var RemoveButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "RemoveButtonHref")?.Value;
+            ViewBag.RemoveButtonHref = RemoveButtonHref;
+            
+            
+
+
             var entityId = datatable.EntityId;
             var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v => v.PropertyValues).Where(x => x.EntityId == entityId && _context.PropertyValues.Where(
                   p => (datatable.Columns.Any(c => c.FilterOperator != Models.FilterOperator.None) ? (datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?
