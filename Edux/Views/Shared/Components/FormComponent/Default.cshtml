@@ -32,14 +32,20 @@
                 <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.ReturnUrl" />
                 <ul class="nav nav-tabs">
                     @{ var k = 1;}
+
+                 
                     @foreach (var tab in tabs)
                     {
+                        if ((tab.IsVisible == true && string.IsNullOrEmpty(tab.VisibleToRoles)) ||
+                          (tab.IsVisible == true && (!string.IsNullOrEmpty(tab.VisibleToRoles) && User.IsInRole(tab.VisibleToRoles))) ||
+                         (tab.IsVisible == false && (!string.IsNullOrEmpty(tab.InvisibleToRoles) && !User.IsInRole(tab.InvisibleToRoles))))
+                        {
                         <li @(k == 1 ? "class=active" : "")>
                             <a href="#@tab.Name" data-toggle="tab"> @tab.DisplayName </a>
                         </li>
-                        k++;
+                            k++;
+                        }
                     }
-
 
                 </ul>
                 <div class="tab-content">
