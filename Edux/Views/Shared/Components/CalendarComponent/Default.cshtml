@@ -23,14 +23,18 @@
 </div>
 
     <script>
-        $(document).ready()
-        {
-           
             $(document).ready(function () {
                 $.datepicker.setDefaults($.datepicker.regional['tr']);
                 $("#datepicker").datepicker({
                     inline: true,
+                    onSelect: function (dateText) {
+                        var ds = dateText.split(".");
+                        var m = new Date(ds[2], ds[1]-1, ds[0]);
+                        $('#calendar').fullCalendar('gotoDate', m);
+                    }
+                     
                 });
- });
-}
+            });
+          
+
 </script>
