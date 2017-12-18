@@ -29,6 +29,7 @@ namespace Edux.Controllers
         {
 
             ViewBag.DataTables = _context.DataTables.OrderBy(p => p.DisplayName).ToList();
+            ViewBag.Form = _context.Forms.OrderBy(o => o.DisplayName).ToList();
             var parameters = _context.Parameters.Include(p => p.ComponentType).Include(p=>p.ParameterValues).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
             ViewBag.ComponentId = componentId;
             return View(await parameters.ToListAsync());
