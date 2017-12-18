@@ -11,17 +11,19 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
 using System.Collections;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Edux.Controllers
 {
     [Authorize]
     public class ComponentsController : ControllerBase
     {
-      
 
-        public ComponentsController(ApplicationDbContext context):base(context)
+        private readonly IHostingEnvironment hostingEnvironment;
+        public ComponentsController(IHostingEnvironment environment, ApplicationDbContext context):base(context)
         {
-            
+            hostingEnvironment = environment;
         }
 
         // GET: Components
@@ -68,13 +70,119 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId,Position")] Component component, string PageIdRef, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PageId,Position")] Component component, string PageIdRef, IFormCollection form, IFormFile[] upload)
         {
+            
             if (ModelState.IsValid)
             {
 
                 _context.Add(component);
                 await _context.SaveChangesAsync();
+                // upload iþlemi
+                long rowId = 1;
+                string mode = form["Mode"].ToString().ToLowerInvariant();
+                if (String.IsNullOrEmpty(mode))
+                {
+                    mode = "create";
+                }
+
+                if (mode == "edit" || mode == "delete")
+                {
+                    rowId = Convert.ToInt64(form["RowId"].ToString());
+                }
+                else
+                {
+                    if (_context.PropertyValues.Any())
+                    {
+                        rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
+                    }
+                }
+                if (mode == "delete")
+                {
+                    var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityName;
+                    foreach (PropertyValue item in _context.PropertyValues.Include(i => i.Entity).Where(pv => pv.Entity.Name == eName && pv.RowId == rowId).ToList())
+                    {
+                        _context.Remove(item);
+                    }
+                    _context.SaveChanges();
+                }
+                else
+                {
+
+                    foreach (var key in form.Keys)
+                    {
+                        if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key))
+                        {
+
+                            PropertyValue value;
+                            if (mode == "create")
+                            {
+                                value = new PropertyValue();
+                            }
+                            else
+                            {
+                                value = _context.PropertyValues.Where(pv => pv.PropertyId == key && pv.RowId == rowId).FirstOrDefault();
+                                if (value == null)
+                                {
+                                    value = new PropertyValue();
+                                    value.PropertyId = key;
+                                    value.RowId = rowId;
+                                    value.CreateDate = DateTime.Now;
+                                    value.CreatedBy = User.Identity.Name;
+                                }
+                            }
+                            if (mode == "create" || mode == "edit")
+                            {
+                                value.Value = form[key];
+                                value.EntityId = form[key + ".EntityId"];
+                                if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
+                                {
+                                    int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
+                                    if (upload != null && upload.Count() >= (uploadIndex + 1) && upload[uploadIndex] != null)
+                                    {
+                                        string category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                                        string uploadLocation = hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
+                                        string fileName = Path.GetFileName(upload[uploadIndex].FileName);
+                                        var filePath = Path.Combine(uploadLocation, fileName);
+                                        if (!Directory.Exists(uploadLocation))
+                                        {
+                                            Directory.CreateDirectory(uploadLocation); //Eðer klasör yoksa oluþtur    
+                                        }
+                                        using (var stream = new FileStream(filePath, FileMode.Create))
+                                        {
+                                            await upload[uploadIndex].CopyToAsync(stream);
+                                        }
+                                        value.Value = "/uploads/" + category + "/" + fileName;
+
+                                    }
+
+                                }
+                                if (mode == "create")
+                                {
+                                    value.PropertyId = key;
+                                    value.RowId = rowId;
+                                    value.CreateDate = DateTime.Now;
+                                    value.CreatedBy = User.Identity.Name;
+                                }
+                                value.UpdateDate = DateTime.Now;
+                                value.UpdatedBy = User.Identity.Name;
+                                value.AppTenantId = "1";
+                            }
+                            if (mode == "create")
+                            {
+                                _context.Add(value);
+                            }
+                            else if (mode == "edit")
+                            {
+                                _context.Update(value);
+                            }
+                            _context.SaveChanges();
+                        }
+
+                    }
+                }
+
+
                 foreach (var key in form.Keys)
                 {
                     Guid result;
@@ -134,7 +242,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,PageId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component, IFormCollection form)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,ComponentTypeId,View,ParentComponentId,PageId,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Component component, IFormCollection form, IFormFile[] upload)
         {
             if (id != component.Id)
             {
@@ -143,6 +251,110 @@ namespace Edux.Controllers
 
             if (ModelState.IsValid)
             {
+                    // upload iþlemi
+                    long rowId = 1;
+                    string mode = form["Mode"].ToString().ToLowerInvariant();
+                    if (String.IsNullOrEmpty(mode))
+                    {
+                        mode = "create";
+                    }
+
+                    if (mode == "edit" || mode == "delete")
+                    {
+                        rowId = Convert.ToInt64(form["RowId"].ToString());
+                    }
+                    else
+                    {
+                        if (_context.PropertyValues.Any())
+                        {
+                            rowId = _context.PropertyValues.Max(m => m.RowId) + 1;
+                        }
+                    }
+                    if (mode == "delete")
+                    {
+                        var eName = _context.Forms.FirstOrDefault(frm => frm.Id == form["FormId"].ToString()).EntityName;
+                        foreach (PropertyValue item in _context.PropertyValues.Include(i => i.Entity).Where(pv => pv.Entity.Name == eName && pv.RowId == rowId).ToList())
+                        {
+                            _context.Remove(item);
+                        }
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+
+                        foreach (var key in form.Keys)
+                        {
+                            if (_context.Fields.Any(f => f.FormId == form["FormId"].ToString() && f.PropertyId == key))
+                            {
+
+                                PropertyValue value;
+                                if (mode == "create")
+                                {
+                                    value = new PropertyValue();
+                                }
+                                else
+                                {
+                                    value = _context.PropertyValues.Where(pv => pv.PropertyId == key && pv.RowId == rowId).FirstOrDefault();
+                                    if (value == null)
+                                    {
+                                        value = new PropertyValue();
+                                        value.PropertyId = key;
+                                        value.RowId = rowId;
+                                        value.CreateDate = DateTime.Now;
+                                        value.CreatedBy = User.Identity.Name;
+                                    }
+                                }
+                                if (mode == "create" || mode == "edit")
+                                {
+                                    value.Value = form[key];
+                                    value.EntityId = form[key + ".EntityId"];
+                                    if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
+                                    {
+                                        int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
+                                        if (upload != null && upload.Count() >= (uploadIndex + 1) && upload[uploadIndex] != null)
+                                        {
+                                            string category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                                            string uploadLocation = hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
+                                            string fileName = Path.GetFileName(upload[uploadIndex].FileName);
+                                            var filePath = Path.Combine(uploadLocation, fileName);
+                                            if (!Directory.Exists(uploadLocation))
+                                            {
+                                                Directory.CreateDirectory(uploadLocation); //Eðer klasör yoksa oluþtur    
+                                            }
+                                            using (var stream = new FileStream(filePath, FileMode.Create))
+                                            {
+                                                await upload[uploadIndex].CopyToAsync(stream);
+                                            }
+                                            value.Value = "/uploads/" + category + "/" + fileName;
+
+                                        }
+
+                                    }
+                                    if (mode == "create")
+                                    {
+                                        value.PropertyId = key;
+                                        value.RowId = rowId;
+                                        value.CreateDate = DateTime.Now;
+                                        value.CreatedBy = User.Identity.Name;
+                                    }
+                                    value.UpdateDate = DateTime.Now;
+                                    value.UpdatedBy = User.Identity.Name;
+                                    value.AppTenantId = "1";
+                                }
+                                if (mode == "create")
+                                {
+                                    _context.Add(value);
+                                }
+                                else if (mode == "edit")
+                                {
+                                    _context.Update(value);
+                                }
+                                _context.SaveChanges();
+                            }
+
+                        }
+                    }
+                
                 try
                 {
 

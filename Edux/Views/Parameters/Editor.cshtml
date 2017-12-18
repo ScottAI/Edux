@@ -142,7 +142,17 @@
                             <option value="">Seçiniz</option>
                             @foreach (var item in ViewBag.DataTables)
                             {
+                                if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id):false) {
+                                <option value="@item.Id" selected="selected">@item.DisplayName</option>
+                                }
+                                else {
                                 <option value="@item.Id">@item.DisplayName</option>
+
+                                    }
+                                
+
+                                
+
                             }
                         </select>
                     </div>

@@ -6,7 +6,9 @@
 
 <h2>Düzenle</h2>
 
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="CreatedBy" />
+    <input type="hidden" asp-for="CreateDate" />
     <div class="form-horizontal">
         <h4>Bileşenler</h4>
         <hr />

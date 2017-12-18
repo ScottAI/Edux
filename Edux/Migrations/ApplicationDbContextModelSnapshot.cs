@@ -1108,17 +1108,23 @@ namespace Edux.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
+                    b.Property<string>("EditableToRoles");
+
                     b.Property<string>("FormId");
 
-                    b.Property<bool>("IsDisabled");
+                    b.Property<string>("InvisibleToRoles");
 
-                    b.Property<bool>("IsInvisible");
+                    b.Property<bool>("IsReadOnly");
+
+                    b.Property<bool>("IsVisible");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<int>("Position");
+
+                    b.Property<string>("ReadOnlyToRoles");
 
                     b.Property<DateTime>("UpdateDate");
 
