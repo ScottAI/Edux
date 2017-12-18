@@ -12,9 +12,6 @@
                     @Html.DisplayNameFor(model => model.DisplayName)
                 </th>
                 <th class="text-nowrap ">
-                    @Html.DisplayNameFor(model => model.Tab)
-                </th>
-                <th class="text-nowrap ">
                     @Html.DisplayNameFor(model => model.Row)
                 </th>
                 <th class="text-nowrap ">
@@ -45,6 +42,12 @@
                     @Html.DisplayNameFor(model => model.AppTenantId)
                 </th>*@
             <th class="text-nowrap ">
+                @Html.DisplayNameFor(model => model.Fieldset)
+            </th>
+            <th class="text-nowrap ">
+                @Html.DisplayNameFor(model => model.Tab)
+            </th>
+            <th class="text-nowrap ">
                 @Html.DisplayNameFor(model => model.Form)
             </th>
             <th class="text-nowrap ">
@@ -65,9 +68,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DisplayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tab.DisplayName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Row)
@@ -100,13 +100,19 @@
                 @Html.DisplayFor(modelItem => item.AppTenantId)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Form.Id)
+                @Html.DisplayFor(modelItem => item.Fieldset.DisplayName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EntityId) - @Html.DisplayFor(modelItem => item.Entity.Name)
+                @Html.DisplayFor(modelItem => item.Tab.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PropertyId) - @Html.DisplayFor(modelItem => item.Property.Name)
+                @Html.DisplayFor(modelItem => item.Form.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Entity.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Property.Name)
             </td>
             
             <td class="text-nowrap">
