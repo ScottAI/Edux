@@ -572,8 +572,8 @@
                                                                                                                (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
                                                                                                                     {
                                                                                                     <div class="form-group @field.Name">
-                                                                                                        Seçilen component gelecek
-                                                                                                        @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
+                                                                                                        
+                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component })
                                                                                                     </div>
                                                                                                                     }
                                                                                                             break;
