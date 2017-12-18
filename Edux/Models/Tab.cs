@@ -23,12 +23,18 @@ namespace Edux.Models
         public string DisplayName { get; set; }
         [Display(Name = "Pozisyon")]
         public int Position { get; set; }
-        [Display(Name = "Pasif mi?")]
-        public bool IsDisabled { get; set; }
-        [Display(Name = "Gizli mi?")]
-        public bool IsInvisible { get; set; }
+        [Display(Name = "Salt Okunur")]
+        public bool IsReadOnly { get; set; }
+        [Display(Name = "Görünür mü?")]
+        public bool IsVisible { get; set; }
+        [Display(Name = "Şu Rollere Görünmez")]
+        public string InvisibleToRoles { get; set; }
         [Display(Name = "Şu Rollere Görünür")]
         public string VisibleToRoles { get; set; }
+        [Display(Name = "Şu Rollere Salt Okunur")]
+        public string ReadOnlyToRoles { get; set; }
+        [Display(Name = "Şu Roller Düzenleyebilir")]
+        public string EditableToRoles { get; set; }
         [Display(Name = "Alanlar")]
         public virtual ICollection<Field> Fields { get; set; }
         [Display(Name="Form")]

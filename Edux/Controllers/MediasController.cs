@@ -150,7 +150,7 @@ namespace Edux.Controllers
                         extension = Path.GetExtension(fileName).ToLower();
                         Filesize = ((float)upload.Length) / ((float)1024);
                         var filePath = Path.Combine(uploadLocation, fileName);
-                         Year = DateTime.Now.Year;
+                        Year = DateTime.Now.Year;
                         Month = DateTime.Now.Month;
                         if (!Directory.Exists(uploadLocation))
                         {
@@ -160,7 +160,8 @@ namespace Edux.Controllers
                         {
                             await upload.CopyToAsync(stream);
                         }
-                        
+                    
+
                     }
                 }
 
@@ -249,14 +250,7 @@ namespace Edux.Controllers
                 }
                 if (uploadFile != null)
                 {
-                    Media media = new Media();
-                    media.Name = Name;
-                    media.Description = Description;
-
-                    media.CreatedBy = User.Identity.Name ?? "username";
-                    media.CreateDate = DateTime.Now;
-                    media.UpdatedBy = User.Identity.Name ?? "username";
-                    media.UpdateDate = DateTime.Now;
+                    
 
 
                     
@@ -272,8 +266,10 @@ namespace Edux.Controllers
                     || extension == ".mp4"
                      )
                     {
-                        string category = DateTime.Now.Month + "-" + DateTime.Now.Year + "-ProductImages";
-                        string FilePath = _hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
+
+                        Media media = new Media();
+                        string category = uploadFile.ContentType;
+                        string FilePath = _hostingEnvironment.WebRootPath + "\\";
                         string dosyaismi = Path.GetFileName(uploadFile.FileName);
                         var yuklemeYeri = Path.Combine(FilePath, dosyaismi);
                         media.FilePath = "uploads/" + category + "/" + dosyaismi;
@@ -286,7 +282,16 @@ namespace Edux.Controllers
                         {
                             uploadFile.CopyTo(stream);
                         }
-
+                        
+                        media.Name = dosyaismi;
+                        media.Description = Description;
+                        media.Year = DateTime.Now.Year;
+                        media.Month = DateTime.Now.Month;
+                        media.CreatedBy = User.Identity.Name ?? "username";
+                        media.CreateDate = DateTime.Now;
+                        media.UpdatedBy = User.Identity.Name ?? "username";
+                        media.UpdateDate = DateTime.Now;
+                        media.ContentType = category;
 
                         _context.Add(media);
                         _context.SaveChangesAsync();
