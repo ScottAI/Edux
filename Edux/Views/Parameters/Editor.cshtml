@@ -175,10 +175,6 @@
 
                         <select name="@parameter.Id" id="@parameter.Name" form="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId)!=null?parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")</select>
 
-
-
-                        <select name="@parameter.Id" id="@parameter.Name" form="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")</select>
-
                     </div>
                 </div>
                 break;
