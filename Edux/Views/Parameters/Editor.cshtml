@@ -60,6 +60,34 @@
                     
                     </div>
                 </div>*@
+            break;
+        case ParameterType.Component:
+
+            <div class="form-group">
+                <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                <div class="col-md-10">
+
+                    <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
+                        <option value="">Seçiniz</option>
+                        @foreach (var item in ViewBag.Components)
+                        {
+                            if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id) : false)
+                            {
+                                <option value="@item.Id" selected="selected">@item.DisplayName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.DisplayName</option>
+
+                            }
+
+
+
+                        }
+                    </select>
+                </div>
+            </div>
+
                 break;
 
 
@@ -140,7 +168,7 @@
 
                         <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
                             <option value="">Seçiniz</option>
-                            @foreach (var item in ViewBag.DataTable)
+                            @foreach (var item in ViewBag.DataTables)
                             {
                                 if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id):false) {
                                 <option value="@item.Id" selected="selected">@item.DisplayName</option>
@@ -168,7 +196,7 @@
 
                         <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
                             <option value="">Seçiniz</option>
-                            @foreach (var item in ViewBag.Form)
+                            @foreach (var item in ViewBag.Forms)
                             {
                                 if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id) : false)
                                 {
