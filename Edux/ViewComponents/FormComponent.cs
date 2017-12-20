@@ -21,7 +21,8 @@ namespace Edux.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(Models.Component component)
         {
             var viewName = component.View ?? "Default";
-            var formName = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "FormName")?.Value;
+            var formId = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "Form")?.Value;
+            var formName = _context.Forms.FirstOrDefault(f => f.Id == formId)?.Name;
             var initialValues = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "InitialValues")?.Value;
             if (initialValues != null) { 
                 ViewBag.InitialValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(initialValues);
