@@ -27,6 +27,7 @@ namespace Edux.Models
         SelectDataTable=18,
         SelectForm=19,
         SelectPage=20,
-        SelectMenu=21
+        SelectMenu = 21,
+        Component =22
     }
 }

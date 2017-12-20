@@ -21,7 +21,7 @@ namespace Edux.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string formId)
         {
-            var fields = _context.Fields.Include(c => c.Form).Include(c=>c.Entity).Include(c=>c.Property).Where(c => c.FormId == formId);
+            var fields = _context.Fields.Include(f=>f.Fieldset).Include(c => c.Form).Include(c=>c.Entity).Include(c=>c.Property).Where(c => c.FormId == formId);
             ViewBag.formId= formId;
             return View(await fields.ToListAsync());
         }
