@@ -34,7 +34,8 @@ namespace Edux.ViewComponents
             ViewBag.DeleteButtonText = DeleteButtonText;
             var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
             ViewBag.DeleteButtonHref = DeleteButtonHref;
-            
+
+          
             
             
             var entityId = datatable.EntityId;

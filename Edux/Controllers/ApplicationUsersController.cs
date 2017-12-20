@@ -82,7 +82,8 @@ namespace Edux.Controllers
                 return NotFound();
             }
             ViewBag.Roles = Roles.ToList();
-            ViewBag.SelectedRoles = await _userManager.GetRolesAsync(applicationUser);
+            var selectedRoles = await _userManager.GetRolesAsync(applicationUser);
+            ViewBag.SelectedRoles = selectedRoles;
 
            
 
@@ -118,13 +119,16 @@ namespace Edux.Controllers
                     applicationUserOld.LockoutEnd = applicationUser.LockoutEnd;
                     applicationUserOld.LockoutEnabled = applicationUser.LockoutEnabled;
                     applicationUserOld.AccessFailedCount = applicationUser.AccessFailedCount;
-                    await _context.SaveChangesAsync();
+
                     await _userManager.RemoveFromRolesAsync(applicationUserOld, await _userManager.GetRolesAsync(applicationUserOld));
                     foreach (var r in selectedRoles) {
                         await _userManager.AddToRoleAsync(applicationUserOld, r);
                        
                     }
+
+                    await _context.SaveChangesAsync();
                 }
+                
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ApplicationUserExists(applicationUser.Id.ToString()))
@@ -137,7 +141,9 @@ namespace Edux.Controllers
                     }
                 }
                 return RedirectToAction("Index");
+
             }
+
             return View(applicationUser);
         }
 

@@ -661,8 +661,8 @@
                                                                                                               (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                            {
                                                                                                     <div class="form-group @field.Name">
-                                                                                                        Seçilen component gelecek
-                                                                                                        @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
+                                                                                                        
+                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId= (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue) })
                                                                                                     </div>
                                                                                                                     }
                                                                                                             break;
@@ -1188,8 +1188,8 @@
                                                                                                             {
                                                                                             <div class="form-group @field.Name">
                                                                                                 
-                                                                                                @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component })
-                                                                                            </div> 
+                                                                                                @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId = (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => (field.Property.DataSourceProperty != null && field.Property.DataSourceProperty.DataSourceProperty != null?v.PropertyId == field.Property.DataSourceProperty.DataSourceProperty.Id:false))?.Id : "") })
+</div> 
                                                                                                             }
                                                                                                     break;
                                                                                             }

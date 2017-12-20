@@ -16,6 +16,9 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
             <th class="text-nowrap">
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th class="text-nowrap">
                 @Html.DisplayNameFor(model => model.DisplayName)
             </th>
             <th class="text-nowrap">
@@ -39,6 +42,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DisplayName)
