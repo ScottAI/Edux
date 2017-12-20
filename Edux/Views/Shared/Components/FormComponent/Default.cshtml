@@ -573,7 +573,7 @@
                                                                                                                     {
                                                                                                     <div class="form-group @field.Name">
                                                                                                         
-                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component })
+                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, field=field })
                                                                                                     </div>
                                                                                                                     }
                                                                                                             break;
