@@ -26,6 +26,7 @@ namespace Edux.Models
         TreeView = 17,
         SelectDataTable=18,
         SelectForm=19,
-        SelectPage=20
+        SelectPage=20,
+        Component=21
     }
 }

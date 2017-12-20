@@ -25,11 +25,12 @@ namespace Edux.Controllers
             return View(await parameters.ToListAsync());
         }
 
-        public async Task<IActionResult> Editor(string id, string componentId)
+        public async Task<IActionResult> Editor(string id, string componentId, string pageId)
         {
 
             ViewBag.DataTables = _context.DataTables.OrderBy(p => p.DisplayName).ToList();
-            ViewBag.Form = _context.Forms.OrderBy(o => o.DisplayName).ToList();
+            ViewBag.Components = _context.Pages.Include(i=>i.Components).FirstOrDefault(c=>c.Id == pageId)?.Components.OrderBy(p => p.DisplayName).ToList();
+            ViewBag.Forms = _context.Forms.OrderBy(o => o.DisplayName).ToList();
             var parameters = _context.Parameters.Include(p => p.ComponentType).Include(p=>p.ParameterValues).Where(p => p.ComponentTypeId == id).OrderBy(p=>p.Position);
             ViewBag.ComponentId = componentId;
             return View(await parameters.ToListAsync());

@@ -18,9 +18,8 @@ namespace Edux.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(Models.Component component)
         {
             var viewName = component.View ?? "Default";
-            ViewBag.Src = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "Src")?.Value;
-            ViewBag.Width = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "Width")?.Value;
-            ViewBag.Height = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "Height")?.Value;
+            var formId = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "Form")?.Value;
+            ViewBag.Form = _context.Components.FirstOrDefault(c => c.Id == formId);
 
             return await Task.FromResult(View(viewName, component));
         }
