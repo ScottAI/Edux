@@ -17,7 +17,7 @@ namespace Edux.ViewComponents
             this._context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(Models.Component component, Models.Field field)
+        public async Task<IViewComponentResult> InvokeAsync(Models.Component component, string relatedId="")
         {
             var viewName = component.View ?? "Default";
             var dtId = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTable").Value;
@@ -46,8 +46,7 @@ namespace Edux.ViewComponents
             
             
             var entityId = datatable.EntityId;
-            //string pId = datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value
-            var relatedId = field.Property.PropertyValues.FirstOrDefault(pv => pv.RowId.ToString() == Request.Query["id"].ToString())?.Value;
+            //string pId = datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value           
             var values = _context.PropertyValues
                 .Include(i => i.Entity).Include(i => i.Property)
                 .ThenInclude(t => t.DataSourceProperty)
