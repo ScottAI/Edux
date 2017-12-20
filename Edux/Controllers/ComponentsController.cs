@@ -30,7 +30,7 @@ namespace Edux.Controllers
         public async Task<IActionResult> Index()
         {
             var components = _context.Components.Include(c => c.ComponentType).ThenInclude(ct => ct.Parameters).Include(c => c.ParentComponent).Include(c => c.ParameterValues);
-            return View(await components.ToListAsync());
+            return View(components.ToList());
         }
 
         // GET: Components/Details/5
