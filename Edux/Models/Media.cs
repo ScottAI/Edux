@@ -17,10 +17,12 @@ namespace Edux.Models
             UpdateDate = DateTime.Now;
             UpdatedBy = "username";
         }
-        [StringLength(200)]
+
         [Required]
+        [StringLength(200)]
         [DisplayName("Ortam Adı")]
         public string Name { get; set; }
+        [StringLength(200)]
         [DisplayName("Açıklama")]
         public string Description { get; set; }
         [StringLength(200)]
