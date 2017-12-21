@@ -2,6 +2,8 @@
 @{ var datatable = (DataTable)ViewBag.DataTable;
     var values = (IList<PropertyValue>)ViewBag.Values;
     var entityId = "";
+  
+
 }
 
 <div class="portlet light bordered">
@@ -86,19 +88,37 @@
 
                                     </td>
                                 }
-                                <td class="text-nowrap">
-                                    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
-                                    {
+                                    <td class="text-nowrap">
+                                        @if (ViewBag.ActionsMenu != null)
+                                        {
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                            ActionMenu
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ActionsMenu.MenuItems)
+                                            {
+                                                <li>@item.Name</li>
+                                            }
 
-                                        <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
-                                    }
-                                    @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-                                    {
+                                        </ul>
+                                    </div>
+                                        }
 
-                                        <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
 
-                                    }
-                                </td>
+                                      @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
+    {
+
+                                    <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
+}
+                                        @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+    {
+
+                                    <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+
+}
+                                    </td>
                             </tr>
                         }
                     </tbody>
