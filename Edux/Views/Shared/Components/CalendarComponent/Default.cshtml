@@ -9,32 +9,99 @@
 <link href="/metronic/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
 <script src="/metronic/global/plugins/moment.min.js" type="text/javascript"></script>
 <script src="/metronic/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="/metronic/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>  
+<script src="/metronic/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script src="/metronic/apps/scripts/calendar.js" type="text/javascript"></script>
 <script src="/metronic/global/plugins/fullcalendar/lang-all.js"></script>
 
+
+
+
+
 <div class="row">
-    <div class="col-md-2">
-        <div id="datepicker"></div>
-    </div>
-    <div class="col-md-10">
-        <div id="calendar" class="has-toolbar"></div>
+
+    <div class="col-md-12">
+        <div id="calendar2" class="has-toolbar"></div>
+        <div id='datepicker'></div>
     </div>
 </div>
 
-    <script>
-            $(document).ready(function () {
-                $.datepicker.setDefaults($.datepicker.regional['tr']);
-                $("#datepicker").datepicker({
-                    inline: true,
-                    onSelect: function (dateText) {
-                        var ds = dateText.split(".");
-                        var m = new Date(ds[2], ds[1]-1, ds[0]);
-                        $('#calendar').fullCalendar('gotoDate', m);
-                    }
-                     
-                });
-            });
-          
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Etkinlik oluştur</h4>
+            </div>
+            <div class="modal-body">
+                @await Component.InvokeAsync(ViewBag.Component.ComponentType.Name, new { component = ViewBag.Component })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="save-event">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</script>
+
+
+
+                <script>
+                    $(document).ready(function () {
+
+                        $('#calendar2').fullCalendar({
+                            header: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'month,agendaWeek,agendaDay'
+                            },
+                            lang:"tr",
+                            navLinks: true, // can click day/week names to navigate views
+                            selectable: true,
+                            selectHelper: true,
+                            select: function (start, end) {
+                                // Display the modal.
+                                // You could fill in the start and end fields based on the parameters
+                                $('.modal').modal('show');
+
+                            },
+                            eventClick: function (event, element) {
+                                // Display the modal and set the values to the event values.
+                                $('.modal').modal('show');
+                                $('.modal').find('#title').val(event.title);
+                                $('.modal').find('#starts-at').val(event.start);
+                                $('.modal').find('#ends-at').val(event.end);
+
+                            },
+                            editable: true,
+                            eventLimit: true // allow "more" link when too many events
+
+                        });
+
+                        // Bind the dates to datetimepicker.
+                        // You should pass the options you need
+                      //  $("#starts-at, #ends-at").datetimepicker();
+
+                        // Whenever the user clicks on the "save" button om the dialog
+                        $('#save-event').on('click', function () {
+                            var title = $('#title').val();
+                            if (title) {
+                                var eventData = {
+                                    title: title,
+                                    start: $('#starts-at').val(),
+                                    end: $('#ends-at').val()
+                                };
+                                $('#calendar2').fullCalendar('renderEvent', eventData, true); // stick? = true
+                            }
+                            $('#calendar2').fullCalendar('unselect');
+
+                            // Clear modal inputs
+                            $('.modal').find('input').val('');
+
+                            // hide modal
+                            $('.modal').modal('hide');
+                        });
+                    });
+                </script>
+
+

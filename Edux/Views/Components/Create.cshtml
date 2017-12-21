@@ -94,7 +94,7 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         function onComponentTypeChange(elm) {
-            $("#parameters").load("/Parameters/Editor/" + $(elm).val());
+            $("#parameters").load("/Parameters/Editor/" + $(elm).val() + "?pageId=" + '@Model.PageId');
         }
     </script>
 }
