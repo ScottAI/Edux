@@ -35,23 +35,31 @@
 
                  
                     @foreach (var tab in tabs)
-                    {
+                     {
                         if ((tab.IsVisible == true && string.IsNullOrEmpty(tab.VisibleToRoles)) ||
                           (tab.IsVisible == true && (!string.IsNullOrEmpty(tab.VisibleToRoles) && User.IsInRole(tab.VisibleToRoles))) ||
-                         (tab.IsVisible == false && (!string.IsNullOrEmpty(tab.InvisibleToRoles) && !User.IsInRole(tab.InvisibleToRoles))))
+                         (tab.IsVisible == false && (!string.IsNullOrEmpty(tab.InvisibleToRoles) && !User.IsInRole(tab.InvisibleToRoles))) ||
+                          (tab.IsVisible == true && (!string.IsNullOrEmpty(tab.EditableToRoles) && User.IsInRole(tab.EditableToRoles))) ||
+                          (tab.IsVisible == true && (string.IsNullOrEmpty(tab.VisibleToRoles))))
                         {
                         <li @(k == 1 ? "class=active" : "")>
                             <a href="#@tab.Name" data-toggle="tab"> @tab.DisplayName </a>
                         </li>
                             k++;
                         }
-                    }
+                     }
 
                 </ul>
                 <div class="tab-content">
                     @{ k = 1;}
                     @foreach (var tab in tabs)
                     {
+                        bool readOnly1 = false;
+                        if ((tab.IsReadOnly == true && string.IsNullOrEmpty(tab.ReadOnlyToRoles)) ||
+                           (tab.IsReadOnly == true && (!string.IsNullOrEmpty(tab.ReadOnlyToRoles) && User.IsInRole(tab.ReadOnlyToRoles))))
+                        {
+                            readOnly1 = true;
+                        }
                         <div class="tab-pane fade @(k==1?"active":"") in" id="@tab.Name">
                             @* önce fieldset'lerin içindeki alanları görüntüle: *@
                             @{ var fieldsets = tab.Fields.Where(f => f.TabId == tab.Id && f.FieldsetId != null).OrderBy(fs => fs.Fieldset.Position).Select(s => s.Fieldset).Distinct().ToList();}
@@ -82,22 +90,25 @@
                                                                 case EditorType.Text:
                                                                     @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                        (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                        (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
-                                                                    {
+                                                                        (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                          (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                          (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+                                                                     {
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                        @{
-                                                                           bool readOnly = false;
+                                                                           bool readOnly = readOnly1;
 
                                                                            if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                            (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                            {
 
                                                                                readOnly = true;
                                                                            }
-                                                                     }
+                                                                      } 
+                                                                       
                                                                                    <input type="text" 
-                                                                                   @(readOnly ? "readonly=readonly" : "")
+                                                                                   @(readOnly ? "readonly=readonly " : "")
                                                                                    onclick="@Html.Raw(field.OnClick)"
                                                                                    onchange="@Html.Raw(field.OnChange)"
                                                                                    name="@field.PropertyId"
@@ -109,30 +120,33 @@
                                                                                    class="form-control" />
                                                                         </div>
                                                                     </div>
-                                                                           }
+                                                                    }
 
                                                                                break;
                                                                            case EditorType.TextArea:
                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                  (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                  (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                  (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                  (field.IsVisible==true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                  (field.IsVisible==true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+
                                                                             {
 
 
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                         @{
-                                                                           bool readOnly = false;
+                                                                            bool readOnly = readOnly1;
 
-                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                           {
+                                                                            if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                               (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                            {
 
-                                                                               readOnly = true;
-                                                                           }
+                                                                                readOnly = true;
+                                                                            }
                                                                          }
                                                                             <textarea name="@field.PropertyId"
-                                                                                      @(readOnly ? "readonly=readonly " :"")
+                                                                                      @(readOnly ? "readonly=readonly " : "")
                                                                                       id="@field.Name"
                                                                                       placeholder="@field.DisplayName"
                                                                                       required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") class="form-control">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)</textarea>
@@ -143,25 +157,27 @@
                                                                 case EditorType.Html:
                                                                       @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                              (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                              (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                              (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                              (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                              (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                       {
 
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                         @{
-                                                                           bool readOnly = false;
+                                                                            bool readOnly = readOnly1;
 
-                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                           {
+                                                                            if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                               (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                            {
 
-                                                                               readOnly = true;
-                                                                           }
+                                                                                readOnly = true;
+                                                                            }
                                                                          } 
                                                                         <textarea 
                                                                            
                                                                           name="@field.PropertyId"
-                                                                          @(readOnly ? "readonly=readonly " :"")
+                                                                         @(readOnly ? "readonly=readonly " : "")
                                                                           id="@field.Name"
                                                                           required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)</textarea>
                                                                             <script>
@@ -175,90 +191,149 @@
                                                                       case EditorType.Select:
 
                                                                      @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                          (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                           (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                    (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                    (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                    (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                    (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                      {
 
 
                                                                     <div class="form-group @field.Name">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                            @{
-                                                                           bool readOnly = false;
+    @{
+        bool readOnly = readOnly1;
 
-                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                           {
+        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+(field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+        {
 
-                                                                               readOnly = true;
-                                                                           }
-                                                                         }
-                                                                        <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">
-                                                                            @(readOnly ? "readonly=readonly " : "")
-                                                                               
-                                                                            @if (!String.IsNullOrEmpty(field.OptionLabel))
-                                                                                {
-                                                                                    <option value="">@field.OptionLabel</option>
-                                                                                }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                                                                             {
-                                                                                 foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                                                                 {
-                                                                                        <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
-                                                                                 }
-                                                                             }
-                                                                             else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
-                                                                             {
-                                                                                 foreach (var item in field.Property.PresetValues.Split(','))
-                                                                                 {
-                                                                                        <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
-                                                                                 }
+            readOnly = true;
+        }
+    }
+    @if (readOnly == false)
+    {
+        <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">
 
-                                                                             }
-                                                                            </select>
-                                                                        </div>
+            @if (!String.IsNullOrEmpty(field.OptionLabel))
+            {
+                <option value="">@field.OptionLabel</option>
+            }                                       @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+            {
+                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                {
+                    <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
+                }
+            }
+            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+            {
+                foreach (var item in field.Property.PresetValues.Split(','))
+                {
+                    <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
+                }
+
+            }
+        </select>
+    }
+       else
+    {
+        <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control" disabled>
+
+            @if (!String.IsNullOrEmpty(field.OptionLabel))
+            {
+                <option value="">@field.OptionLabel</option>
+            }                                       @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+            {
+                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                {
+                    <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
+                }
+            }
+            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+            {
+                foreach (var item in field.Property.PresetValues.Split(','))
+                {
+                    <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
+                }
+
+            }
+        </select>
+    }
+</div>
                                                                     </div>
-                                                                         }
+                                                                      }
                                                                                     break;
 
 
                                                                                 case EditorType.SelectMultiple:
                                                                                     @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                             (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                     {
                                                                     <div class="form-group">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                         @{
-                                                                           bool readOnly = false;
+    @{
+        bool readOnly = readOnly1;
 
-                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                           {
+        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+(field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+        {
 
-                                                                               readOnly = true;
-                                                                           }
-                                                                         }    
-                                                                        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control selectpicker" multiple data-header="@field.DisplayName">
-                                                                            @(readOnly ? "readonly=readonly " : "")
-                                                                            @if (!String.IsNullOrEmpty(field.OptionLabel))
-                                                                                {
-                                                                                    <option value="">@field.OptionLabel</option>
-                                                                                }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                                                                                            {
-                                                                                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                                                                                {
-                                                                                        <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@value.Value</option>
-                                                                                                }
-                                                                                            }
-                                                                                            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
-                                                                                            {
-                                                                                                foreach (var item in field.Property.PresetValues.Split(','))
-                                                                                                {
-                                                                                        <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@item</option>
-                                                                                                }
+            readOnly = true;
+        }
+    }
+    @if (readOnly == false)
+    {
+        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control selectpicker" multiple data-header="@field.DisplayName">
 
-                                                                                            }
-                                                                            </select>
-                                                                        </div>
+            @if (!String.IsNullOrEmpty(field.OptionLabel))
+            {
+                <option value="">@field.OptionLabel</option>
+            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+            {
+                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                {
+                    <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@value.Value</option>
+                }
+            }
+            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+            {
+                foreach (var item in field.Property.PresetValues.Split(','))
+                {
+                    <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@item</option>
+                }
+
+            }
+        </select>
+
+    }
+    @if(readOnly==true)
+    {
+        <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control selectpicker" multiple data-header="@field.DisplayName" disabled>
+
+            @if (!String.IsNullOrEmpty(field.OptionLabel))
+            {
+                <option value="">@field.OptionLabel</option>
+            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+            {
+                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                {
+                    <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@value.Value</option>
+                }
+            }
+            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+            {
+                foreach (var item in field.Property.PresetValues.Split(','))
+                {
+                    <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@item</option>
+                }
+
+            }
+        </select>
+
+    }
+</div>
                                                                     </div>
                                                                                      }
 
@@ -313,15 +388,17 @@
                                                                              case EditorType.Checkbox:
                                                                                 @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                       (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                       (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                       (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                       (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                       (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                 {
                                                                     <div class="form-group @field.Name">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                 @{
-                                                                                    bool readOnly = false;
+                                                                                    bool readOnly = readOnly1;
 
                                                                                     if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                               (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                     {
 
                                                                                         readOnly = true;
@@ -406,14 +483,14 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                            @{
-                                                                                                                bool readOnly = false;
+                                                                                                               bool readOnly = readOnly1;
 
-                                                                                                                if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                                {
+                                                                                                               if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                                     (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                               {
 
-                                                                                                                    readOnly = true;
-                                                                                                                }
+                                                                                                                   readOnly = true;
+                                                                                                               }
                                                                                                             } 
                                                                                                         <input type="date"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
@@ -423,21 +500,23 @@
                                                                                                 case EditorType.DateTimePicker:
                                                                                                      @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                            (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                      {
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "" )</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                                                 {
 
                                                                                                                     readOnly = true;
                                                                                                                 }
                                                                                                             } 
-                                                                                                        <input type="datetime-local"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                        <input type="datetime-local"   @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                          }
@@ -450,10 +529,10 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                                                 {
 
                                                                                                                     readOnly = true;
@@ -469,19 +548,21 @@
                                                                                                      case EditorType.Tel:
                                                                                                     @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                           (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                           (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles)))||
+                                                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                           (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                     {
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                         @{
-                                                                                                                bool readOnly = false;
+                                                                                                           bool readOnly = readOnly1;
 
-                                                                                                                if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                                {
+                                                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                               (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                            {
 
-                                                                                                                    readOnly = true;
-                                                                                                                }
+                                                                                                                readOnly = true;
+                                                                                                            }
                                                                                                             }   
                                                                                                             <input type="text" @(readOnly ? "readonly=readonly " : "")  onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
@@ -491,22 +572,24 @@
                                                                                                 case EditorType.Email:
                                                                                                     @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                              (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                      {
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                                                                                                         <div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                                                 {
 
                                                                                                                     readOnly = true;
                                                                                                                 }
                                                                                                             }   
-                                                                                                            <input type="text"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                            <input type="text"   @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                      }
@@ -523,38 +606,42 @@
                                                                                                 case EditorType.Password:
                                                                                                    
                                                                                                          @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                              (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                               (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                              (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                              (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                              (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                          {
                                                                                                          <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                                                 {
 
                                                                                                                     readOnly = true;
                                                                                                                 }
                                                                                                             }   
-                                                                                                        <input type="password" @(readOnly ? "readonly=readonly " : "") name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                        <input type="password"  @(readOnly ? "readonly=readonly " : "") name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div> 
                                                                                                          }
                                                                                                     break;
                                                                                                 case EditorType.Number:
                                                                                                          @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                            (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                             (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
-                                                                                                     {
+                                                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                            (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                            (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                            (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+                                                                                                         {
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                                                 {
 
                                                                                                                     readOnly = true;
@@ -568,12 +655,14 @@
                                                                                                     break;
                                                                                                 case EditorType.Component:
                                                                                                            @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                              (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                               (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
-                                                                                                                    {
+                                                                                                             (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                              (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                              (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                              (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+                                                                                                           {
                                                                                                     <div class="form-group @field.Name">
-                                                                                                        Seçilen component gelecek
-                                                                                                        @*@await Component.InvokeAsync(field.Component.Name, new { component = field.Component })*@
+                                                                                                        
+                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId= (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => (field.Property.DataSourceProperty != null && field.Property.DataSourceProperty.DataSourceProperty != null ? v.PropertyId == field.Property.DataSourceProperty.DataSourceProperty.Id : false))?.Id : "") })
                                                                                                     </div>
                                                                                                                     }
                                                                                                             break;
@@ -611,23 +700,25 @@
 
                                                         case EditorType.Text:
                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                 (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                               (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                             {
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                @{ 
-                                                                   bool readOnly = false;
+                                                                   bool readOnly = readOnly1;
 
                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                      (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                 (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                    {
 
                                                                        readOnly= true;
                                                                    }
                                                                         }
                                                                 <input type="text" 
-                                                                       @(readOnly ? "readonly=readonly " :"")
+                                                                      @(readOnly ? "readonly=readonly " : "")
                                                                           onclick="@Html.Raw(field.OnClick)"
                                                                            onchange="@Html.Raw(field.OnChange)"
                                                                            name="@field.PropertyId"
@@ -643,26 +734,28 @@
                                                                        break;
                                                                    case EditorType.TextArea:
                                                                     @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                            (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                          (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                           (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                           (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                     {
 
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                      @{ 
-                                                                   bool readOnly = false;
+                                                                         bool readOnly = readOnly1;
 
-                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                           (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                         if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                             (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                          {
 
-                                                                       readOnly= true;
+                                                                             readOnly= true;
                                                                          }
                                                                      }
                                                                 
                                                                 
                                                                 <textarea name="@field.PropertyId"
-                                                                          @(readOnly ? "readonly=readonly " :"")
+                                                                        @(readOnly ? "readonly=readonly " : "")
                                                                             id="@field.Name"
                                                                             placeholder="@field.DisplayName"
                                                                             required="@(field.Property.IsRequired)"
@@ -674,25 +767,27 @@
                                                                              break;
                                                                          case EditorType.Html:
                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                 (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                  (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                 (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                 (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                 (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                             {
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                       @{ 
-                                                                        bool readOnly = false;
+                                                                          bool readOnly = readOnly1;
 
-                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                           (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                        {
+                                                                          if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                               (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                          {
 
-                                                                       readOnly= true;
-                                                                         }
+                                                                              readOnly= true;
+                                                                          }
                                                                        }
                                                                 
                                                                 <textarea name="@field.PropertyId" 
                                                                           id="@field.Name" 
-                                                                          @(readOnly ? "readonly=readonly " :"")
+                                                                          @(readOnly ? "readonly=readonly " : "")
                                                                           required="@(field.Property.IsRequired)">@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)</textarea>
                                                                     <script>
                                                         CKEDITOR.replace('@field.Name');
@@ -705,45 +800,64 @@
                                                                             case EditorType.Select:
                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                  (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                  (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                  (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                  (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                  (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                             {
                                                             <div class="form-group @field.Name">
                                                                 <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
-                                                                     @{ 
-                                                                   bool readOnly = false;
+    @{
+        bool readOnly = readOnly1;
 
-                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                           (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                         {
+        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+(field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+        {
 
-                                                                       readOnly= true;
-                                                                         }
-                                                                     }
-                                                                
-                                                                
-                                                                <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control" >
-                                                                    @(readOnly ? "readonly=readonly " : "")
-                                                                    
-                                                                    @if (!String.IsNullOrEmpty(field.OptionLabel))
-                                                                        {
-                                                                            <option value="">@field.OptionLabel</option>
-                                                                        }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                                                                                    {
-                                                                                        foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                                                                        {
-                                                                                <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
-                                                                                        }
-                                                                                    }
-                                                                                    else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
-                                                                                    {
-                                                                                        foreach (var item in field.Property.PresetValues.Split(','))
-                                                                                        {
-                                                                                <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
-                                                                                        }
+            readOnly = true;
+        }
+    }
 
-                                                                                    }
-                                                                    </select>
-                                                                </div>
+    @if (readOnly == false)
+     {
+        <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control">
+            }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+            {
+                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                {
+                    <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
+                }
+            }
+            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+            {
+                foreach (var item in field.Property.PresetValues.Split(','))
+                {
+                    <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
+                }
+
+            }
+        </select>
+    }
+    @if(readOnly==true)
+    {
+        <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control" disabled>
+                                                                   @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+            {
+                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                {
+                    <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
+                }
+            }
+            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+            {
+                foreach (var item in field.Property.PresetValues.Split(','))
+                {
+                    <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
+                }
+
+            }
+        </select>
+    }
+</div>
                                                             </div>
                                                                                 }
                                                                                 break;
@@ -793,17 +907,19 @@
                                                                              break;
                                                                          case EditorType.Checkbox:
                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                    (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                    (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
-                                                                             {
+                                                                                   (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                   (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                   (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                   (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+                                                                            {
                                                             <div class="form-group @field.Name">
                                                                 <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                                                                 
                                                                 @{
-                                                                    bool readOnly = false;
+                                                                    bool readOnly = readOnly1;
 
                                                                     if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                     {
 
                                                                         readOnly = true;
@@ -812,7 +928,7 @@
                                                                 
                                                                 <div class="col-md-9">
                                                                     <input onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@(field.PropertyId)CheckBox" id="@(field.Name)CheckBox" type="checkbox" placeholder="@field.DisplayName" @(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue) == 0) ? "checked=checked" : "") onclick="$('#@(field.Name)').val($('#@(field.Name)CheckBox')[0].checked)" />
-                                                                    <input name="@field.PropertyId"  @(readOnly ? "readonly=readonly " : "") id="@field.Name" type="hidden" value="@(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue) == 0).ToString().ToLower())" /><br />
+                                                                    <input name="@field.PropertyId" @(readOnly ? "readonly=readonly " : "") id="@field.Name" type="hidden" value="@(("true".CompareTo(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue) == 0).ToString().ToLower())" /><br />
                                                                 </div>
                                                             </div>
                                                                              }
@@ -881,20 +997,22 @@
 
                                                                                         case EditorType.DatePicker:
                                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                            (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                            (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                           (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                            (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                             {
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                   @{
-                                                                                                    bool readOnly = false;
+                                                                                                      bool readOnly = readOnly1;
 
-                                                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                    {
+                                                                                                      if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                      {
 
-                                                                                                        readOnly = true;
-                                                                                                    }
+                                                                                                          readOnly = true;
+                                                                                                      }
                                                                                                     }
                                                                                                 <input type="date" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
@@ -904,19 +1022,21 @@
                                                                                             case EditorType.DateTimePicker:
                                                                                              @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
                                                                                                           (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                          (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                          (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                          (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                          (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                              {
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                    @{
-                                                                                                    bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
-                                                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                    {
+                                                                                                       if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                         (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                       {
 
-                                                                                                        readOnly = true;
-                                                                                                    }
+                                                                                                           readOnly = true;
+                                                                                                       }
                                                                                                     } 
                                                                                                 <input type="datetime-local" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
@@ -925,22 +1045,24 @@
                                                                                                  break;
                                                                                              case EditorType.TimePicker:
                                                                                              @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                        (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                        (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                       (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                       (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                       (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                       (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                              {
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                    @{
-                                                                                                    bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
-                                                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                    {
+                                                                                                       if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                         (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                       {
 
-                                                                                                        readOnly = true;
+                                                                                                           readOnly = true;
+                                                                                                       }
                                                                                                     }
-                                                                                                    }
-                                                                                                <input type="time"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                <input type="time" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
                                                                                             </div>
                                                                                                  }
@@ -948,20 +1070,22 @@
 
                                                                                              case EditorType.Tel:
                                                                                              @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                      (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                      (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                     (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                     (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                     (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                     (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                              {
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                     @{
-                                                                                                    bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
-                                                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                    {
+                                                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                           (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                        {
 
-                                                                                                        readOnly = true;
-                                                                                                    }
+                                                                                                            readOnly = true;
+                                                                                                        }
                                                                                                     }
                                                                                                 <input type="text"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
@@ -970,9 +1094,11 @@
                                                                                                  break;
                                                                                              case EditorType.Email:
                                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                    (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                    (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
-                                                                                             {
+                                                                                                   (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                   (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                   (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                    (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+                                                                                            {
 
 
                                                                                             <div class="form-group @field.Name">
@@ -980,16 +1106,16 @@
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                      
                                                                                                 @{
-                                                                                                    bool readOnly = false;
+                                                                                                    bool readOnly = readOnly1;
 
                                                                                                     if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                                                                                   (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
                                                                                                     {
 
                                                                                                         readOnly = true;
                                                                                                     }
                                                                                                 }
-                                                                                                <input type="text"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                <input type="text" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
                                                                                             </div>
                                                                                              }
@@ -1005,22 +1131,24 @@
                                                                                             break;
                                                                                         case EditorType.Password:
                                                                                              @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                      (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                      (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
-                                                                                                 {
+                                                                                                     (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                     (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                     (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                     (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
+                                                                                             {
 
                                                                                             <div class="form-group @field.Name">
 
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                   @{
-                                                                                                    bool readOnly = false;
+                                                                                                      bool readOnly = readOnly1;
 
-                                                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                    {
+                                                                                                      if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                      {
 
-                                                                                                        readOnly = true;
-                                                                                                    }
+                                                                                                          readOnly = true;
+                                                                                                      }
                                                                                                 } 
                                                                                                 <input type="password" @(readOnly ? "readonly=readonly " : "") name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
@@ -1029,35 +1157,39 @@
                                                                                                  break;
                                                                                              case EditorType.Number:
                                                                                                          @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                      (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                      (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                     (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                     (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                     (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                     (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                          {
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                    @{
-                                                                                                    bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
-                                                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
-                                                                                                       (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
-                                                                                                    {
+                                                                                                       if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
+                                                                                                                                                                         (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
+                                                                                                       {
 
-                                                                                                        readOnly = true;
-                                                                                                    }
+                                                                                                           readOnly = true;
+                                                                                                       }
                                                                                                     }  
-                                                                                                <input type="text"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                <input type="text" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
                                                                                             </div>
                                                                                                              }
                                                                                                              break;
                                                                                                          case EditorType.Component:
                                                                                                             @if ((field.IsVisible == true && string.IsNullOrEmpty(field.VisibleToRoles)) ||
-                                                                                                        (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
-                                                                                                        (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))))
+                                                                                                       (field.IsVisible == true && (!string.IsNullOrEmpty(field.VisibleToRoles) && User.IsInRole(field.VisibleToRoles))) ||
+                                                                                                       (field.IsVisible == false && (!string.IsNullOrEmpty(field.InvisibleToRoles) && !User.IsInRole(field.InvisibleToRoles))) ||
+                                                                                                       (field.IsVisible == true && (!string.IsNullOrEmpty(field.EditableToRoles) && User.IsInRole(field.EditableToRoles))) ||
+                                                                                                       (field.IsVisible == true && (string.IsNullOrEmpty(field.VisibleToRoles))))
                                                                                                             {
                                                                                             <div class="form-group @field.Name">
                                                                                                 
-                                                                                                @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component })
-                                                                                            </div> 
+                                                                                                @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId = (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => (field.Property.DataSourceProperty != null && field.Property.DataSourceProperty.DataSourceProperty != null?v.PropertyId == field.Property.DataSourceProperty.DataSourceProperty.Id:false))?.Id : "") })
+</div> 
                                                                                                             }
                                                                                                     break;
                                                                                             }

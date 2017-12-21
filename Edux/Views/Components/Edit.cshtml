@@ -94,7 +94,7 @@
         onComponentTypeChange($("#ComponentTypeId"));});
          
         function onComponentTypeChange(elm) {
-            $("#parameters").load("/Parameters/Editor/" + $(elm).val() + "?componentId=" + "@Model.Id");
+            $("#parameters").load("/Parameters/Editor/" + $(elm).val() + "?componentId=" + "@Model.Id" + "&pageId=" + '@Model.PageId');
         }
 </script>
 }
