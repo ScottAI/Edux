@@ -277,16 +277,16 @@
                                         <div class="col-md-9">
 
                                             <div class="input-group">
-                                                <input type="text"  name="@parameter.Id" id="Photo" placeholder="@parameter.DisplayName" required="@(parameter.IsRequired)" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value:parameter.DefaultValue)" class="form-control" />
+                                                <input type="text"  name="@parameter.Id" id="@parameter.Id" placeholder="@parameter.DisplayName" required="@(parameter.IsRequired)" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete"?((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v=>v.Id == parameter.Id)?.Value:parameter.DefaultValue)" class="form-control" />
                                                 <span class="input-group-btn">
-                                                    <a class="btn btn-info" id="uploadModal" onclick="browseMedia('Photo')">...</a>
+                                                    <a class="btn btn-info" id="uploadModal" onclick="browseMedia('@parameter.Id')">...</a>
                                                 </span>
                                             </div>
                                         </div>
                                         @Html.ValidationMessageFor(model => parameter.Name, "", new { @class = "text-danger" })
                                     </div>
 
-                                    @Html.Partial("_BrowseMedia", new ViewDataDictionary(this.ViewData) { { "element", "Photo" } })
+                                    @Html.Partial("_BrowseMedia", new ViewDataDictionary(this.ViewData) { { "element", parameter.Id } })
 
 
                                                 break;
