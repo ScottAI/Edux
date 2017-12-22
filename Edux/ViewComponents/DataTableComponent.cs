@@ -34,10 +34,16 @@ namespace Edux.ViewComponents
             ViewBag.DeleteButtonText = DeleteButtonText;
             var DeleteButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DeleteButtonHref")?.Value;
             ViewBag.DeleteButtonHref = DeleteButtonHref;
+            var actionsMenuId = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "ActionsMenu")?.Value;
+            if (!string.IsNullOrEmpty(actionsMenuId)) { 
+            var ActionMenu = await _context.Menus.Include(m => m.MenuItems).ThenInclude(i=>i.ParentMenuItem).FirstOrDefaultAsync(f=>f.Id==actionsMenuId);
+            ViewBag.ActionsMenu = ActionMenu;
+            }
+         
 
-          
-            
-            
+
+
+
             var entityId = datatable.EntityId;
             var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property).ThenInclude(t => t.DataSourceProperty).ThenInclude(v=>v.PropertyValues).Where(x => x.EntityId == entityId && _context.PropertyValues.Where(
                 p => (datatable.Columns.Any(c=>c.FilterOperator != Models.FilterOperator.None)?(datatable.Columns.FirstOrDefault(c => c.PropertyId == p.PropertyId).FilterOperator == Models.FilterOperator.Equals ?

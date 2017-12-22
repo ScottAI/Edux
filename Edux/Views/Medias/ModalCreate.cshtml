@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" tabindex="10" class="btn blue" id="modalSave" onclick="modalSaveFunc@(ViewBag.Element)()">Upload</button>
+                            <button type="button" tabindex="10" class="btn blue" id="modalSave" onclick="modalSaveFunc@(ViewBag.Element.Replace("-",""))()">Upload</button>
                         </div>
                     </div>
                 </form>
@@ -74,7 +74,7 @@
                     <input type="text" id="word" placeholder="ara" class="form-control col-md-4" />
                     <select name="year" id="year" class="form-control col-md-2"></select>
                     <select name="month" id="month" class="form-control col-md-2"></select>
-                    <select name="category" id="category" class="form-control col-md-2"><option selected>image</option><option>media</option><option>document</option></select>
+                    <select name="contenttype" id="contenttype" class="form-control col-md-2"><option selected>Image</option><option>Video</option><option>Document</option></select>
                     <input type="button" id="search@(ViewBag.Element)" value="Ara" class="form-control btn-info col-md-2">
                 </div>
                 <br />
@@ -89,11 +89,11 @@
 </div>
 
 
-@*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script>
-    function monthandyearWrite@(ViewBag.Element)() {
+    function monthandyearWrite@(ViewBag.Element.Replace("-",""))() {
         var modal = $('#modal' + '@(ViewBag.Element)');
-
+    
                 var now = new Date();
                 for (var i = 1; i <= 12; i++) {
                     if (i == now.getMonth() + 1) {
@@ -111,7 +111,7 @@
                     }
                 }
             }
-    function modalSaveFunc@(ViewBag.Element)() {
+    function modalSaveFunc@(ViewBag.Element.Replace("-",""))() {
         var data = new FormData(document.getElementById("modalForm"));
         $.ajax({
             url: "/medias/modalcreate",
@@ -148,7 +148,7 @@
         $(document).ready(function () {
             $.validator.unobtrusive.parse("#formVal");
 
-            monthandyearWrite@(ViewBag.Element)();
+            monthandyearWrite@(ViewBag.Element.Replace("-",""))();
 
             $('#modal@(ViewBag.Element) #myTabs a').click(function (e) {
                 e.preventDefault();
@@ -160,31 +160,33 @@
 </script>
 <script>
     $("#search@(ViewBag.Element)").click(function modalgallery() {
-        var modal = $('#modal'+'@(ViewBag.Element)');
+        var modal = $('#modal' + '@(ViewBag.Element)');
+
         var word = modal.find('#word').val();
         var year = modal.find('#year').val();
         var month = modal.find('#month').val();
-        var category = modal.find('#category').val();
+        var contenttype = modal.find('#contenttype').val();
         modal.find('#modal-gallery').html('');
         $.ajax({
             url: "/Medias/ModalGallery",
             cache: false,
             type: "POST",
-            data: { word, year, month, category},
+            data: { word, year, month, contenttype},
             success: function (data) {
+                alert(JSON.stringify(data));
                 $.each(data.result, function (k, v) {
-                    var modal = $('#modal'+'@(ViewBag.Element)');
-                    if (v.fileType == "Image")
+                    var modal = $('#modal' + '@(ViewBag.Element)');
+                    if (v.contentType == "Image")
                     {
-                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><img class='img-thumbnail' onclick=\"imgSelect@(ViewBag.Element)(this,'@(ViewBag.AssetsUrl)"+ v.fileUrl + v.fileName + "');\" style='width:110px; height:80px; margin-top:10px;' src='@ViewBag.AssetsUrl" + v.fileUrl + v.fileName + "'/><figcaption style='font-size:10px;'>" + v.title.substring(0, 10) + "</figcaption></div>");
+                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><img class='img-thumbnail' onclick=\"imgSelect@(ViewBag.Element.Replace("-",""))(this,'@(ViewBag.AssetsUrl)"+ v.fileUrl + v.fileName + "');\" style='width:110px; height:80px; margin-top:10px;' src='@ViewBag.AssetsUrl" + v.fileUrl + v.fileName + "'/><figcaption style='font-size:10px;'>" + v.title.substring(0, 10) + "</figcaption></div>");
 
                     }
-                    else if (v.fileType == "Document")
+                    else if (v.contentType == "Document")
                     {
-                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><i onclick=\"imgSelect@(ViewBag.Element)(this,'@(ViewBag.AssetsUrl)"+ v.fileUrl + v.fileName + "');\" style='line-height:90px;width:100px; height:100px; margin-top:10px;'  class='img-thumbnail inline-block big fa fa-file-pdf-o fa-4x ' aria-hidden='true'></i><figcaption style='font-size:10px;'>"+v.title.substring(0,10)+"</figcaption></div>");                    }
+                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><i onclick=\"imgSelect@(ViewBag.Element.Replace("-", ""))(this,'@(ViewBag.AssetsUrl)"+ v.fileUrl + v.fileName + "');\" style='line-height:90px;width:100px; height:100px; margin-top:10px;'  class='img-thumbnail inline-block big fa fa-file-pdf-o fa-4x ' aria-hidden='true'></i><figcaption style='font-size:10px;'>"+v.title.substring(0,10)+"</figcaption></div>");                    }
                     else
                     {
-                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><video class='img-thumbnail' onclick='imgSelect@(ViewBag.Element)(this,$(this).find(\"source\").attr(\"src\"));' style='width:110px; height:80px; margin-top:10px;' autoplay><source src='@ViewBag.AssetsUrl" + v.fileUrl + v.fileName + "' type='video/mp4' /></video><figcaption style='font-size:10px;'>" + v.title.substring(0, 10) + "</figcaption></div>");
+                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><video class='img-thumbnail' onclick='imgSelect@(ViewBag.Element.Replace("-", ""))(this,$(this).find(\"source\").attr(\"src\"));' style='width:110px; height:80px; margin-top:10px;' autoplay><source src='@ViewBag.AssetsUrl" + v.fileUrl + v.fileName + "' type='video/mp4' /></video><figcaption style='font-size:10px;'>" + v.title.substring(0, 10) + "</figcaption></div>");
                     }
                 });
             },
@@ -196,7 +198,7 @@
 </script>
 <script>
 
-    function imgSelect@(ViewBag.Element)(el, par) {
+    function imgSelect@(ViewBag.Element.Replace("-", ""))(el, par) {
         $('#modal@(ViewBag.Element) #temp').val(par);
         $("#modal@(ViewBag.Element) #browseSave").css("display", "inline");
         $(".mediaSelected").removeClass("mediaSelected");
@@ -205,7 +207,7 @@
     $("#modal@(ViewBag.Element) #browseSave").click(function () {
         $('#' + '@(ViewBag.Element)').val($('#modal@(ViewBag.Element) #temp').val());
     });
-
+    
 </script>
 
 

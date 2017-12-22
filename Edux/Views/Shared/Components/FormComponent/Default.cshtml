@@ -60,7 +60,7 @@
                         {
                             readOnly1 = true;
                         }
-                        <div class="tab-pane fade @(k==1?"active":"") in @(readOnly1 ? "readonly=readonly" : "")" id="@tab.Name">
+                        <div class="tab-pane fade @(k==1?"active":"") in" id="@tab.Name">
                             @* önce fieldset'lerin içindeki alanları görüntüle: *@
                             @{ var fieldsets = tab.Fields.Where(f => f.TabId == tab.Id && f.FieldsetId != null).OrderBy(fs => fs.Fieldset.Position).Select(s => s.Fieldset).Distinct().ToList();}
                             @foreach (var fieldset in fieldsets)
@@ -97,7 +97,7 @@
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                        @{
-                                                                           bool readOnly = false;
+                                                                           bool readOnly = readOnly1;
 
                                                                            if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                             (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -136,7 +136,7 @@
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                         @{
-                                                                            bool readOnly = false;
+                                                                            bool readOnly = readOnly1;
 
                                                                             if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -165,7 +165,7 @@
                                                                     <div class="form-group @field.Name">
                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                         @{
-                                                                            bool readOnly = false;
+                                                                            bool readOnly = readOnly1;
 
                                                                             if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -201,7 +201,7 @@
                                                                     <div class="form-group @field.Name">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
     @{
-        bool readOnly = false;
+        bool readOnly = readOnly1;
 
         if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
 (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -274,7 +274,7 @@
                                                                     <div class="form-group">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
     @{
-        bool readOnly = false;
+        bool readOnly = readOnly1;
 
         if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
 (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -395,7 +395,7 @@
                                                                     <div class="form-group @field.Name">
                                                                         <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                 @{
-                                                                                    bool readOnly = false;
+                                                                                    bool readOnly = readOnly1;
 
                                                                                     if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -483,7 +483,7 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                            @{
-                                                                                                               bool readOnly = false;
+                                                                                                               bool readOnly = readOnly1;
 
                                                                                                                if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                                      (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -507,7 +507,7 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "" )</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -529,7 +529,7 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -555,7 +555,7 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                         @{
-                                                                                                           bool readOnly = false;
+                                                                                                           bool readOnly = readOnly1;
 
                                                                                                            if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -580,7 +580,7 @@
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                                                                                                         <div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -614,7 +614,7 @@
                                                                                                          <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -638,7 +638,7 @@
                                                                                                     <div class="form-group @field.Name">
                                                                                                         <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                             @{
-                                                                                                                bool readOnly = false;
+                                                                                                                bool readOnly = readOnly1;
 
                                                                                                                 if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -662,7 +662,7 @@
                                                                                                            {
                                                                                                     <div class="form-group @field.Name">
                                                                                                         
-                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId= (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue) })
+                                                                                                        @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId= (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => (field.Property.DataSourceProperty != null && field.Property.DataSourceProperty.DataSourceProperty != null ? v.PropertyId == field.Property.DataSourceProperty.DataSourceProperty.Id : false))?.Id : "") })
                                                                                                     </div>
                                                                                                                     }
                                                                                                             break;
@@ -708,7 +708,7 @@
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                @{ 
-                                                                   bool readOnly = false;
+                                                                   bool readOnly = readOnly1;
 
                                                                    if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                  (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -743,7 +743,7 @@
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                      @{ 
-                                                                         bool readOnly = false;
+                                                                         bool readOnly = readOnly1;
 
                                                                          if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                              (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -775,7 +775,7 @@
                                                             <div class="form-group @field.Name">
                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                       @{ 
-                                                                          bool readOnly = false;
+                                                                          bool readOnly = readOnly1;
 
                                                                           if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -807,7 +807,7 @@
                                                             <div class="form-group @field.Name">
                                                                 <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
     @{
-        bool readOnly = false;
+        bool readOnly = readOnly1;
 
         if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
 (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -916,7 +916,7 @@
                                                                 <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                                                                 
                                                                 @{
-                                                                    bool readOnly = false;
+                                                                    bool readOnly = readOnly1;
 
                                                                     if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                    (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1005,7 +1005,7 @@
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                   @{
-                                                                                                      bool readOnly = false;
+                                                                                                      bool readOnly = readOnly1;
 
                                                                                                       if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1029,7 +1029,7 @@
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                    @{
-                                                                                                       bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
                                                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                          (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1053,7 +1053,7 @@
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                    @{
-                                                                                                       bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
                                                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                          (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1078,7 +1078,7 @@
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                     @{
-                                                                                                       bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
                                                                                                         if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                            (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1106,7 +1106,7 @@
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                      
                                                                                                 @{
-                                                                                                    bool readOnly = false;
+                                                                                                    bool readOnly = readOnly1;
 
                                                                                                     if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                    (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1141,7 +1141,7 @@
 
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                   @{
-                                                                                                      bool readOnly = false;
+                                                                                                      bool readOnly = readOnly1;
 
                                                                                                       if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                        (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
@@ -1165,7 +1165,7 @@
                                                                                             <div class="form-group @field.Name">
                                                                                                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                                                                                                    @{
-                                                                                                       bool readOnly = false;
+                                                                                                       bool readOnly = readOnly1;
 
                                                                                                        if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
                                                                                                                                                                          (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
