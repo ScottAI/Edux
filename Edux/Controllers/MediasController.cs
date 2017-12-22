@@ -52,28 +52,141 @@ namespace Edux.Controllers
         }
 
         // GET: Medias/Create
-        public IActionResult Create()
+        public IActionResult Create(string element = "")
         {
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                ViewBag.Element = element;
+                return View("ModalCreate");
+            }
             var media = new Media();
-
+            media.Year = DateTime.Now.Year;
+            media.Month = DateTime.Now.Month;
             return View(media);
         }
+        public JsonResult ModalCreate(string Title, string Description, IFormFile uploadFile)
+        {
+            //IFormFileCollection uploadedFiles = Request.Form.Files;
+            //IFormFile uploadedFile = uploadedFiles[0];
+            IFormFile file = Request.Form.Files[0];
+            if (ModelState.IsValid)
+            {
+                var extension = "";
+                if (uploadFile != null)
+                {
+                    extension = Path.GetExtension(uploadFile.FileName.ToLowerInvariant());
+                }
+                if (uploadFile != null)
+                {
 
+                    Media media = new Media();
+                    media.Description = Description;
+                    media.Name = uploadFile.FileName;
+                    media.FileSize = (uploadFile.Length / 1024);
+                    media.CreatedBy = User.Identity.Name ?? "username";
+                    media.CreateDate = DateTime.Now;
+                    media.UpdatedBy = User.Identity.Name ?? "username";
+                    media.UpdateDate = DateTime.Now;
+                    media.Year = DateTime.Now.Year;
+                    media.Month = DateTime.Now.Month;
+                    media.Extension = extension;
+
+                    if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                    {
+                        media.ContentType = "Image";
+                    }
+                    else if (extension == ".mp4" || extension == ".gif")
+                    {
+                        media.ContentType = "Video";
+                    }
+                    else
+                    {
+                        media.ContentType = "Document";
+                    }
+
+                    if (extension == ".doc"
+                    || extension == ".pdf"
+                    || extension == ".rtf"
+                    || extension == ".docx"
+                    || extension == ".jpg"
+                    || extension == ".gif"
+                    || extension == ".png"
+                    || extension == ".mp4"
+                    || extension == ".mp4"
+                     )
+                    {
+                        string category = DateTime.Now.Month + "-" + DateTime.Now.Year;
+                        string FilePath = _hostingEnvironment.WebRootPath + "/uploads/" + category + "/";
+                        string dosyaismi = Path.GetFileName(uploadFile.FileName);
+                        var yuklemeYeri = Path.Combine(FilePath, dosyaismi);
+                        media.FilePath = "/uploads/"+ category + "/";
+
+                        if (!Directory.Exists(FilePath))
+                        {
+                            Directory.CreateDirectory(FilePath);//Eðer klasör yoksa oluþtur    
+                        }
+                        using (var stream = new FileStream(yuklemeYeri, FileMode.Create))
+                      
+                        {
+                            uploadFile.CopyTo(stream);
+                        }
+
+                       
+
+                        _context.Add(media);
+                        _context.SaveChangesAsync();
+
+                        return Json(new { result =   media.FilePath + media.Name });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("FileName", "Dosya uzantýsý izin verilen uzantýlardan olmalýdýr.");
+                    }
+                }
+                else { ModelState.AddModelError("FileExist", "Lütfen bir dosya seçiniz!"); }
+            }
+            return Json(new { result = "false" });
+        }
+
+        public IEnumerable<Media> MediaGallery(string word, int? year, int? month, string contenttype)
+        {
+            var mediagallery = _context.Media.Where(w => w.CreateDate.Year == year && w.CreateDate.Month == month && w.ContentType == contenttype).ToList();
+
+            if (!string.IsNullOrEmpty(word))
+            {
+                mediagallery = mediagallery.Where(w => w.Description.Contains(word) || w.Name.Contains(word)).ToList();
+            }
+            return mediagallery;
+        }
+
+
+        public JsonResult ModalGallery(string word, int year, int month, string contenttype)
+        {
+            var mediagallery = MediaGallery(word, year, month, contenttype);
+            return Json(new { result = mediagallery });
+        }
         // POST: Medias/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Extension,FilePath,FileSize,Year,Month,ContentType,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Media media)
+        public async Task<IActionResult> Create([Bind("Year,Month,Extension,Name,FileName,Description,FileSize,FilePath,ContentType,ContextType,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId")] Media media, IFormFile uploadFile)
         {
+         
+            
             if (ModelState.IsValid)
             {
-                media.CreatedBy = User.Identity.Name;
-                media.UpdatedBy = User.Identity.Name;
-                _context.Add(media);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+                
+                     media.CreatedBy = User.Identity.Name ?? "username";
+                    media.CreateDate = DateTime.Now;
+                    media.UpdatedBy = User.Identity.Name ?? "username";
+                    media.UpdateDate = DateTime.Now;
+
+                    _context.Add(media);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             return View(media);
         }
 
@@ -92,6 +205,7 @@ namespace Edux.Controllers
             }
             return View(media);
         }
+
 
         // POST: Medias/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -127,15 +241,20 @@ namespace Edux.Controllers
             }
             return View(media);
         }
-         public async Task<ActionResult> SaveUploadedFile()
+        public async Task<ActionResult> SaveUploadedFile()
         {
+
+
             bool isSavedSuccessfully = true;
             string category = "";
-            string fileName = "";
+            string Name = "";
             var extension = "";
-            float Filesize=0;
-            int Year=0;
-            int Month=0;
+            var contenttype = "";
+            float Filesize = 0;
+            int Year = 0;
+            int Month = 0;
+            
+            
             try
             {
                 foreach (var upload in Request.Form.Files)
@@ -144,37 +263,56 @@ namespace Edux.Controllers
                     //Save file content goes here
                     if (upload != null && upload.Length > 0)
                     {
-                        category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
-                        string uploadLocation = _hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
-                        fileName = Path.GetFileName(upload.FileName);
-                        extension = Path.GetExtension(fileName).ToLower();
-                        Filesize = ((float)upload.Length) / ((float)1024);
-                        var filePath = Path.Combine(uploadLocation, fileName);
-                        Year = DateTime.Now.Year;
-                        Month = DateTime.Now.Month;
-                        if (!Directory.Exists(uploadLocation))
+                                              
+                            category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                            string uploadLocation = _hostingEnvironment.WebRootPath + "\\uploads\\" + category + "\\";
+                            Name = Path.GetFileName(upload.FileName);
+                            extension = Path.GetExtension(Name).ToLowerInvariant();
+                            Filesize = ((float)upload.Length) / ((float)1024);
+                            var filePath = Path.Combine(uploadLocation,Name);
+                            Year = DateTime.Now.Year;
+                            Month = DateTime.Now.Month;
+                             
+
+                        if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
                         {
-                            Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
+                            contenttype = "image";
                         }
-                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        else if (extension == ".mp4" || extension == ".gif")
                         {
-                            await upload.CopyToAsync(stream);
+                            contenttype = "Video";
+                        }
+                        else if (extension == ".docx" || extension == ".rtf" || extension == ".pdf")
+                        {
+                            contenttype = "Document";
+                        }
+
+                      
+
+                        if (!Directory.Exists(uploadLocation))
+                            {
+                                Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
+                            }
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await upload.CopyToAsync(stream);
+                            }
+
+
                         }
                     
-
                     }
-                }
 
-            }
+                }
             catch (Exception ex)
             {
                 isSavedSuccessfully = false;
             }
-
+        
 
             if (isSavedSuccessfully)
             {
-                return Json(new { Message = "/uploads/" + category + "/" + fileName, Extension = extension,Filesize=Filesize,Year=Year, Month = Month,success = true });
+                return Json(new { Message = "/uploads/" + category + "/" + Name, fileName=Name , contenttype=contenttype, Extension = extension,Filesize=Filesize,Year=Year, Month = Month,success = true });
             }
             else
             {
@@ -215,115 +353,22 @@ namespace Edux.Controllers
             return _context.Media.Any(e => e.Id == id);
         }
 
+       
 
-
-
-
-
-
-
-
-
-
-
-        public IActionResult CreatePopup(string element = "Photo")
+        public IActionResult CreatePopup(string element = "")
         {
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
-                ViewBag.Element = "Photo";
+                ViewBag.Element = element;
                 return View("ModalCreate");
             }
             return View();
         }
 
-        public JsonResult ModalCreate(string Name, string Description, IFormFile uploadFile)
-        {
-            //IFormFileCollection uploadedFiles = Request.Form.Files;
-            //IFormFile uploadedFile = uploadedFiles[0];
-            IFormFile file = Request.Form.Files[0];
-            if (ModelState.IsValid)
-            {
-                var extension = "";
-                if (uploadFile != null)
-                {
-                    extension = Path.GetExtension(uploadFile.FileName.ToLowerInvariant());
-                }
-                if (uploadFile != null)
-                {
-                    
+       
+           
 
-
-                    
-
-                    if (extension == ".doc"
-                    || extension == ".pdf"
-                    || extension == ".rtf"
-                    || extension == ".docx"
-                    || extension == ".jpg"
-                    || extension == ".gif"
-                    || extension == ".png"
-                    || extension == ".mp4"
-                    || extension == ".mp4"
-                     )
-                    {
-
-                        Media media = new Media();
-                        string category = uploadFile.ContentType;
-                        string FilePath = _hostingEnvironment.WebRootPath + "\\";
-                        string dosyaismi = Path.GetFileName(uploadFile.FileName);
-                        var yuklemeYeri = Path.Combine(FilePath, dosyaismi);
-                        media.FilePath = "uploads/" + category + "/" + dosyaismi;
-
-                        if (!Directory.Exists(FilePath))
-                        {
-                            Directory.CreateDirectory(FilePath);//Eðer klasör yoksa oluþtur    
-                        }
-                        using (var stream = new FileStream(yuklemeYeri, FileMode.Create))
-                        {
-                            uploadFile.CopyTo(stream);
-                        }
-                        
-                        media.Name = dosyaismi;
-                        media.Description = Description;
-                        media.Year = DateTime.Now.Year;
-                        media.Month = DateTime.Now.Month;
-                        media.CreatedBy = User.Identity.Name ?? "username";
-                        media.CreateDate = DateTime.Now;
-                        media.UpdatedBy = User.Identity.Name ?? "username";
-                        media.UpdateDate = DateTime.Now;
-                        media.ContentType = category;
-
-                        _context.Add(media);
-                        _context.SaveChangesAsync();
-                        return Json(new { result = FilePath + media.FilePath + media.Name });
-
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("FileName", "Dosya uzantısı izin verilen uzantılardan olmalıdır.");
-                    }
-                }
-                else { ModelState.AddModelError("FileExist", "Lütfen bir dosya seçiniz!"); }
-            }
-            return Json(new { result = "false" });
-        }
-
-        public IEnumerable<Media> MediaGallery(string word, int? year, int? month, string category)
-        {
-            var mediagallery = _context.Media.Where(w => w.CreateDate.Year == year && w.CreateDate.Month == month && w.Extension == category).ToList();
-
-            if (!string.IsNullOrEmpty(word))
-            {
-                mediagallery = mediagallery.Where(w => w.Name.Contains(word) || w.Description.Contains(word)).ToList();
-            }
-            return mediagallery;
-        }
-
-        public JsonResult ModalGallery(string word, int year, int month, string category)
-        {
-            var mediagallery = MediaGallery(word, year, month, category);
-            return Json(new { result = mediagallery });
-        }
+                   
 
 
     }

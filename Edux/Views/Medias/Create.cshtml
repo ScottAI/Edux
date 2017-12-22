@@ -8,9 +8,10 @@
 
 <form asp-action="Create">
     <div class="form-horizontal">
+   
         <h4>Media</h4>
         <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -29,7 +30,7 @@
         <div class="form-group">
             <label asp-for="ContentType" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="ContentType" class="form-control" />
+                <input readonly asp-for="ContentType" class="form-control" />
                 <span asp-validation-for="ContentType" class="text-danger"></span>
             </div>
         </div>
@@ -65,7 +66,7 @@
         @Html.HiddenFor(model => model.CreatedBy)
         @Html.HiddenFor(model => model.UpdateDate)
         @Html.HiddenFor(model => model.UpdatedBy)
-        @Html.HiddenFor(model => model.AppTenantId)
+      
         
         <div class="form-group">
             <label class="control-label col-md-2">Dosya Yükle:</label>
@@ -92,6 +93,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
+
 jQuery(document).ready(function() {
     Dropzone.options.myDropzone = {
         url: "/Medias/SaveUploadedFile", uploadMultiple: false, maxFiles: 1, init: function () {
@@ -117,11 +119,20 @@ jQuery(document).ready(function() {
                 // Add the button to the file preview element.
                 file.previewElement.appendChild(removeButton);
             });
+
             this.on("complete", function (data) {
                 var res = JSON.parse(data.xhr.responseText);
                 $("#FilePath").val(res.message);
                 if (res.success == false) {
                     $("#FilePath").css("border-color", "red");
+                }
+                     $("#FilePath").val(res.message);
+                if (res.success == false) {
+                    $("#FilePath").css("border-color", "red");
+                     }
+                $("#ContentType").val(res.contenttype);
+                if (res.success == false) {
+                    $("#ContentType").css("border-color", "red");
                 }
                 $("#Extension").val(res.extension);
                 if (res.success == false) {
@@ -139,7 +150,7 @@ jQuery(document).ready(function() {
                 if (res.success == false) {
                     $("#Month").css("border-color", "red");
                 }
-            });
+                });     
         }
     }
 });
