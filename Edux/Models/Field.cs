@@ -63,8 +63,13 @@ namespace Edux.Models
         public bool IsReadOnly { get; set; }
         [Display(Name = "Görünür mü?")]
         public bool IsVisible { get; set; }
+
+        [Display(Name = "Görünür mü?")]
+        public Visibility Visibility { get; set; }
+
         [Display(Name="Şu Rollere Görünmez")]
         public string InvisibleToRoles { get; set; }
+
         [Display(Name = "Şu Rollere Görünür")]
         public string VisibleToRoles { get; set; }
         [Display(Name="Şu Rollere Salt Okunur")]
