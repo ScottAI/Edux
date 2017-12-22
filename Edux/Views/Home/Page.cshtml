@@ -7,6 +7,10 @@
     {
         Layout = null;
     }
+    else if (Context.Request.Query["layout"].ToString() == "1")
+    {
+        Layout = "_BlankLayout";
+    }
     else {
         Layout = Model.Page.LayoutView ?? ((App)ViewBag.App).DefaultLayout;
     }
