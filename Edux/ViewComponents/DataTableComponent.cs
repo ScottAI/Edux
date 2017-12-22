@@ -38,6 +38,8 @@ namespace Edux.ViewComponents
             if (!string.IsNullOrEmpty(actionsMenuId)) { 
             var ActionMenu = await _context.Menus.Include(m => m.MenuItems).ThenInclude(i=>i.ParentMenuItem).FirstOrDefaultAsync(f=>f.Id==actionsMenuId);
             ViewBag.ActionsMenu = ActionMenu;
+
+           
             }
          
 

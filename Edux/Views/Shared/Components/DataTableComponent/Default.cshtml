@@ -89,8 +89,14 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ActionsMenu.MenuItems)
-                                            {
-                                                <li>@item.Name</li>
+                                            {   
+                                                
+
+                                            <li>
+
+                                                <a href="@item.Url">@item.Name</a>
+                                               
+                                            </li>
                                             }
 
                                         </ul>
