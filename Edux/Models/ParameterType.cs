@@ -28,6 +28,7 @@ namespace Edux.Models
         SelectForm=19,
         SelectPage=20,
         SelectMenu = 21,
-        Component =22
+        Component =22,
+        SelectProperty = 23
     }
 }
