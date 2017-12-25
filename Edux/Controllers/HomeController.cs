@@ -237,9 +237,8 @@ namespace Edux.Controllers
                             }
                             if (mode == "create" || mode == "edit")
                             {
-                                
-                                value.PropertyId = key;
-                                value.Value = form[key];
+
+                                value.Values.Add(key, form[key]);
                                 if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
                                 {
                                     int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
@@ -257,12 +256,12 @@ namespace Edux.Controllers
                                         {
                                             await upload[uploadIndex].CopyToAsync(stream);
                                         }
-                                        value.Value = "/uploads/" + category + "/" + fileName;
+                                        value.Values.Add(key, "/uploads/" + category + "/" + fileName);
 
                                     }
 
                                 }
-                                entityRow.RowValue = JsonConvert.SerializeObject(value);
+                                entityRow.RowValue = JsonConvert.SerializeObject(value.Values);
                                 entityRow.UpdateDate = DateTime.Now;
                                 entityRow.UpdatedBy = User.Identity.Name;
                                 entityRow.AppTenantId = "1";

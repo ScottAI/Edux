@@ -1,7 +1,6 @@
 ﻿@model Component
-@using Newtonsoft.Json
 @{ var datatable = (DataTable)ViewBag.DataTable;
-    var values = (IList<EntityRow>)ViewBag.Values;
+    var values = (IList<PropertyValue>)ViewBag.Values;
     var entityId = "";
   
 
@@ -59,14 +58,13 @@
 
                                         @if (item.Property.DataSourceProperty == null)
                                         {
-                                            var val = JsonConvert.DeserializeObject<Dictionary<string,string>>(values.Where(v => v.RowId == id).FirstOrDefault().RowValue);
-                                           
-                                            if (val[item.PropertyId] != null && !String.IsNullOrEmpty(item.Property.DisplayFormat))
-                                            { @String.Format(item.Property.DisplayFormat, val[item.PropertyId]) }
+                                            var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
+                                            if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                                            { @String.Format(val.Property.DisplayFormat, val?.Value) }
                                             else
-                                            { @val[item.PropertyId]}
+                                            { @val?.Value}
                                         }
-                                        @*else
+                                        else
                                         {
                                             var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
                                             if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
@@ -76,7 +74,7 @@
 
 
 
-                                        }*@
+                                        }
 
 
                                     </td>

@@ -47,6 +47,7 @@ namespace Edux.ViewComponents
 
 
             var entityId = datatable.EntityId;
+            var values = _context.EntityRows.Where(r => r.EntityId == entityId).OrderBy(o => o.RowId).ToList();
             /*var values = (from pv in _context.PropertyValues
                  .Include(i => i.Entity).Include(i => i.Property)
                  .ThenInclude(t => t.DataSourceProperty)
@@ -78,7 +79,7 @@ namespace Edux.ViewComponents
             
             */
 
-            var values = _context.PropertyValues
+            /*var values = _context.PropertyValues
                  .Include(i => i.Entity).Include(i => i.Property)
                  .ThenInclude(t => t.DataSourceProperty)
                  .ThenInclude(v => v.PropertyValues)
@@ -126,6 +127,7 @@ namespace Edux.ViewComponents
             //var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property)
             //     .ThenInclude(t => t.DataSourceProperty)
             //     .ThenInclude(v => v.PropertyValues).Where(pv => pv.EntityId == entityId && filterRows.Contains(pv.Value)).OrderBy(o => o.RowId).Take(datatable.Top).ToList();
+            */
             ViewBag.Values = values;
 
             return await Task.FromResult(View(viewName, component));

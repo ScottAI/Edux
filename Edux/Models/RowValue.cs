@@ -7,7 +7,6 @@ namespace Edux.Models
 {
     public class RowValue
     {
-        public string PropertyId { get; set; }
-        public string Value { get; set; }
+        public Dictionary<string, string> Values { get; set; }
     }
 }
