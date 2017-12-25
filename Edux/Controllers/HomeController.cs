@@ -228,6 +228,7 @@ namespace Edux.Controllers
                             if (mode == "create")
                             {
                                 value = new RowValue();
+                                entityRow.EntityId = entityId;
                                 entityRow.RowId = rowId;
                                 entityRow.CreateDate = DateTime.Now;
                                 entityRow.CreatedBy = User.Identity.Name;

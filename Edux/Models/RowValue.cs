@@ -7,6 +7,10 @@ namespace Edux.Models
 {
     public class RowValue
     {
+        public RowValue()
+        {
+            Values = new Dictionary<string, string>();
+        }
         public Dictionary<string, string> Values { get; set; }
     }
 }
