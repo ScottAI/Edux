@@ -230,7 +230,6 @@
                 {
                     <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
                 }
-
             }
         </select>
     }
@@ -279,7 +278,6 @@
         if ((field.IsReadOnly == true && string.IsNullOrEmpty(field.ReadOnlyToRoles)) ||
 (field.IsReadOnly == true && (!string.IsNullOrEmpty(field.ReadOnlyToRoles) && User.IsInRole(field.ReadOnlyToRoles))))
         {
-
             readOnly = true;
         }
     }
@@ -331,7 +329,6 @@
 
             }
         </select>
-
     }
 </div>
                                                                     </div>
