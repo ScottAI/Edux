@@ -53,6 +53,8 @@ namespace Edux.Controllers
             ViewData["Entities"] = new SelectList(_context.Entities, "Id", "Name");
             ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name");
             ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name");
+            ViewData["DataSourcePropertyId2"] = new SelectList(_context.Properties, "Id", "Name");
+            ViewData["DataSourcePropertyId3"] = new SelectList(_context.Properties, "Id", "Name");
             var property = new Property();
             property.EntityId = EntityId;
             ViewBag.EntityId = EntityId;
@@ -64,7 +66,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PresetValues")] Property @property , string entityId, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,DataSourcePropertyId2,DataSourcePropertyId3,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PresetValues")] Property @property , string entityId, IFormCollection form)
         {
 
             if (ModelState.IsValid)
@@ -85,6 +87,8 @@ namespace Edux.Controllers
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
             ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
             ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId);
+            ViewData["DataSourcePropertyId2"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId2);
+            ViewData["DataSourcePropertyId3"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId3);
 
             return RedirectToAction("Index", "Properties");
 
@@ -110,6 +114,8 @@ namespace Edux.Controllers
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
             ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
             ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId);
+            ViewData["DataSourcePropertyId2"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId2);
+            ViewData["DataSourcePropertyId3"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId3);
             return View(@property);
         }
 
@@ -118,7 +124,7 @@ namespace Edux.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PresetValues")] Property @property)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,DisplayName,DefaultValue,DisplayFormat,DataSourceEntityId,DataSourcePropertyId,DataSourcePropertyId2,DataSourcePropertyId3,IsRequired,PropertyType,StringLength,EntityId,Position,Id,CreateDate,CreatedBy,UpdateDate,UpdatedBy,AppTenantId,PresetValues")] Property @property)
         {
             if (id != @property.Id)
             {
@@ -150,6 +156,8 @@ namespace Edux.Controllers
             ViewData["EntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.EntityId);
             ViewData["DataSourceEntityId"] = new SelectList(_context.Entities, "Id", "Name", @property.DataSourceEntityId);
             ViewData["DataSourcePropertyId"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId);
+            ViewData["DataSourcePropertyId2"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId2);
+            ViewData["DataSourcePropertyId3"] = new SelectList(_context.Properties, "Id", "Name", @property.DataSourcePropertyId3);
             return View(@property);
         }
 

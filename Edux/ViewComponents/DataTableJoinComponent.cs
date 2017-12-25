@@ -10,6 +10,7 @@ namespace Edux.ViewComponents
 {
     public class DataTableJoinComponent : ViewComponent
     {
+
         private readonly ApplicationDbContext _context;
         public DataTableJoinComponent(ApplicationDbContext context)
         {
@@ -61,27 +62,27 @@ namespace Edux.ViewComponents
                     // filtre operatörü "eşittir" değil "contains" ise
                     : (datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.Contains
                     // bu özelliğin değeri filtre değerini içeriyor mu diye bak
-                    ? (pv2.Value.Contains(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value)))
+                    ? (pv2.Value.Contains(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, relatedId)))
                     // filtre operatörü "does not contain" ise
                     : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.DoesNotContain
                     // özellik değeri filtre değerini içermiyor mu diye kontrol et
-                    ? (!pv2.Value.Contains(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value)))
+                    ? (!pv2.Value.Contains(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, relatedId)))
                     // filtre operatörü "less than" ise
                     : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.LessThan
                     // özellik değeri filtre değerinden küçük mü diye kontrol et
-                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value)) > 0)
+                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, relatedId)) > 0)
                     // filtre operatörü "less than or equals" ise
                     : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.LessThanOrEquals
                     // özellik değeri filtre değerinden küçük mü veya eşit mi diye kontrol et
-                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value)) >= 0)
+                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, relatedId)) >= 0)
                     // filtre operatörü "greater than" ise
                     : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.GreaterThan
                     // özellik değeri filtre değerinden büyük mü diye kontrol et
-                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value)) < 0)
+                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, relatedId)) < 0)
                     // filtre operatörü "greater than or equals" ise
                     : ((datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.GreaterThanOrEquals
                     // özellik değeri filtre değeriden büyük veya eşit mi diye kontrol et
-                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).Property.DataSourceProperty.PropertyValues.FirstOrDefault(v => v.RowId.ToString() == Request.Query["id"].ToString()).Value)) <= 0)
+                    ? (pv2.Value.CompareTo(string.Format(datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterValue, relatedId)) <= 0)
                     // filtre operatörü başka bir şeyse false uygula
                     : false))))))))))))
                     // sütunlar filtre içermiyorsa tüm kayıtları getir
@@ -89,6 +90,9 @@ namespace Edux.ViewComponents
 
             ViewBag.Values = values;
             return await Task.FromResult(View(viewName, component));
+
+
         }
+
     }
 }
