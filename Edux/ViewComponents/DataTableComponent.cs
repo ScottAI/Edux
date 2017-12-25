@@ -47,7 +47,11 @@ namespace Edux.ViewComponents
 
 
             var entityId = datatable.EntityId;
-            var values = _context.EntityRows.Where(r => r.EntityId == entityId).OrderBy(o => o.RowId).ToList();
+            var values = _context.EntityRows
+                .Where(r => r.EntityId == entityId)
+                .Select(s=>new { column = datatable.Columns.FirstOrDefault(f => s.Values.Keys.Contains(f.PropertyId)), values = s.Values, entityRow = s })
+                .Where(w => datatable.Columns.Any(a=>a.FilterOperator != Models.FilterOperator.None) ? w.column.FilterOperator == Models.FilterOperator.Equals && w.values.GetValueOrDefault(w.column.PropertyId) == w.column.FilterValue:true)
+                .OrderBy(o => o.entityRow.RowId).Select(e => e.entityRow).Distinct().ToList();
             /*var values = (from pv in _context.PropertyValues
                  .Include(i => i.Entity).Include(i => i.Property)
                  .ThenInclude(t => t.DataSourceProperty)

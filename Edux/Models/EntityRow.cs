@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -20,5 +21,11 @@ namespace Edux.Models
         [ForeignKey("EntityId")]
         public Entity Entity { get; set; }
         public string RowValue { get; set; }
+        [NotMapped]
+        public Dictionary<string, string> Values
+        {
+            get { return JsonConvert.DeserializeObject<Dictionary<string, string>>(this.RowValue); }
+            set { RowValue = JsonConvert.SerializeObject(value); }
+        }
     }
 }
