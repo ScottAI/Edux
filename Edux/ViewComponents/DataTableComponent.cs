@@ -47,38 +47,36 @@ namespace Edux.ViewComponents
 
 
             var entityId = datatable.EntityId;
-            //var values = (from v in _context.PropertyValues
-            //     .Include(i => i.Entity).Include(i => i.Property)
-            //     .ThenInclude(t => t.DataSourceProperty)
-            //     .ThenInclude(v => v.PropertyValues)
-            //              join c in _context.Columns.Where(cl => cl.DataTableId == dtId)
-            //              on v.PropertyId equals c.PropertyId
-            //              join v2 in _context.PropertyValues.Where(w=>c.FilterOperator == Models.FilterOperator.Equals
-            //        ? v2.Value == c.FilterValue : (c.FilterOperator == Models.FilterOperator.Contains
-            //            ? v2.Value.Contains(c.FilterValue) : (c.FilterOperator == Models.FilterOperator.NotEquals
-            //                ? v2.Value != c.FilterValue : (c.FilterOperator == Models.FilterOperator.DoesNotContain
-            //                    ? !v2.Value.Contains(c.FilterValue) : (c.FilterOperator == Models.FilterOperator.In
-            //                        ? c.FilterValue.Contains(v2.Value) : (c.FilterOperator == Models.FilterOperator.NotIn
-            //                            ? !c.FilterValue.Contains(v2.Value) : (c.FilterOperator == Models.FilterOperator.GreaterThan
-            //                                ? v2.Value.CompareTo(c.FilterValue) < 0 : (c.FilterOperator == Models.FilterOperator.GreaterThanOrEquals
-            //                                    ? v2.Value.CompareTo(c.FilterValue) <= 0 : (c.FilterOperator == Models.FilterOperator.LessThan
-            //                                        ? v2.Value.CompareTo(c.FilterValue) > 0 : (c.FilterOperator == Models.FilterOperator.LessThanOrEquals
-            //                                            ? v2.Value.CompareTo(c.FilterValue) >= 0 : false
-            //                                            )
-            //                                        )
-            //                                    )
-            //                                )
-            //                            )
-            //                        )
-            //                    )
-            //                )
-            //            )
-            //        )
-            //              on v.PropertyId equals v2.PropertyId into ps
-            //              from v2 in ps.DefaultIfEmpty()
-            //     orderby v.RowId
-            //     select v).Take(datatable.Top).ToList();
+            /*var values = (from pv in _context.PropertyValues
+                 .Include(i => i.Entity).Include(i => i.Property)
+                 .ThenInclude(t => t.DataSourceProperty)
+                 .ThenInclude(v => v.PropertyValues)
+                          join c in _context.Columns.Where(cl => cl.DataTableId == dtId)
+                          on pv.PropertyId equals c.PropertyId 
+                          where pv.EntityId == entityId && (from v2 in _context.PropertyValues where v2.PropertyId == pv.PropertyId && c.FilterOperator == Models.FilterOperator.Equals
+                    ? v2.Value == c.FilterValue : (c.FilterOperator == Models.FilterOperator.Contains
+                        ? v2.Value.Contains(c.FilterValue) : (c.FilterOperator == Models.FilterOperator.NotEquals
+                            ? v2.Value != c.FilterValue : (c.FilterOperator == Models.FilterOperator.DoesNotContain
+                                ? !v2.Value.Contains(c.FilterValue) : (c.FilterOperator == Models.FilterOperator.In
+                                    ? c.FilterValue.Contains(v2.Value) : (c.FilterOperator == Models.FilterOperator.NotIn
+                                        ? !c.FilterValue.Contains(v2.Value) : (c.FilterOperator == Models.FilterOperator.GreaterThan
+                                            ? v2.Value.CompareTo(c.FilterValue) < 0 : (c.FilterOperator == Models.FilterOperator.GreaterThanOrEquals
+                                                ? v2.Value.CompareTo(c.FilterValue) <= 0 : (c.FilterOperator == Models.FilterOperator.LessThan
+                                                    ? v2.Value.CompareTo(c.FilterValue) > 0 : (c.FilterOperator == Models.FilterOperator.LessThanOrEquals
+                                                        ? v2.Value.CompareTo(c.FilterValue) >= 0 : false
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        ) select v2.RowId).Contains(pv.RowId)
+                          orderby pv.RowId
+                          select pv).Take(datatable.Top).ToList();
             
+            */
 
             var values = _context.PropertyValues
                  .Include(i => i.Entity).Include(i => i.Property)
@@ -87,7 +85,8 @@ namespace Edux.ViewComponents
                  // veri tablosunun kullandığı varlığın değerlerine ulaş
                  .Where(pv => pv.EntityId == entityId
                      // eğer veri tablosunun sütunları filtre içeriyorsa bu filtreleri uygula
-                     && _context.PropertyValues.Any(pv2 => pv2.EntityId == entityId && pv.RowId == pv2.RowId && (datatable.Columns.Any(c => c.FilterOperator != Models.FilterOperator.None)
+                     && (_context.PropertyValues.Where(pv2 => pv2.EntityId == entityId && pv.RowId == pv2.RowId
+                     && (datatable.Columns.Any(c => c.FilterOperator != Models.FilterOperator.None)
                      // sütunların özellikleri ile değerlerin özelliklerini joinle, değeri olan her bir sütun filtre operatörü "eşittir" ise
                      ? (datatable.Columns.FirstOrDefault(c => c.PropertyId == pv2.PropertyId).FilterOperator == Models.FilterOperator.Equals
                      // bu özelliğin değerini filtre değeri ile karşılaştır
@@ -119,7 +118,14 @@ namespace Edux.ViewComponents
                      // filtre operatörü başka bir şeyse false uygula
                      : false))))))))))))
                      // sütunlar filtre içermiyorsa tüm kayıtları getir
-                     : true))).OrderBy(r => r.RowId).Take(datatable.Top).ToList();
+                     : true)).Select(s=>s.RowId).Contains(pv.RowId))).OrderBy(r => r.RowId).Take(datatable.Top).ToList();
+            //var filterRows = (from v in _context.PropertyValues
+            //                  join c in _context.Columns on v.PropertyId equals c.PropertyId
+            //                  where v.EntityId == entityId && c.DataTableId == dtId && c.FilterOperator == Models.FilterOperator.Equals && v.Value == c.FilterValue
+            //                  select v.Value).ToList();
+            //var values = _context.PropertyValues.Include(i => i.Entity).Include(i => i.Property)
+            //     .ThenInclude(t => t.DataSourceProperty)
+            //     .ThenInclude(v => v.PropertyValues).Where(pv => pv.EntityId == entityId && filterRows.Contains(pv.Value)).OrderBy(o => o.RowId).Take(datatable.Top).ToList();
             ViewBag.Values = values;
 
             return await Task.FromResult(View(viewName, component));
