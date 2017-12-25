@@ -17,7 +17,7 @@
             </div>
             <div class="modal-body">
                 <div class="scroller" style="height:300px" data-always-visible="1" data-rail-visible1="1">
-                    <iframe src="/eduxcentralpanel/tr/gorusme-formu?layout=1" style="width:100%;height:300px;"></iframe>
+                    <iframe src="/eduxcentralpanel/tr/gorusme-formu?layout=0" style="width:100%;height:300px;"></iframe>
                 </div>
             </div>
             <div class="modal-footer">
@@ -30,7 +30,7 @@
 
 
 <div class="portlet light bordered">
-    
+
     <div class="portlet-body">
 
         <div class="table-toolbar">
@@ -38,19 +38,19 @@
                 <div class="col-md-12">
                     <div class="btn">
                         @if (!String.IsNullOrEmpty(ViewBag.CreateButtonText))
-    {
-                    <a class="btn sbold green" href="@ViewBag.CreateButtonHref">
-                        @ViewBag.CreateButtonText
-                        <i class="fa fa-plus"></i>
-                    </a>
-}
+                        {
+                            <a class="btn sbold green" href="@ViewBag.CreateButtonHref">
+                                @ViewBag.CreateButtonText
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        }
                         <a data-toggle="modal" href="#responsive" class="btn red btn-outline">
                             Ekle<i class="fa fa-plus"></i>
                         </a>
                         @*<a class="btn sbold green" href="@ViewBag.AddButtonHref">
-                            @ViewBag.AddButtonText
-                            Ekle<i class="fa fa-plus"></i>
-                        </a>*@
+                                @ViewBag.AddButtonText
+                                Ekle<i class="fa fa-plus"></i>
+                            </a>*@
 
                         <a class="btn red btn-outline" href="@ViewBag.RemoveButtonHref">
                             @ViewBag.RemoveButtonText
@@ -98,20 +98,20 @@
                                     var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
                                     if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
                                     {@String.Format(val.Property.DisplayFormat, val?.Value) }
+                                    else
+                                    { @val?.Value}
+                                }
                                 else
-                                { @val?.Value}
-                        }
-                        else
-                        {
-                            var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
-                            if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                            { @String.Format(val.Property.DisplayFormat, val?.Value) }
+                                {
+                                    var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
+                                    if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                                    { @String.Format(val.Property.DisplayFormat, val?.Value) }
                         else
                         { @val?.Value}
 
 
 
-                }
+                                }
 
 
                             </td>
