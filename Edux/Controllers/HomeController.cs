@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -200,7 +201,7 @@ namespace Edux.Controllers
                 }
                 else
                 {
-                    if (_context.EntityRows.Any())
+                    if (_context.EntityRows.Where(w => w.EntityId == entityId).Any())
                     {
                         rowId = _context.EntityRows.Where(w=>w.EntityId == entityId).Max(m => m.RowId) + 1;
                     }
@@ -214,71 +215,61 @@ namespace Edux.Controllers
                 }
                 else
                 {
-
+                    if (entityRow == null)
+                    {
+                        entityRow = new EntityRow();
+                        entityRow.EntityId = entityId;
+                        entityRow.RowId = rowId;
+                        entityRow.CreateDate = DateTime.Now;
+                        entityRow.CreatedBy = User.Identity.Name;
+                    }
                     foreach (var key in form.Keys)
                     {
                         if (_context.Fields.Any(f => f.FormId == formId && f.PropertyId == key))
                         {
 
-                            if (entityRow == null)
+                            string value = form[key];
+                            if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
                             {
-                                entityRow = new EntityRow();
-                            }
-                            RowValue value;
-                            if (mode == "create")
-                            {
-                                value = new RowValue();
-                                entityRow.EntityId = entityId;
-                                entityRow.RowId = rowId;
-                                entityRow.CreateDate = DateTime.Now;
-                                entityRow.CreatedBy = User.Identity.Name;
-                            } else
-                            {
-                                value = JsonConvert.DeserializeObject<RowValue>(entityRow.RowValue);
-                            }
-                            if (mode == "create" || mode == "edit")
-                            {
-
-                                value.Values.Add(key, form[key]);
-                                if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
+                                int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
+                                if (upload != null && upload.Count() >= (uploadIndex + 1) && upload[uploadIndex] != null)
                                 {
-                                    int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
-                                    if (upload != null && upload.Count() >= (uploadIndex + 1) && upload[uploadIndex] != null)
+                                    string category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                                    string uploadLocation = env.WebRootPath + "\\uploads\\" + category + "\\";
+                                    string fileName = Path.GetFileName(upload[uploadIndex].FileName);
+                                    var filePath = Path.Combine(uploadLocation, fileName);
+                                    if (!Directory.Exists(uploadLocation))
                                     {
-                                        string category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
-                                        string uploadLocation = env.WebRootPath + "\\uploads\\" + category + "\\";
-                                        string fileName = Path.GetFileName(upload[uploadIndex].FileName);
-                                        var filePath = Path.Combine(uploadLocation, fileName);
-                                        if (!Directory.Exists(uploadLocation))
-                                        {
-                                            Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
-                                        }
-                                        using (var stream = new FileStream(filePath, FileMode.Create))
-                                        {
-                                            await upload[uploadIndex].CopyToAsync(stream);
-                                        }
-                                        value.Values.Add(key, "/uploads/" + category + "/" + fileName);
-
+                                        Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
                                     }
+                                    using (var stream = new FileStream(filePath, FileMode.Create))
+                                    {
+                                        await upload[uploadIndex].CopyToAsync(stream);
+                                    }
+                                    value = category + "/" + fileName;
 
                                 }
-                                entityRow.RowValue = JsonConvert.SerializeObject(value.Values);
-                                entityRow.UpdateDate = DateTime.Now;
-                                entityRow.UpdatedBy = User.Identity.Name;
-                                entityRow.AppTenantId = "1";
-                            }
-                            if (mode == "create")
-                            {
-                                _context.Add(entityRow);
-                            }
-                            else if (mode == "edit")
-                            {
-                                _context.Update(entityRow);
-                            }
-                            _context.SaveChanges();
-                        }
 
+                            }
+                            var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(entityRow.RowValue);
+                            values.Add(key, value);
+                            entityRow.RowValue = JsonConvert.SerializeObject(values);
+                        }
+                            
                     }
+                    
+                    if (mode == "create")
+                    {
+                        _context.Add(entityRow);
+                    }
+                    else if (mode == "edit")
+                    {
+                        _context.Update(entityRow);
+                    }
+                    entityRow.UpdateDate = DateTime.Now;
+                    entityRow.UpdatedBy = User.Identity.Name;
+                    entityRow.AppTenantId = "1";
+                    _context.SaveChanges();
                 }
                 return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
             }

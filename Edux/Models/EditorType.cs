@@ -24,6 +24,7 @@ namespace Edux.Models
         Password=15,
         SelectMultiple=16,
         TreeView=17,
-        Component = 18
+        Component = 18,
+        IdentityNumber = 19
     }
 }
