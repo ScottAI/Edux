@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171225100720_addEntityRows")]
+    partial class addEntityRows
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -399,8 +400,7 @@ namespace Edux.Migrations
 
                     b.Property<long>("RowId");
 
-                    b.Property<string>("RowValue")
-                        .IsRequired();
+                    b.Property<string>("RowValue");
 
                     b.Property<DateTime>("UpdateDate");
 

@@ -67,6 +67,39 @@ namespace Edux.ViewComponents
             }
             ViewBag.DataSourcePropertyValues = DataSourcePropertyValues;
             return await Task.FromResult(View(viewName, component));
+
+
+            IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues2 = new Dictionary<string, IList<PropertyValue>>();
+            foreach (var item in ((Form)ViewBag.Form).Fields)
+            {
+                if (item.Property.DataSourceProperties2 != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
+                {
+                    var entityId = item.Property.DataSourceProperty.EntityId;
+                    var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
+                    if (!DataSourcePropertyValues2.ContainsKey(item.Property.DataSourceProperty.Id))
+                    {
+                        DataSourcePropertyValues2.Add(item.Property.DataSourceProperty.Id, pvs);
+                    }
+                }
+            }
+            ViewBag.DataSourcePropertyValues2 = DataSourcePropertyValues2;
+            return await Task.FromResult(View(viewName, component));
+
+            IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues3 = new Dictionary<string, IList<PropertyValue>>();
+            foreach (var item in ((Form)ViewBag.Form).Fields)
+            {
+                if (item.Property.DataSourceProperties3 != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
+                {
+                    var entityId = item.Property.DataSourceProperty.EntityId;
+                    var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
+                    if (!DataSourcePropertyValues3.ContainsKey(item.Property.DataSourceProperty.Id))
+                    {
+                        DataSourcePropertyValues3.Add(item.Property.DataSourceProperty.Id, pvs);
+                    }
+                }
+            }
+            ViewBag.DataSourcePropertyValues3 = DataSourcePropertyValues3;
+            return await Task.FromResult(View(viewName, component));
         }
     }
 }

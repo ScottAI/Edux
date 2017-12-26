@@ -3,7 +3,17 @@
     ViewData["Title"] = Model.Page.MetaTitle;
     ViewData["Description"] = Model.Page.MetaDescription;
     ViewData["Keywords"] = Model.Page.MetaKeywords;
-    Layout = Model.Page.LayoutView ?? ((App)ViewBag.App).DefaultLayout;
+    if (Context.Request.Query["layout"].ToString() == "0")
+    {
+        Layout = null;
+    }
+    else if (Context.Request.Query["layout"].ToString() == "1")
+    {
+        Layout = "_BlankLayout";
+    }
+    else {
+        Layout = Model.Page.LayoutView ?? ((App)ViewBag.App).DefaultLayout;
+    }
 }
 <div class="page-bar">
     <ul class="page-breadcrumb">

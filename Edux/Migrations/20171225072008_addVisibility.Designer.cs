@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171225072008_addVisibility")]
+    partial class addVisibility
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,38 +381,6 @@ namespace Edux.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Entities");
-                });
-
-            modelBuilder.Entity("Edux.Models.EntityRow", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AppTenantId")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("EntityId");
-
-                    b.Property<long>("RowId");
-
-                    b.Property<string>("RowValue")
-                        .IsRequired();
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EntityId");
-
-                    b.ToTable("EntityRows");
                 });
 
             modelBuilder.Entity("Edux.Models.Field", b =>
@@ -1300,13 +1269,6 @@ namespace Edux.Migrations
                 {
                     b.HasOne("Edux.Models.Entity", "Entity")
                         .WithMany("DataTables")
-                        .HasForeignKey("EntityId");
-                });
-
-            modelBuilder.Entity("Edux.Models.EntityRow", b =>
-                {
-                    b.HasOne("Edux.Models.Entity", "Entity")
-                        .WithMany("EntityRows")
                         .HasForeignKey("EntityId");
                 });
 

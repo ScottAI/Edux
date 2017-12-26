@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,7 +70,7 @@ namespace Edux.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> SaveForm(IFormCollection form, IFormFile[] upload)
+        public async Task<IActionResult> SaveFormOld(IFormCollection form, IFormFile[] upload)
         {
             if (ModelState.IsValid)
             {
@@ -171,6 +173,103 @@ namespace Edux.Controllers
                     }
 
                 }
+                }
+                return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
+            }
+            return Redirect(form["ReturnUrl"].ToString() + "?status=validationerror");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveForm(IFormCollection form, IFormFile[] upload)
+        {
+            if (ModelState.IsValid)
+            {
+                string formId = form["FormId"].ToString();
+                string entityId = _context.Forms.FirstOrDefault(frm => frm.Id == formId).EntityId;
+                long rowId = 1;    
+                string mode = form["Mode"].ToString().ToLowerInvariant();
+                EntityRow entityRow = null;
+                if (String.IsNullOrEmpty(mode))
+                {
+                    mode = "create";
+                }
+
+                if (mode == "edit" || mode == "delete")
+                {
+                    rowId = Convert.ToInt64(form["RowId"].ToString());
+                    entityRow = _context.EntityRows.FirstOrDefault(r => r.EntityId == entityId && r.RowId == rowId);
+                }
+                else
+                {
+                    if (_context.EntityRows.Where(w => w.EntityId == entityId).Any())
+                    {
+                        rowId = _context.EntityRows.Where(w=>w.EntityId == entityId).Max(m => m.RowId) + 1;
+                    }
+                }
+                if (mode == "delete")
+                {                   
+                    if (entityRow != null) {
+                        _context.Remove(entityRow);
+                        _context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    if (entityRow == null)
+                    {
+                        entityRow = new EntityRow();
+                        entityRow.EntityId = entityId;
+                        entityRow.RowId = rowId;
+                        entityRow.CreateDate = DateTime.Now;
+                        entityRow.CreatedBy = User.Identity.Name;
+                    }
+                    foreach (var key in form.Keys)
+                    {
+                        if (_context.Fields.Any(f => f.FormId == formId && f.PropertyId == key))
+                        {
+
+                            string value = form[key];
+                            if (!String.IsNullOrEmpty(form[key + ".UploadIndex"]))
+                            {
+                                int uploadIndex = Convert.ToInt32(form[key + ".UploadIndex"]);
+                                if (upload != null && upload.Count() >= (uploadIndex + 1) && upload[uploadIndex] != null)
+                                {
+                                    string category = DateTime.Now.Month.ToString() + "-" + DateTime.Now.Year.ToString();
+                                    string uploadLocation = env.WebRootPath + "\\uploads\\" + category + "\\";
+                                    string fileName = Path.GetFileName(upload[uploadIndex].FileName);
+                                    var filePath = Path.Combine(uploadLocation, fileName);
+                                    if (!Directory.Exists(uploadLocation))
+                                    {
+                                        Directory.CreateDirectory(uploadLocation); //Eğer klasör yoksa oluştur    
+                                    }
+                                    using (var stream = new FileStream(filePath, FileMode.Create))
+                                    {
+                                        await upload[uploadIndex].CopyToAsync(stream);
+                                    }
+                                    value = category + "/" + fileName;
+
+                                }
+
+                            }
+                            var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(entityRow.RowValue);
+                            values.Add(key, value);
+                            entityRow.RowValue = JsonConvert.SerializeObject(values);
+                        }
+                            
+                    }
+                    
+                    if (mode == "create")
+                    {
+                        _context.Add(entityRow);
+                    }
+                    else if (mode == "edit")
+                    {
+                        _context.Update(entityRow);
+                    }
+                    entityRow.UpdateDate = DateTime.Now;
+                    entityRow.UpdatedBy = User.Identity.Name;
+                    entityRow.AppTenantId = "1";
+                    _context.SaveChanges();
                 }
                 return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
             }

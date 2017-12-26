@@ -41,5 +41,6 @@ namespace Edux.Models
         public virtual ICollection<DataTable> DataTables { get; set; }
         [Display(Name = "Formlar")]
         public virtual ICollection<Form> Forms { get; set; }
+        public virtual ICollection<EntityRow> EntityRows { get; set; }
     }
 }
