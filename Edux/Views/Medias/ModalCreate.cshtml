@@ -125,14 +125,15 @@
                     alert("İşlem başarısız");
                 }
                 else {
-                    var modal = $('#modal'+'@(ViewBag.Element)');
+                    var modal = $('#modal' + '@(ViewBag.Element)');
                     modal.find('.modal-body').html('');
                     modal.find('.modal-footer').html('');
                     modal.find('.modal-body').append("<h1 class='text-success'>İşlem Başarılı</h1>")
                     var delay = 1000;
-                    setTimeout(function () { $('#modal'+'@(ViewBag.Element)').modal('hide'); }, delay);
+                    setTimeout(function () { $('#modal' + '@(ViewBag.Element)').modal('hide'); }, delay);
                     $('#@(ViewBag.Element)').val(data.result)
-                }
+               
+            }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 500) {
@@ -173,20 +174,20 @@
             type: "POST",
             data: { word, year, month, contenttype},
             success: function (data) {
-                alert(JSON.stringify(data));
+               
                 $.each(data.result, function (k, v) {
                     var modal = $('#modal' + '@(ViewBag.Element)');
                     if (v.contentType == "Image")
                     {
-                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><img class='img-thumbnail' onclick=\"imgSelect@(ViewBag.Element.Replace("-",""))(this,'@(ViewBag.AssetsUrl)"+ v.fileUrl + v.fileName + "');\" style='width:110px; height:80px; margin-top:10px;' src='@ViewBag.AssetsUrl" + v.fileUrl + v.fileName + "'/><figcaption style='font-size:10px;'>" + v.title.substring(0, 10) + "</figcaption></div>");
-
+                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><img class='img-thumbnail' onclick=\"imgSelect@(ViewBag.Element.Replace("-",""))(this,'@(ViewBag.AssetsUrl)" + v.filePath  + "');\" style='width:110px; height:80px; margin-top:10px;' src='@ViewBag.AssetsUrl" + v.filePath + "'/><figcaption style='font-size:10px;'>" + "</figcaption></div>");
+                        alert("@ViewBag.AssetsUrl");
                     }
                     else if (v.contentType == "Document")
                     {
-                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><i onclick=\"imgSelect@(ViewBag.Element.Replace("-", ""))(this,'@(ViewBag.AssetsUrl)"+ v.fileUrl + v.fileName + "');\" style='line-height:90px;width:100px; height:100px; margin-top:10px;'  class='img-thumbnail inline-block big fa fa-file-pdf-o fa-4x ' aria-hidden='true'></i><figcaption style='font-size:10px;'>"+v.title.substring(0,10)+"</figcaption></div>");                    }
+                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><i onclick=\"imgSelect@(ViewBag.Element.Replace("-", ""))(this,'@(ViewBag.AssetsUrl)" + v.filePath+ "');\" style='line-height:90px;width:100px; height:100px; margin-top:10px;'  class='img-thumbnail inline-block big fa fa-file-pdf-o fa-4x ' aria-hidden='true'></i><figcaption style='font-size:10px;'>"+"</figcaption></div>");                    }
                     else
                     {
-                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><video class='img-thumbnail' onclick='imgSelect@(ViewBag.Element.Replace("-", ""))(this,$(this).find(\"source\").attr(\"src\"));' style='width:110px; height:80px; margin-top:10px;' autoplay><source src='@ViewBag.AssetsUrl" + v.fileUrl + v.fileName + "' type='video/mp4' /></video><figcaption style='font-size:10px;'>" + v.title.substring(0, 10) + "</figcaption></div>");
+                        modal.find('#modal-gallery').append("<div class='col-sm-2' style='text-align:center'><video class='img-thumbnail' onclick='imgSelect@(ViewBag.Element.Replace("-", ""))(this,$(this).find(\"source\").attr(\"src\"));' style='width:110px; height:80px; margin-top:10px;' autoplay><source src='@ViewBag.AssetsUrl" + v.filePath + "' type='video/mp4' /></video><figcaption style='font-size:10px;'>" + "</figcaption></div>");
                     }
                 });
             },

@@ -50,6 +50,8 @@
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Themes\metronic\" />
+    <Folder Include="uploads\12-2017\" />
+    <Folder Include="wwwroot\uploads\12-2017\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\flags\1x1\ad.svg" />

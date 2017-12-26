@@ -12,6 +12,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Edux.Controllers
 {
@@ -27,6 +28,11 @@ namespace Edux.Controllers
             
         }
 
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            ViewBag.AssetsUrl = "/uploads/";
+            base.OnActionExecuted(context);
+        }
         // GET: Medias
         public async Task<IActionResult> Index()
         {
@@ -64,6 +70,9 @@ namespace Edux.Controllers
             media.Month = DateTime.Now.Month;
             return View(media);
         }
+
+       
+
         public JsonResult ModalCreate(string Title, string Description, IFormFile uploadFile)
         {
             //IFormFileCollection uploadedFiles = Request.Form.Files;
@@ -119,7 +128,7 @@ namespace Edux.Controllers
                         string FilePath = _hostingEnvironment.WebRootPath + "/uploads/" + category + "/";
                         string dosyaismi = Path.GetFileName(uploadFile.FileName);
                         var yuklemeYeri = Path.Combine(FilePath, dosyaismi);
-                        media.FilePath = "/uploads/"+ category + "/";
+                        media.FilePath =  category + "/"+  dosyaismi;
 
                         if (!Directory.Exists(FilePath))
                         {
@@ -134,7 +143,7 @@ namespace Edux.Controllers
                        
 
                         _context.Add(media);
-                        _context.SaveChangesAsync();
+                        _context.SaveChanges();
 
                         return Json(new { result =   media.FilePath + media.Name });
 
@@ -276,7 +285,7 @@ namespace Edux.Controllers
 
                         if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
                         {
-                            contenttype = "image";
+                            contenttype = "Image";
                         }
                         else if (extension == ".mp4" || extension == ".gif")
                         {
@@ -312,7 +321,7 @@ namespace Edux.Controllers
 
             if (isSavedSuccessfully)
             {
-                return Json(new { Message = "/uploads/" + category + "/" + Name, fileName=Name , contenttype=contenttype, Extension = extension,Filesize=Filesize,Year=Year, Month = Month,success = true });
+                return Json(new { Message =  category + "/" + Name, fileName=Name , contenttype=contenttype, Extension = extension,Filesize=Filesize,Year=Year, Month = Month,success = true });
             }
             else
             {
