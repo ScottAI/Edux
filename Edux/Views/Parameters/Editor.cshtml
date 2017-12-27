@@ -357,7 +357,7 @@
                 </div>
                                                 break;
 
-                                            case ParameterType.SelectMenu:
+                        case ParameterType.SelectMenu:
 
                                                 <div class="form-group">
                                                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
@@ -382,11 +382,24 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                    break;
+
+
+               case ParameterType.SelectProperty:
+
+                                                <div class="form-group">
+                                                    <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
+                                                    <div class="col-md-10">
+                                                        <select  name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "" )>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")
+                                                            
+                                                          
+                                                        
+                                                        </select>
+                                                    </div>
+
+                                                </div>
                                                 break;
-
-
-
-                                            case ParameterType.Checkbox:
+              case ParameterType.Checkbox:
 
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
