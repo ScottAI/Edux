@@ -11,7 +11,7 @@ namespace Edux.Models
         public UserGroup()
         {
             Users = new HashSet<ApplicationUser>();
-            Roles = new HashSet<Role>();
+            UserGroupRoles = new HashSet<UserGroupRole>();
         }
         [Required]
         [Display(Name = "Grup Adı")]

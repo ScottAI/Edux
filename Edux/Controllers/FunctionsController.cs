@@ -28,7 +28,7 @@ namespace Edux.Controllers
         // GET: Functions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Function.ToListAsync());
+            return View(await _context.Functions.ToListAsync());
         }
 
         // GET: Functions/Details/5
@@ -39,7 +39,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var function = await _context.Function
+            var function = await _context.Functions
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (function == null)
             {
@@ -84,7 +84,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var function = await _context.Function.SingleOrDefaultAsync(m => m.Id == id);
+            var function = await _context.Functions.SingleOrDefaultAsync(m => m.Id == id);
             if (function == null)
             {
                 return NotFound();
@@ -137,7 +137,7 @@ namespace Edux.Controllers
                 return NotFound();
             }
 
-            var function = await _context.Function
+            var function = await _context.Functions
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (function == null)
             {
@@ -152,15 +152,15 @@ namespace Edux.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var function = await _context.Function.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Function.Remove(function);
+            var function = await _context.Functions.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Functions.Remove(function);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool FunctionExists(string id)
         {
-            return _context.Function.Any(e => e.Id == id);
+            return _context.Functions.Any(e => e.Id == id);
         }
     }
 }

@@ -109,6 +109,5 @@ namespace Edux.Data
 
         public DbSet<Edux.Models.Role> Role { get; set; }
 
-        public DbSet<Edux.Models.Function> Function { get; set; }
     }
 }

@@ -11,6 +11,10 @@ namespace Edux.Models
 {
     public class Role : IdentityRole
     {
+        public Role()
+        {
+            UserGroupRoles = new HashSet<UserGroupRole>();
+        }
         [StringLength(200)]
         public string AppTenantId { get; set; }
         [Display(Name = "Açıklama")]
