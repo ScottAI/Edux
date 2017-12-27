@@ -104,9 +104,14 @@
     <script src="//cdn.datatables.net/colreorder/1.4.0/js/dataTables.colReorder.min.js"></script>
     <script src="//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
+    <style>
+        body.blanklayout {
+         background-color: white !important;
+        }
+    </style>
 </head>
 
-<body>
+<body class="blanklayout">
     @RenderBody()
     <script>
         $(document).ready(function () {
