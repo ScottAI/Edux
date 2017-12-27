@@ -59,6 +59,7 @@ namespace Edux.Data
             public DbSet<RoleGroup> RoleGroups { get; set; }
             public DbSet<Fieldset> Fieldsets { get; set; }
             public DbSet<EntityRow> EntityRows { get; set; }
+            public DbSet<Function> Functions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
