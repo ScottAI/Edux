@@ -32,5 +32,6 @@ namespace Edux.Models
         [Display(Name = "Rol Grubu")]
         [ForeignKey("RoleGroupId")]
         public RoleGroup RoleGroup { get; set; }
+        public ICollection<UserGroupRole> UserGroupRoles { get; set; }
     } 
 }

@@ -57,6 +57,8 @@ namespace Edux.Data
             public DbSet<App> Apps { get; set; }
             public DbSet<Tab> Tabs { get; set; }
             public DbSet<RoleGroup> RoleGroups { get; set; }
+            public DbSet<UserGroup> UserGroups { get; set; }
+            public DbSet<UserGroupRole> UserGroupRoles { get; set; }
             public DbSet<Fieldset> Fieldsets { get; set; }
             public DbSet<EntityRow> EntityRows { get; set; }
 
@@ -93,7 +95,13 @@ namespace Edux.Data
                 .WithMany(p => p.DataSourceProperties3)
                 .HasForeignKey(p => p.DataSourcePropertyId3).OnDelete(DeleteBehavior.Restrict);
 
-
+            builder.Entity<UserGroupRole>().HasKey("UserGroupId", "RoleId");
+            builder.Entity<UserGroupRole>().HasOne(u => u.UserGroup)
+                .WithMany(u => u.UserGroupRoles)
+                .HasForeignKey(u => u.UserGroupId).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserGroupRole>().HasOne(u => u.Role)
+                .WithMany(u => u.UserGroupRoles)
+                .HasForeignKey(u => u.RoleId).OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Edux.Models.Media> Media { get; set; }
