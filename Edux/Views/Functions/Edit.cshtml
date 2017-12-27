@@ -1,0 +1,59 @@
+﻿@model Edux.Models.Function
+
+@{
+    ViewData["Title"] = "İşlev Düzenle";
+}
+
+<h2>Düzenle</h2>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsAnonymous" /> @Html.DisplayNameFor(model => model.IsAnonymous)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllowedRoles" class="control-label"></label>
+                <input asp-for="AllowedRoles" class="form-control" />
+                <span asp-validation-for="AllowedRoles" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+         
+                <input asp-for="CreateDate" class="form-control" />
+                <input asp-for="CreatedBy" class="form-control" />
+                <input asp-for="UpdateDate" class="form-control" />
+                <input asp-for="UpdatedBy" class="form-control" />
+                <input asp-for="AppTenantId" class="form-control" />
+          
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Kaydet" class="btn btn-default" />
+                </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Listeye Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
