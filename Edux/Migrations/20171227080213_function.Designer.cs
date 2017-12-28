@@ -12,9 +12,10 @@ using System;
 namespace Edux.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171227080213_function")]
+    partial class function
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,8 +109,6 @@ namespace Edux.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("UserGroupId");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -122,8 +121,6 @@ namespace Edux.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserGroupId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -619,7 +616,7 @@ namespace Edux.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Functions");
+                    b.ToTable("Function");
                 });
 
             modelBuilder.Entity("Edux.Models.Language", b =>
@@ -1214,45 +1211,6 @@ namespace Edux.Migrations
                     b.ToTable("Tabs");
                 });
 
-            modelBuilder.Entity("Edux.Models.UserGroup", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AppTenantId")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserGroups");
-                });
-
-            modelBuilder.Entity("Edux.Models.UserGroupRole", b =>
-                {
-                    b.Property<string>("UserGroupId");
-
-                    b.Property<string>("RoleId");
-
-                    b.HasKey("UserGroupId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserGroupRoles");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -1335,13 +1293,6 @@ namespace Edux.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Edux.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Edux.Models.UserGroup", "UserGroup")
-                        .WithMany("Users")
-                        .HasForeignKey("UserGroupId");
                 });
 
             modelBuilder.Entity("Edux.Models.Column", b =>
@@ -1551,19 +1502,6 @@ namespace Edux.Migrations
                     b.HasOne("Edux.Models.Form", "Form")
                         .WithMany("Tabs")
                         .HasForeignKey("FormId");
-                });
-
-            modelBuilder.Entity("Edux.Models.UserGroupRole", b =>
-                {
-                    b.HasOne("Edux.Models.Role", "Role")
-                        .WithMany("UserGroupRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Edux.Models.UserGroup", "UserGroup")
-                        .WithMany("UserGroupRoles")
-                        .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

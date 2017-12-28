@@ -50,8 +50,21 @@ namespace Edux.ViewComponents
             var values = _context.EntityRows
                 .Where(r => r.EntityId == entityId)
                 .Select(s=>new { column = datatable.Columns.FirstOrDefault(f => s.Values.Keys.Contains(f.PropertyId)), values = s.Values, entityRow = s })
-                .Where(w => datatable.Columns.Any(a=>a.FilterOperator != Models.FilterOperator.None) ? w.column.FilterOperator == Models.FilterOperator.Equals && w.values.GetValueOrDefault(w.column.PropertyId) == w.column.FilterValue:true)
+                .Where(w => datatable.Columns.Any(a=>a.FilterOperator != Models.FilterOperator.None) 
+                ? (w.column.FilterOperator == Models.FilterOperator.Equals ? w.values.GetValueOrDefault(w.column.PropertyId) == w.column.FilterValue:
+                (w.column.FilterOperator == Models.FilterOperator.NotEquals ? w.values.GetValueOrDefault(w.column.PropertyId) != w.column.FilterValue:
+                (w.column.FilterOperator == Models.FilterOperator.Contains ? (w.column.FilterValue.Contains(w.column.PropertyId)):
+                (w.column.FilterOperator == Models.FilterOperator.NotIn ? !(w.column.FilterValue.Contains(w.column.PropertyId)):
+                (w.column.FilterOperator == Models.FilterOperator.GreaterThan ? (w.column.PropertyId.CompareTo(w.column.FilterValue) < 0):
+                (w.column.FilterOperator == Models.FilterOperator.GreaterThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) <= 0):
+                (w.column.FilterOperator == Models.FilterOperator.LessThan ? (w.column.PropertyId.CompareTo(w.column.FilterValue) > 0) :
+                (w.column.FilterOperator == Models.FilterOperator.LessThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) >= 0) :
+                false)))))))):
+                true)
+    
                 .OrderBy(o => o.entityRow.RowId).Select(e => e.entityRow).Distinct().ToList();
+
+
             /*var values = (from pv in _context.PropertyValues
                  .Include(i => i.Entity).Include(i => i.Property)
                  .ThenInclude(t => t.DataSourceProperty)

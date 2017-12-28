@@ -11,6 +11,10 @@ namespace Edux.Models
 {
     public class Role : IdentityRole
     {
+        public Role()
+        {
+            UserGroupRoles = new HashSet<UserGroupRole>();
+        }
         [StringLength(200)]
         public string AppTenantId { get; set; }
         [Display(Name = "Açıklama")]
@@ -32,5 +36,6 @@ namespace Edux.Models
         [Display(Name = "Rol Grubu")]
         [ForeignKey("RoleGroupId")]
         public RoleGroup RoleGroup { get; set; }
+        public ICollection<UserGroupRole> UserGroupRoles { get; set; }
     } 
 }

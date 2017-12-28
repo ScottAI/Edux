@@ -61,10 +61,10 @@
                                         {
                                             var val = JsonConvert.DeserializeObject<Dictionary<string,string>>(values.Where(v => v.RowId == id).FirstOrDefault().RowValue);
                                            
-                                            if (val[item.PropertyId] != null && !String.IsNullOrEmpty(item.Property.DisplayFormat))
+                                            if (val.ContainsKey(item.PropertyId) && !String.IsNullOrEmpty(item.Property.DisplayFormat))
                                             { @String.Format(item.Property.DisplayFormat, val[item.PropertyId]) }
                                             else
-                                            { @val[item.PropertyId]}
+                                            { @(val.ContainsKey(item.PropertyId)?val[item.PropertyId]:"")}
                                         }
                                         @*else
                                         {
