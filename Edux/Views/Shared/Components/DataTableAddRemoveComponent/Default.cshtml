@@ -87,56 +87,71 @@
                 @{ var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
                 @foreach (var id in rowIds)
                 {
-                    <tr>
-                        @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-                        {
-                            <td>
+                <tr>
+                    @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+    {
+                <td>
 
-                                @if (item.Property.DataSourceProperty == null)
-                                {
-                                    var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
-                                    if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                                    {@String.Format(val.Property.DisplayFormat, val?.Value) }
-                                else
-                                { @val?.Value}
-                        }
-                        else
-                        {
-                            var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
-                            if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                            { @String.Format(val.Property.DisplayFormat, val?.Value) }
-                        else
-                        { @val?.Value}
-
-
-
-                }
+                    @if (item.Property.DataSourceProperty == null)
+    {
+        var val = values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault();
+        if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+        {@String.Format(val.Property.DisplayFormat, val?.Value) }
+else
+{ @val?.Value}
+}
+else
+{
+var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
+if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+{ @String.Format(val.Property.DisplayFormat, val?.Value) }
+else
+{ @val?.Value}
 
 
-                            </td>
-                        }
-                        <td class="text-nowrap">
-                            @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
-                            {
 
-                                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
-                            }
-                            @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-                            {
+}
 
-                                <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
 
-                            }
-                        </td>
-                    </tr>
+                </td>
+}
+                    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                    {
+                <td class="text-nowrap">
+                    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
+                    {
+
+                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
+                    }
+                    @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                    {
+
+                <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+
+                    }
+                </td>
+                    }
+                </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
 <script>
-        $(document).ready(function () {
-            $('#@datatable.Name').DataTable({
+
+    $(document).ready(function () {
+        @*if (@datatable.Name instanceof $.fn.dataTable.Api) {
+            try {
+            @(datatable.Name).destroy();
+            } catch (ex) {
+
+            }
+            $('#@datatable.Name').empty()
+        }*@
+        if (@datatable.Name) {
+            alert("Uyarı: @datatable.Name adında birden fazla veri tablosu kullandınız.");
+        }
+        @datatable.Name = $('#@datatable.Name').DataTable({
                 "order": [@Html.Raw(order)],
                 "responsive": true,
                 "pageLength": 100,

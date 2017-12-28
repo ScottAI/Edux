@@ -104,15 +104,29 @@
     </div>
 </div>
 <script>
-        $(document).ready(function () {
-            $('#@datatable.Name').DataTable({
-                "order": [@Html.Raw(order)],
-                "responsive": true,
-                "pageLength": 100,
-                "colReorder": true,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
-                }
-            });
+
+    $(document).ready(function () {
+        @*if (@datatable.Name instanceof $.fn.dataTable.Api) {
+            try {
+            @(datatable.Name).destroy();
+            } catch(ex) {
+            
+            }
+            $('#@datatable.Name').empty()
+        }*@
+
+        if (@datatable.Name) {
+            alert("Uyarı: @datatable.Name adında birden fazla veri tablosu kullandınız.");
+        }
+
+        @datatable.Name = $('#@datatable.Name').DataTable({
+            "order": [@Html.Raw(order)],
+            "responsive": true,
+            "pageLength": 100,
+            "colReorder": true,
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
+            }
         });
+    });
 </script>
