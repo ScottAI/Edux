@@ -3,137 +3,141 @@
 @{ var datatable = (DataTable)ViewBag.DataTable;
     var values = (IList<EntityRow>)ViewBag.Values;
     var entityId = "";
-  
+
 
 }
 
 <div class="portlet light bordered">
-    
+
     <div class="portlet-body">
 
         @if (!String.IsNullOrEmpty(ViewBag.CreateButtonText))
         {<div class="table-toolbar">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="btn-group">
-                        <a class="btn sbold green" href="@ViewBag.CreateButtonHref">
-                            @ViewBag.CreateButtonText
-                            <i class="fa fa-plus"></i>
-                        </a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group">
+                            <a class="btn sbold green" href="@ViewBag.CreateButtonHref">
+                                @ViewBag.CreateButtonText
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-                }
-                <table class="table table-striped table-hover dt-responsive table-bordered order-column" id="@datatable.Name">
-                    <thead>
-                        <tr>
-                            @{ var order = "";
-                                var colIndex = 0; }
-                            @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-                            {
-                                if (item.OrderBy.HasValue)
-                                {
-                                    order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
-                                }
-                                entityId = item.Property.EntityId;
-                                <th class="text-nowrap @(colIndex==0?"all":"")">
-                                    @item.Property.DisplayName
-                                </th>
-                                colIndex++;
-                            }
-                            @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-                            {
-                                <th data-orderable="false" class="all">Eylemler</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{  var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
-                        @foreach (var id in rowIds)
+        }
+        <table class="table table-striped table-hover dt-responsive table-bordered order-column" id="@datatable.Name">
+            <thead>
+                <tr>
+                    @{ var order = "";
+                        var colIndex = 0; }
+                    @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+                    {
+                        if (item.OrderBy.HasValue)
                         {
-                            <tr>
-                                @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+                            order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
+                        }
+                        entityId = item.Property.EntityId;
+                        <th class="text-nowrap @(colIndex==0?"all":"")">
+                            @item.Property.DisplayName
+                        </th>
+                        colIndex++;
+                    }
+                    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                    {
+                        <th data-orderable="false" class="all">Eylemler</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{ var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
+                @foreach (var id in rowIds)
+                {
+                    <tr>
+                        @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+                        {
+                            <td>
+
+                                @if (item.Property.DataSourceProperty == null)
                                 {
-                                    <td>
+                                    var val = JsonConvert.DeserializeObject<Dictionary<string, string>>(values.Where(v => v.RowId == id).FirstOrDefault().RowValue);
 
-                                        @if (item.Property.DataSourceProperty == null)
+                                    if (val.ContainsKey(item.PropertyId) && !String.IsNullOrEmpty(item.Property.DisplayFormat))
+                                    {@String.Format(item.Property.DisplayFormat, val[item.PropertyId]) }
+                                else
+                                { @(val.ContainsKey(item.PropertyId) ? val[item.PropertyId] : "")}
+                        }
+                        @*else
+                            {
+                                var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
+                                if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+                                { @String.Format(val.Property.DisplayFormat, val?.Value) }
+                                else
+                                { @val?.Value}
+
+
+
+                            }*@
+
+
+                            </td>
+                        }
+                        <td class="text-nowrap">
+                            @if (ViewBag.ActionsMenu != null)
+                            {
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                        ActionMenu
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ActionsMenu.MenuItems)
                                         {
-                                            var val = JsonConvert.DeserializeObject<Dictionary<string,string>>(values.Where(v => v.RowId == id).FirstOrDefault().RowValue);
-                                           
-                                            if (val.ContainsKey(item.PropertyId) && !String.IsNullOrEmpty(item.Property.DisplayFormat))
-                                            { @String.Format(item.Property.DisplayFormat, val[item.PropertyId]) }
-                                            else
-                                            { @(val.ContainsKey(item.PropertyId)?val[item.PropertyId]:"")}
-                                        }
-                                        @*else
-                                        {
-                                            var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
-                                            if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                                            { @String.Format(val.Property.DisplayFormat, val?.Value) }
-                                            else
-                                            { @val?.Value}
 
-
-
-                                        }*@
-
-
-                                    </td>
-                                }
-                                    <td class="text-nowrap">
-                                        @if (ViewBag.ActionsMenu != null)
-                                        {
-                                    <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                                            ActionMenu
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ActionsMenu.MenuItems)
-                                            {   
-                                                
 
                                             <li>
 
                                                 <a href="@item.Url">@item.Name</a>
-                                               
-                                            </li>
-                                            }
 
-                                        </ul>
-                                    </div>
+                                            </li>
                                         }
 
+                                    </ul>
+                                </div>
+                            }
 
-                                      @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
-    {
 
-                                    <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
-}
-                                        @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-    {
+                            @if (!String.IsNullOrEmpty(ViewBag.EditButtonText))
+                            {
 
-                                    <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+                                <a class="btn btn-primary" href="@String.Format(ViewBag.EditButtonHref, id)">@ViewBag.EditButtonText </a>
+                            }
+                            @if (!String.IsNullOrEmpty(ViewBag.DeleteButtonText))
+                            {
 
-}
-                                    </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <script>
-        $(document).ready(function () {
-            $('#@datatable.Name').DataTable({
-                "order": [@Html.Raw(order)],
-                "responsive": true,
-                "pageLength": 100,
-                "colReorder": true,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
+                                <a class="btn btn-danger" href="@String.Format(ViewBag.DeleteButtonHref, id)">@ViewBag.DeleteButtonText </a>
+
+                            }
+                        </td>
+                    </tr>
                 }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            if (@datatable.Name) {
+                alert("Uyarı: @datatable.Name adında birden fazla veri tablosu kullandınız.");
+            }
+            @datatable.Name = $('#@datatable.Name').DataTable({
+            "order": [@Html.Raw(order)],
+            "responsive": true,
+            "pageLength": 100,
+            "colReorder": true,
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
+            }
             });
         });
-        </script>
+</script>
