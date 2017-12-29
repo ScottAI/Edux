@@ -162,5 +162,11 @@ namespace Edux.Controllers
         {
             return _context.Functions.Any(e => e.Id == id);
         }
+
+
+        public async Task<IActionResult> Run()
+        {
+            return View();
+        }
     }
 }

@@ -47,18 +47,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.AllowedRoles)
                 </td>
-             
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdateDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedBy)
-                </td>
+                </td> 
              
                 <td class="text-nowrap">
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Düzenle</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Ayrıntılar</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                    <a asp-action="Run" asp-route-id="@item.Id" class="btn btn-default">Çalıştır</a>
                 </td>
             </tr>
         }
