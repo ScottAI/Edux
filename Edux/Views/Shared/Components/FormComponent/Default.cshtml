@@ -632,7 +632,7 @@ else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmp
                                                                                                                 }
                                                                                                             }   
                                                                                                         
-                                                                                                        <input type="text" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                        <input type="text"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                                 }
@@ -656,7 +656,7 @@ else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmp
                                                                                                                                     }
                                                                                                                                 }
 
-                                                                                                                                <input type="number" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                                                <input type="number" pattern=".{11,11}" required title="11 karakter olması zorunludur." @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                                     }
@@ -1159,7 +1159,7 @@ else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmp
                                                                                                            readOnly = true;
                                                                                                        }
                                                                                                     }  
-                                                                                                <input type="text" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                <input type="text"  @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                 </div>
                                                                                             </div>
                                                                                                        }
@@ -1182,7 +1182,7 @@ else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmp
                                                                                                                             readOnly = true;
                                                                                                                         }
                                                                                                                     }
-                                                                                                                    <input type="number" @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                                                                                                                    <input type="number" pattern=".{11,}" required title="Minimum 11 Karakter Zorunludur." @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") @(field.Property.StringLength > 0 ? "maxlength=" + field.Property.StringLength : "") value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                                         }
@@ -1232,7 +1232,16 @@ else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmp
     });
     </script>
 }
-
+@*<script>
+    $(document).ready(function(){
+  $('form input[minlength]').on('keyup', function(){
+    e_len = $(this).val().trim().length
+    e_min_len = Number($(this).attr('minlength'))
+    message = e_min_len <= e_len ? '' : e_min_len + ' characters minimum'
+    this.setCustomValidity(message)
+  })
+})
+</script>*@
 <script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 
 <script>

@@ -115,9 +115,9 @@
             $('#@datatable.Name').empty()
         }*@
 
-        if (@datatable.Name) {
+        @*if (@datatable.Name) {
             alert("Uyarı: @datatable.Name adında birden fazla veri tablosu kullandınız.");
-        }
+        }*@
 
         @datatable.Name = $('#@datatable.Name').DataTable({
             "order": [@Html.Raw(order)],
