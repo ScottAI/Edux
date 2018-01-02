@@ -25,7 +25,7 @@ namespace Edux.Controllers
 
             string codeToCompile = @"string message = ""Mesaj""";
 
-            message = "Mesaj1";
+            
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
 
             string assemblyName = Path.GetRandomFileName();
