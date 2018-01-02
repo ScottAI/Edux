@@ -54,13 +54,13 @@ namespace Edux.ViewComponents
                 ? (w.column.FilterOperator == Models.FilterOperator.Equals ? w.values.GetValueOrDefault(w.column.PropertyId) == w.column.FilterValue:
                 (w.column.FilterOperator == Models.FilterOperator.NotEquals ? w.values.GetValueOrDefault(w.column.PropertyId) != w.column.FilterValue:
                 (w.column.FilterOperator == Models.FilterOperator.Contains ? w.values.GetValueOrDefault(w.column.PropertyId).Contains(w.column.FilterValue):
-                (w.column.FilterOperator == Models.FilterOperator.DoesNotContain ? !(w.column.FilterValue.Contains(w.column.PropertyId)) :
-                (w.column.FilterOperator == Models.FilterOperator.In ? (w.column.FilterValue.Contains(w.column.PropertyId)) :
-                (w.column.FilterOperator == Models.FilterOperator.NotIn ? !(w.column.FilterValue.Contains(w.column.PropertyId)):
-                (w.column.FilterOperator == Models.FilterOperator.GreaterThan ? (w.column.PropertyId.CompareTo(w.column.FilterValue) < 0):
-                (w.column.FilterOperator == Models.FilterOperator.GreaterThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) <= 0):
-                (w.column.FilterOperator == Models.FilterOperator.LessThan ? (w.column.PropertyId.CompareTo(w.column.FilterValue) > 0) :
-                (w.column.FilterOperator == Models.FilterOperator.LessThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) >= 0) :
+                (w.column.FilterOperator == Models.FilterOperator.DoesNotContain ? !(w.values.GetValueOrDefault(w.column.PropertyId).Contains(w.column.FilterValue)) :
+                (w.column.FilterOperator == Models.FilterOperator.In ? (w.column.FilterValue.Contains(w.values.GetValueOrDefault(w.column.PropertyId))) :
+                (w.column.FilterOperator == Models.FilterOperator.NotIn ? !(w.column.FilterValue.Contains(w.values.GetValueOrDefault(w.column.PropertyId))):
+                (w.column.FilterOperator == Models.FilterOperator.GreaterThan ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) < 0):
+                (w.column.FilterOperator == Models.FilterOperator.GreaterThanOrEquals ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) <= 0):
+                (w.column.FilterOperator == Models.FilterOperator.LessThan ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) > 0) :
+                (w.column.FilterOperator == Models.FilterOperator.LessThanOrEquals ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) >= 0) :
                 false)))))))))):
                 true)
     
