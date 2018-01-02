@@ -61,7 +61,7 @@ namespace Edux.ViewComponents
                 (w.column.FilterOperator == Models.FilterOperator.GreaterThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) <= 0):
                 (w.column.FilterOperator == Models.FilterOperator.LessThan ? (w.column.PropertyId.CompareTo(w.column.FilterValue) > 0) :
                 (w.column.FilterOperator == Models.FilterOperator.LessThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) >= 0) :
-                false)))))))):
+                false)))))))))):
                 true)
     
                 .OrderBy(o => o.entityRow.RowId).Select(e => e.entityRow).Distinct().ToList();
