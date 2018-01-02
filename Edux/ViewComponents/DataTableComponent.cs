@@ -53,7 +53,9 @@ namespace Edux.ViewComponents
                 .Where(w => datatable.Columns.Any(a=>a.FilterOperator != Models.FilterOperator.None) 
                 ? (w.column.FilterOperator == Models.FilterOperator.Equals ? w.values.GetValueOrDefault(w.column.PropertyId) == w.column.FilterValue:
                 (w.column.FilterOperator == Models.FilterOperator.NotEquals ? w.values.GetValueOrDefault(w.column.PropertyId) != w.column.FilterValue:
-                (w.column.FilterOperator == Models.FilterOperator.Contains ? (w.column.FilterValue.Contains(w.column.PropertyId)):
+                (w.column.FilterOperator == Models.FilterOperator.Contains ? w.values.GetValueOrDefault(w.column.PropertyId).Contains(w.column.FilterValue):
+                (w.column.FilterOperator == Models.FilterOperator.DoesNotContain ? !(w.column.FilterValue.Contains(w.column.PropertyId)) :
+                (w.column.FilterOperator == Models.FilterOperator.In ? (w.column.FilterValue.Contains(w.column.PropertyId)) :
                 (w.column.FilterOperator == Models.FilterOperator.NotIn ? !(w.column.FilterValue.Contains(w.column.PropertyId)):
                 (w.column.FilterOperator == Models.FilterOperator.GreaterThan ? (w.column.PropertyId.CompareTo(w.column.FilterValue) < 0):
                 (w.column.FilterOperator == Models.FilterOperator.GreaterThanOrEquals ? (w.column.PropertyId.CompareTo(w.column.FilterValue) <= 0):
