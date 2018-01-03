@@ -43,16 +43,15 @@ namespace Edux.ViewComponents
             }
          
 
-
+            
 
 
             var entityId = datatable.EntityId;
             var values = _context.EntityRows
-                .Where(r => r.EntityId == entityId)
-                .Select(s=>new { column = datatable.Columns.FirstOrDefault(f => s.Values.Keys.Contains(f.PropertyId)), values = s.Values, entityRow = s })
+                .Where(r => r.EntityId == entityId && (datatable.Columns.Any(a => a.FilterOperator != Models.FilterOperator.None) ? datatable.Columns.Join(r.Values.Keys.ToList(), o => o.PropertyId, i => i, (o, i) => new { column = o, propertyId = i, values = r.Values })        
                 .Where(w => datatable.Columns.Any(a=>a.FilterOperator != Models.FilterOperator.None) 
-                ? (w.column.FilterOperator == Models.FilterOperator.Equals ? w.values.GetValueOrDefault(w.column.PropertyId) == w.column.FilterValue:
-                (w.column.FilterOperator == Models.FilterOperator.NotEquals ? w.values.GetValueOrDefault(w.column.PropertyId) != w.column.FilterValue:
+                ? (w.column.FilterOperator == Models.FilterOperator.Equals ? w.values.GetValueOrDefault(w.propertyId) == w.column.FilterValue :
+                (w.column.FilterOperator == Models.FilterOperator.NotEquals ? w.values.GetValueOrDefault(w.propertyId) != w.column.FilterValue:
                 (w.column.FilterOperator == Models.FilterOperator.Contains ? w.values.GetValueOrDefault(w.column.PropertyId).Contains(w.column.FilterValue):
                 (w.column.FilterOperator == Models.FilterOperator.DoesNotContain ? !(w.values.GetValueOrDefault(w.column.PropertyId).Contains(w.column.FilterValue)) :
                 (w.column.FilterOperator == Models.FilterOperator.In ? (w.column.FilterValue.Contains(w.values.GetValueOrDefault(w.column.PropertyId))) :
@@ -62,9 +61,8 @@ namespace Edux.ViewComponents
                 (w.column.FilterOperator == Models.FilterOperator.LessThan ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) > 0) :
                 (w.column.FilterOperator == Models.FilterOperator.LessThanOrEquals ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) >= 0) :
                 false)))))))))):
-                true)
-    
-                .OrderBy(o => o.entityRow.RowId).Select(e => e.entityRow).Distinct().ToList();
+                true).Select(j=>j.propertyId).Count() == datatable.Columns.Where(h=>h.FilterOperator != Models.FilterOperator.None).Count():true))
+                .OrderBy(o => o.RowId).Select(e => e).Distinct().ToList();
 
 
             /*var values = (from pv in _context.PropertyValues
