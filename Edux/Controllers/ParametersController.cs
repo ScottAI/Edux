@@ -18,6 +18,12 @@ namespace Edux.Controllers
         {
         }
 
+        public IList<ValueObject> GetPropertiesByEntityId(string entityId)
+        {
+            var properties = _context.Properties.Where(pv => pv.EntityId == entityId).OrderBy(o => o.Name).Select(v => new ValueObject { Id = v.Id, Value = v.Name }).ToList();
+            return properties;
+        }
+
         // GET: Parameters
         public async Task<IActionResult> Index()
         {
