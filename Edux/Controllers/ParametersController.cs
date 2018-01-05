@@ -18,6 +18,12 @@ namespace Edux.Controllers
         {
         }
 
+        public IList<ValueObject> GetPropertiesByEntityId(string entityId)
+        {
+            var properties = _context.Properties.Where(pv => pv.EntityId == entityId).OrderBy(o => o.Name).Select(v => new ValueObject { Id = v.Id, Value = v.Name }).ToList();
+            return properties;
+        }
+
         // GET: Parameters
         public async Task<IActionResult> Index()
         {
@@ -29,6 +35,8 @@ namespace Edux.Controllers
         {
 
             ViewBag.DataTables = _context.DataTables.OrderBy(p => p.DisplayName).ToList();
+            ViewBag.Properties = _context.Properties.OrderBy(p => p.DisplayName).ToList();
+            ViewBag.Entities = _context.Entities.OrderBy(p => p.Name).ToList();
             ViewBag.Menus = _context.Menus.OrderBy(p => p.Name).ToList();
             ViewBag.Components = _context.Pages.Include(i=>i.Components).FirstOrDefault(c=>c.Id == pageId)?.Components.OrderBy(p => p.DisplayName).ToList();
             ViewBag.Forms = _context.Forms.OrderBy(o => o.DisplayName).ToList();

@@ -168,7 +168,7 @@
 
                         <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
                             <option value="">Seçiniz</option>
-                            @foreach (var item in ViewBag.DataTables)
+                            @foreach (var item in ViewBag.DataTable)
                             {
                                 if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id):false) {
                                 <option value="@item.Id" selected="selected">@item.DisplayName</option>
@@ -207,9 +207,6 @@
                                     <option value="@item.Id">@item.DisplayName</option>
 
                                 }
-
-
-
 
                             }
                         </select>
@@ -386,20 +383,64 @@
 
 
                case ParameterType.SelectProperty:
-
                                                 <div class="form-group">
                                                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
-                                                    <div class="col-md-10">
-                                                        <select  name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "" )>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")
-                                                            
-                                                          
-                                                        
+                                                    <div class="col-md-5">
+                                                        <select  name="@(parameter.Name)Entity" id="@(parameter.Name)Entity" class="form-control" onchange="@(parameter.Name)EntityChange()" @(parameter.IsRequired ? "required" : "" )>@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")           
+                                                            <option value="">Seçiniz</option>
+                                                            @foreach (var item in ViewBag.Entities)
+                                                            {
+                                                                if ((string)ViewBag.ComponentId != null ? (((IEnumerable<Entity>)ViewBag.Entities).FirstOrDefault(
+                                                                    v=>v.Properties.Any(a=>a.Id == parameter.ParameterValues.FirstOrDefault(f => f.ComponentId == (string)ViewBag.ComponentId).Value) ).Id == item.Id):false)
+                                                                {
+                                                                    <option value="@item.Id" selected="selected">@item.Name</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.Id">@item.Name</option>
+                                                                }
+
+                                                            }
                                                         </select>
                                                     </div>
-
+                                                    <div class="col-md-5">
+                                                        <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "" )> @(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value : "")
+                                                            <option value="">Seçiniz</option>
+                                                           
+                                                    </select>
                                                 </div>
+                                                </div>
+
+                                                <script>
+                                                    $(function () { @(parameter.Name)EntityChange(); });
+                                function @(parameter.Name)EntityChange() {
+                                    $('#@parameter.Name').empty();
+                                    $.ajax({
+                                        url: "/Parameters/GetPropertiesByEntityId",
+                                        type: "GET",
+                                        data: { entityId: $("#@(parameter.Name)Entity").val() },
+                                        success: function (data) {
+
+
+                                            $('#@parameter.Name').append($('<option>Seçiniz</option>'));
+                                            $.each(data, function (i, item) {
+                                                $('#@parameter.Name').append($('<option>', {
+                                                    value: item.id,
+                                                    text: item.value,
+                                                    selected: ('@(parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value:"")'==item.id)
+                                                }));
+                                            });
+                                        },
+                                        error: function (error) {
+                                            alert(JSON.stringify(error));
+                                        }
+                                    });
+
+
+                                }
+                                                </script>
                                                 break;
-              case ParameterType.Checkbox:
+                                            case ParameterType.Checkbox:
 
                 <div class="form-group">
                     <label for="@parameter.Name" class="col-md-2 control-label">@parameter.DisplayName</label>
@@ -462,6 +503,8 @@
     
     }
 }
+
+        
         <script src="/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 
         </div>
