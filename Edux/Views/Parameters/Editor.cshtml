@@ -168,7 +168,7 @@
 
                         <select name="@parameter.Id" id="@parameter.Name" class="form-control" @(parameter.IsRequired ? "required" : "")>
                             <option value="">Seçiniz</option>
-                            @foreach (var item in ViewBag.DataTable)
+                            @foreach (var item in ViewBag.DataTables)
                             {
                                 if (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId) != null ? (parameter.ParameterValues.FirstOrDefault(v => v.ComponentId == (string)ViewBag.ComponentId).Value == item.Id):false) {
                                 <option value="@item.Id" selected="selected">@item.DisplayName</option>
@@ -420,7 +420,7 @@
                                         type: "GET",
                                         data: { entityId: $("#@(parameter.Name)Entity").val() },
                                         success: function (data) {
-
+                                            
 
                                             $('#@parameter.Name').append($('<option>Seçiniz</option>'));
                                             $.each(data, function (i, item) {
