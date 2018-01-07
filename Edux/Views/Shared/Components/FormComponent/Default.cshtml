@@ -2,6 +2,7 @@
 @model Component
 @{
     var form = (Form)ViewBag.Form;
+    var entityRow = (EntityRow)ViewBag.EntityRow;
     var tabs = form.Tabs.OrderBy(o => o.Position).ToList();
     string mode = ViewBag.Mode.ToString().ToLowerInvariant();
     long rowId = 1;

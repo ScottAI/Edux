@@ -4,7 +4,16 @@
     var user = ViewBag.User;
     IList<string> userRoles = ViewBag.UserRoles;
     int uploadIndex = ViewBag.UploadIndex;
+    var entityRow = (EntityRow)ViewBag.EntityRow;
 
+    Dictionary<string, string> initialValues;
+    if (ViewBag.InitialValues != null)
+    {
+        initialValues = (Dictionary<string, string>)ViewBag.InitialValues;
+    } else
+    {
+        initialValues = new Dictionary<string, string>();
+    }
     bool CheckFieldVisibility(Field fieldToCheck)
     {
         return (fieldToCheck.Visibility == Visibility.VisibleToAll ||
@@ -18,8 +27,7 @@
     }
     string GetFieldValue(Field thefield)
     {
-        return (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == thefield.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(thefield.Name) ? ViewBag.InitialValues[thefield.Name].ToString() : thefield.Property.DefaultValue));
-
+        return (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? entityRow.Values.GetValueOrDefault(thefield.PropertyId) : (initialValues.ContainsKey(thefield.Name) ? initialValues.GetValueOrDefault(thefield.Name) : thefield.Property.DefaultValue));
     }
 }
 @if (CheckFieldVisibility(field))

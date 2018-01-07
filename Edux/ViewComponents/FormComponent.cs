@@ -50,6 +50,7 @@ namespace Edux.ViewComponents
             var formEntityId = ((Form)ViewBag.Form).EntityId;
             if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
+                ViewBag.EntityRow = _context.EntityRows.FirstOrDefault(f => f.EntityId == formEntityId && f.RowId.ToString() == rowId);
                 ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p => p.DataSourceProperty).ThenInclude(v => v.PropertyValues).Include("Property.DataSourceEntity").Where(pv => pv.EntityId == formEntityId && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
                
             }
