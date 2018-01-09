@@ -19,7 +19,7 @@ namespace Edux.Data
             {
                 string tenantId = tenant.AppTenantId;
                 // Look for any pages record.
-                if (context.Languages.Where(l => l.AppTenantId == tenantId).Any())
+                if (context.Apps.Any())
                 {
                     return;   // DB has been seeded
                 }
