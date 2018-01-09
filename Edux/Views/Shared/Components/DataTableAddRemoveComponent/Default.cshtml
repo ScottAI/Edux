@@ -51,11 +51,13 @@
                             @ViewBag.AddButtonText
                             Ekle<i class="fa fa-plus"></i>
                         </a>*@
-
+                    @if (!String.IsNullOrEmpty(ViewBag.RemoveButtonText))
+                        {   
                         <a class="btn red btn-outline" href="@ViewBag.RemoveButtonHref">
                             @ViewBag.RemoveButtonText
                             Kaldır<i class="fa fa-minus"></i>
                         </a>
+                        }
                     </div>
                 </div>
             </div>
