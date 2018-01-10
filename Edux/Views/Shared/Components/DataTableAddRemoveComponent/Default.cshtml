@@ -19,7 +19,7 @@
             </div>
             <div class="modal-body">
 
-                <iframe src="@(((IEnumerable<MenuItem>)ViewBag.ToolbarMenu.MenuItems).FirstOrDefault()?.Url)" style="width:100%;height:700px;"></iframe>
+                <iframe src="javascript:void(0);" class="modal@(Model.Name)" style="width:100%;height:700px;"></iframe>
 
             </div>
             <div class="modal-footer">
@@ -42,7 +42,7 @@
                     {
                         @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ToolbarMenu.MenuItems)
                         {
-                            <a href="#modal@(Model.Name)" class="btn btn-default dropdown-toggle" data-toggle="modal">@item.Name</a>
+                            <a href="#modal@(Model.Name)" class="btn btn-default dropdown-toggle" onclick="$('.modal@(Model.Name)').attr('src','@item.Url');" data-toggle="modal">@item.Name</a>
                         }
 
                     }
@@ -102,8 +102,6 @@
                                         else
                                         { @val?.Value}
 
-
-
                                     }*@
 
 
@@ -124,7 +122,7 @@
 
                                             <li>
 
-                                                <a href="@item.Url">@item.Name</a>
+                                                <a href="#modal@(Model.Name)" onclick="$('.modal@(Model.Name)').attr('src','@(string.Format(item.Url,id))')" data-toggle="modal">@item.Name</a>
 
                                             </li>
                                         }
@@ -218,6 +216,9 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json"
                 }
             });
-        });
+    });
+
+
+
 </script>
 
