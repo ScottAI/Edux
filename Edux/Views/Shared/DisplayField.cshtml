@@ -90,51 +90,55 @@
                    
                     @if (readOnly == false)
                     {
-                        <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") class="form-control">
+                                                                                                                                             <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") class="form-control">
 
-                            @if (!String.IsNullOrEmpty(field.OptionLabel))
-                            {
-                                <option value="">@field.OptionLabel</option>
-                            }                                      
-                            @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                            {
-                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                {
-                                                        <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
-                                }
-                            }
-                            else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
-                            {
-                                foreach (var item in field.Property.PresetValues.Split(','))
-                                {
-                                                        <option value="@item" selected="@(item == GetFieldValue(field))">@item</option>
-                                }
-                            }
-                        </select>
+                                                                                                                                                 @if (!String.IsNullOrEmpty(field.OptionLabel))
+    {
+                                                                                                                                             <option value="">@field.OptionLabel</option>
+}
+                                                                                                                                                 @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+                                                                                                                                                 {
+                                                                                                                                                     foreach (EntityRow value in ((IDictionary<string, IList<EntityRow>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                                                                                                                                     {
+                                                                                                                                                         string v = "(silinmiş)";
+                                                                                                                                                         value.Values.TryGetValue(field.Property.DataSourceProperty.Id, out v);
+                                                                                                                                             <option value="@value.Id" selected="@(value.Id == GetFieldValue(field))">@v</option>
+}
+}
+else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
+{
+foreach (var item in field.Property.PresetValues.Split(','))
+{
+                                                                                                                                             <option value="@item" selected="@(item == GetFieldValue(field))">@item</option>
+}
+}
+                                                                                                                                             </select>
                     }
-                    else
-                    {
+                                                                    else
+                                                                    {
                         <select onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" required="@(field.Property.IsRequired)" class="form-control" disabled>
 
                             @if (!String.IsNullOrEmpty(field.OptionLabel))
-                            {
+                                                                {
                                 <option value="">@field.OptionLabel</option>
-                            }                                      
-                            @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                            {
-                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                {
-                                                        <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@value.Value</option>
-                                }
                             }
+                                                                @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
+                                                                {
+                                                                    foreach (EntityRow value in ((IDictionary<string, IList<EntityRow>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                                                    {
+                                                                        string v2 = "(silinmiş)";
+                                                                        value.Values.TryGetValue(field.Property.DataSourceProperty.Id, out v2);
+                                <option value="@value.Id" selected="@(value.Id == GetFieldValue(field))">@v2</option>
+                                                                    }
+                                                                }
                             else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                             {
                                 foreach (var item in field.Property.PresetValues.Split(','))
                                 {
                                                         <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue))">@item</option>
-                                }
+                                                            }
 
-                            }
+                                                        }
                         </select>
                     }
                 </div>
@@ -144,24 +148,26 @@
             <div class="form-group">
                 <label for=" @field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label><div class="col-md-9">
                     @if (readOnly == false)
-                    {
+                                                        {
                         <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") class="form-control selectpicker" multiple data-header="@field.DisplayName">
 
                             @if (!String.IsNullOrEmpty(field.OptionLabel))
-                            {
+                                                        {
                                 <option value="">@field.OptionLabel</option>
                             }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
                             {
-                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                foreach (var value in ((IDictionary<string, IList<EntityRow>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
                                 {
-                                                        <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@value.Value</option>
-                                }
-                            }
+                                    string v3 = "(silinmiş)";
+                                    value.Values.TryGetValue(field.Property.DataSourceProperty.Id, out v3);
+                                                        <option value="@value.Id" selected="@(value.Id == GetFieldValue(field))">@v3</option>
+                                                            }
+                                                        }
                             else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                             {
                                 foreach (var item in field.Property.PresetValues.Split(','))
                                 {
-                                                        <option value="@item" selected="@(item == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@item</option>
+                                                        <option value="@item" selected="@(item == GetFieldValue(field))">@item</option>
                                 }
 
                             }
@@ -169,19 +175,19 @@
 
                     }
                     @if (readOnly == true)
-                    {
+                                                        {
                         <select name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" @(field.Property.IsRequired ? "required " : "") class="form-control selectpicker" multiple data-header="@field.DisplayName" disabled>
 
                             @if (!String.IsNullOrEmpty(field.OptionLabel))
-                            {
+                                                        {
                                 <option value="">@field.OptionLabel</option>
                             }                                                         @if (field.Property.DataSourceProperty != null && ViewBag.DataSourcePropertyValues != null)
-                            {
-                                foreach (var value in ((IDictionary<string, IList<PropertyValue>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
-                                {
-                                                        <option value="@value.Id" selected="@(value.Id == (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : field.Property.DefaultValue))">@value.Value</option>
-                                }
-                            }
+                                                        {
+                                                            foreach (var value in ((IDictionary<string, IList<EntityRow>>)ViewBag.DataSourcePropertyValues)[field.Property.DataSourceProperty.Id])
+                                                            {                                   
+                                                        <option value="@value.Id" selected="@(value.Id == GetFieldValue(field))">@value.Value</option>
+                                                            }
+                                                        }
                             else if (field.Property.PropertyType == PropertyType.Enum && !String.IsNullOrEmpty(field.Property.PresetValues))
                             {
                                 foreach (var item in field.Property.PresetValues.Split(','))
@@ -368,14 +374,15 @@
             <div class="form-group @field.Name">
                 <label for="@field.Name" class="control-label col-md-3">@field.DisplayName@(field.Property.IsRequired ? "*" : "")</label>
                 <div class="col-md-9">                                                                     
-                    <input type="number" pattern=".{11,11}" required title="11 karakter olması zorunludur." @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" value="@(ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => v.PropertyId == field.PropertyId)?.Value : (ViewBag.InitialValues != null && ((Dictionary<string, string>)ViewBag.InitialValues).ContainsKey(field.Name)) ? ViewBag.InitialValues[field.Name].ToString() : field.Property.DefaultValue)" class="form-control" />
+                    <input type="number" pattern=".{11,11}" required title="11 karakter olması zorunludur." @(readOnly ? "readonly=readonly " : "") onclick="@Html.Raw(field.OnClick)" onchange="@Html.Raw(field.OnChange)" name="@field.PropertyId" id="@field.Name" placeholder="@field.DisplayName" value="@GetFieldValue(field)" class="form-control" />
                 </div>
             </div>
                         break;
 
                     case EditorType.Component:
             <div class="form-group @field.Name">
-                @await Component.InvokeAsync(field.Component.ComponentType.Name, new { component = field.Component, relatedId = (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? ((List<PropertyValue>)ViewBag.RowValues).FirstOrDefault(v => (field.Property.DataSourceProperty != null && field.Property.DataSourceProperty.DataSourceProperty != null ? v.PropertyId == field.Property.DataSourceProperty.DataSourceProperty.Id : false))?.Id : "") })
+                @await Component.InvokeAsync(field.Component.ComponentType.Name,
+    new { component = field.Component, relatedId = (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? field.PropertyId : "") })
             </div>
                                 break;
                         }

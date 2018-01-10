@@ -50,56 +50,49 @@ namespace Edux.ViewComponents
             var formEntityId = ((Form)ViewBag.Form).EntityId;
             if ((mode == "edit" || mode == "delete") && !String.IsNullOrEmpty(rowId))
             {
-                ViewBag.EntityRow = _context.EntityRows.FirstOrDefault(f => f.EntityId == formEntityId && f.RowId.ToString() == rowId);
-                ViewBag.RowValues = _context.PropertyValues.Include(pv => pv.Entity).Include(pv => pv.Property).ThenInclude(p => p.DataSourceProperty).ThenInclude(v => v.PropertyValues).Include("Property.DataSourceEntity").Where(pv => pv.EntityId == formEntityId && pv.RowId == Convert.ToInt64(rowId)).OrderBy(r => r.RowId).ToList();
-               
+                ViewBag.EntityRow = _context.EntityRows.FirstOrDefault(f => f.EntityId == formEntityId && f.RowId.ToString() == rowId);               
             }
-            IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues = new Dictionary<string, IList<PropertyValue>>();
+            IDictionary<String, IList<EntityRow>> DataSourcePropertyValues = new Dictionary<string, IList<EntityRow>>();
             foreach (var item in ((Form)ViewBag.Form).Fields)
             {
                 if (item.Property.DataSourceProperty != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
                 {
                     var entityId = item.Property.DataSourceProperty.EntityId;
-                    var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
+                    var pvs = _context.EntityRows.Where(pv => pv.Entity.Id == entityId).OrderBy(r => r.RowId).ToList();
                     if (!DataSourcePropertyValues.ContainsKey(item.Property.DataSourceProperty.Id)) { 
                         DataSourcePropertyValues.Add(item.Property.DataSourceProperty.Id, pvs);
                     }
                 }
             }
             ViewBag.DataSourcePropertyValues = DataSourcePropertyValues;
-            return await Task.FromResult(View(viewName, component));
-
-
-            IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues2 = new Dictionary<string, IList<PropertyValue>>();
-            foreach (var item in ((Form)ViewBag.Form).Fields)
-            {
-                if (item.Property.DataSourceProperties2 != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
-                {
-                    var entityId = item.Property.DataSourceProperty.EntityId;
-                    var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
-                    if (!DataSourcePropertyValues2.ContainsKey(item.Property.DataSourceProperty.Id))
-                    {
-                        DataSourcePropertyValues2.Add(item.Property.DataSourceProperty.Id, pvs);
-                    }
-                }
-            }
-            ViewBag.DataSourcePropertyValues2 = DataSourcePropertyValues2;
-            return await Task.FromResult(View(viewName, component));
-
-            IDictionary<String, IList<PropertyValue>> DataSourcePropertyValues3 = new Dictionary<string, IList<PropertyValue>>();
-            foreach (var item in ((Form)ViewBag.Form).Fields)
-            {
-                if (item.Property.DataSourceProperties3 != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
-                {
-                    var entityId = item.Property.DataSourceProperty.EntityId;
-                    var pvs = _context.PropertyValues.Where(pv => pv.Entity.Id == entityId && pv.PropertyId == item.Property.DataSourceProperty.Id).OrderBy(r => r.RowId).ToList();
-                    if (!DataSourcePropertyValues3.ContainsKey(item.Property.DataSourceProperty.Id))
-                    {
-                        DataSourcePropertyValues3.Add(item.Property.DataSourceProperty.Id, pvs);
-                    }
-                }
-            }
-            ViewBag.DataSourcePropertyValues3 = DataSourcePropertyValues3;
+            //IDictionary<String, IList<EntityRow>> DataSourcePropertyValues2 = new Dictionary<string, IList<EntityRow>>();
+            //foreach (var item in ((Form)ViewBag.Form).Fields)
+            //{
+            //    if (item.Property.DataSourceProperties2 != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
+            //    {
+            //        var entityId = item.Property.DataSourceProperty.EntityId;
+            //        var pvs = _context.EntityRows.Where(pv => pv.Entity.Id == entityId).OrderBy(r => r.RowId).ToList();
+            //        if (!DataSourcePropertyValues2.ContainsKey(item.Property.DataSourceProperty.Id))
+            //        {
+            //            DataSourcePropertyValues2.Add(item.Property.DataSourceProperty.Id, pvs);
+            //        }
+            //    }
+            //}
+            //ViewBag.DataSourcePropertyValues2 = DataSourcePropertyValues2;
+            //IDictionary<String, IList<EntityRow>> DataSourcePropertyValues3 = new Dictionary<string, IList<EntityRow>>();
+            //foreach (var item in ((Form)ViewBag.Form).Fields)
+            //{
+            //    if (item.Property.DataSourceProperties3 != null && !String.IsNullOrEmpty(item.Property.DataSourceProperty.Id))
+            //    {
+            //        var entityId = item.Property.DataSourceProperty.EntityId;
+            //        var pvs = _context.EntityRows.Where(pv => pv.Entity.Id == entityId).OrderBy(r => r.RowId).ToList();
+            //        if (!DataSourcePropertyValues3.ContainsKey(item.Property.DataSourceProperty.Id))
+            //        {
+            //            DataSourcePropertyValues3.Add(item.Property.DataSourceProperty.Id, pvs);
+            //        }
+            //    }
+            //}
+            //ViewBag.DataSourcePropertyValues3 = DataSourcePropertyValues3;
             return await Task.FromResult(View(viewName, component));
         }
     }
