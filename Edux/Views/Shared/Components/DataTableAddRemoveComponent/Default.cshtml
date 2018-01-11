@@ -23,7 +23,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Kapat</button>
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline" onclick="refreshPage()">Kapat</button>
             </div>
         </div>
     </div>
@@ -218,7 +218,18 @@
             });
     });
 
+    function refreshPage() {
+        var href = $('.nav-tabs li.active a').attr('href');
+        if (href) {
+            window.location.reload();
+            window.location = '@(Context.Request.Path)' + href;
+        }
+        else { 
+            window.location.reload();
+        }
+        
 
+    }
 
 </script>
 
