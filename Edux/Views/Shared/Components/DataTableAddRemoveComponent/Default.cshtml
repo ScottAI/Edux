@@ -42,7 +42,7 @@
                     {
                         @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ToolbarMenu.MenuItems)
                         {
-                            <a href="#modal@(Model.Name)" class="btn btn-default dropdown-toggle" onclick="$('.modal@(Model.Name)').attr('src','@item.Url');" data-toggle="modal">@item.Name</a>
+                            <a href="#modal@(Model.Name)" class="btn btn sbold green" onclick="$('.modal@(Model.Name)').attr('src','@item.Url');" data-toggle="modal">@item.Name</a>
                         }
 
                     }
@@ -56,89 +56,92 @@
             <thead>
                 <tr>
                     @{ var order = "";
-                        var colIndex = 0; }
+        var colIndex = 0; }
                     @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-                    {
-                        if (item.OrderBy.HasValue)
-                        {
-                            order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
-                        }
-                        entityId = item.Property.EntityId;
-                        <th class="text-nowrap @(colIndex==0?"all":"")">
-                            @item.Property.DisplayName
-                        </th>
-                        colIndex++;
-                    }
-                    @if (!String.IsNullOrEmpty(ViewBag.EditButtonText) || !String.IsNullOrEmpty(ViewBag.DeleteButtonText))
-                    {
-                        <th data-orderable="false" class="all">Eylemler</th>
-                    }
+    {
+        if (item.OrderBy.HasValue)
+        {
+            order += "[" + colIndex.ToString() + "," + (item.OrderBy.Value ? "\"asc\"" : "\"desc\"") + "],";
+        }
+        entityId = item.Property.EntityId;
+                <th class="text-nowrap @(colIndex==0?"all":"")">
+                    @item.Property.DisplayName
+                </th>
+colIndex++;
+}
+
+                    @if (ViewBag.ActionsMenu != null)
+    
+        {
+                <th data-orderable="false" class="all">Eylemler</th>
+}
                 </tr>
             </thead>
-            <tbody>
+        
             <tbody>
                 @{ var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
                 @foreach (var id in rowIds)
                 {
-                    <tr>
-                        @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
-                        {
-                            <td>
+                <tr>
+                    @foreach (var item in datatable.Columns.OrderBy(c => c.Position))
+    {
+                <td>
 
-                                @if (item.Property.DataSourceProperty == null)
-                                {
-                                    var val = JsonConvert.DeserializeObject<Dictionary<string, string>>(values.Where(v => v.RowId == id).FirstOrDefault().RowValue);
+                    @if (item.Property.DataSourceProperty == null)
+    {
+        var val = JsonConvert.DeserializeObject<Dictionary<string, string>>(values.Where(v => v.RowId == id).FirstOrDefault().RowValue);
 
-                                    if (val.ContainsKey(item.PropertyId) && !String.IsNullOrEmpty(item.Property.DisplayFormat))
-                                    {@String.Format(item.Property.DisplayFormat, val[item.PropertyId]) }
-                                    else
-                                    { @(val.ContainsKey(item.PropertyId) ? val[item.PropertyId] : "")}
-                                }
-                                @*else
-                                    {
-                                        var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
-                                        if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
-                                        { @String.Format(val.Property.DisplayFormat, val?.Value) }
-                                        else
-                                        { @val?.Value}
+        if (val.ContainsKey(item.PropertyId) && !String.IsNullOrEmpty(item.Property.DisplayFormat))
+        {@String.Format(item.Property.DisplayFormat, val[item.PropertyId]) }
+else
+{ @(val.ContainsKey(item.PropertyId) ? val[item.PropertyId] : "")}
+}
+                @*else
+    {
+        var val = item.Property.DataSourceProperty.PropertyValues.FirstOrDefault(f => f.Id == values.Where(v => v.RowId == id && v.PropertyId == item.PropertyId).FirstOrDefault()?.Value);
+        if (val != null && !String.IsNullOrEmpty(val.Property.DisplayFormat))
+        { @String.Format(val.Property.DisplayFormat, val?.Value) }
+        else
+        { @val?.Value}
 
-                                    }*@
-
-
-                            </td>
-                        }
-                        <td class="text-nowrap">
-                            @if (ViewBag.ActionsMenu != null)
-                            {
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                                        Eylemler
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ActionsMenu.MenuItems)
-                                        {
+    }*@
 
 
-                                            <li>
+                </td>
+}
+                    @if (ViewBag.ActionsMenu != null)
+    {
+                <td class="text-nowrap">
+                   
+                    <div class="btn-group">
+                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            Eylemler
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-left" role="menu">
+                            @foreach (var item in (IEnumerable<MenuItem>)ViewBag.ActionsMenu.MenuItems)
+    {
 
-                                                <a href="#modal@(Model.Name)" onclick="$('.modal@(Model.Name)').attr('src','@(string.Format(item.Url,id))')" data-toggle="modal">@item.Name</a>
 
-                                            </li>
-                                        }
+                        <li>
 
-                                    </ul>
-                                </div>
-                            }
+                            <a href="#modal@(Model.Name)" onclick="$('.modal@(Model.Name)').attr('src','@(string.Format(item.Url, id))')" data-toggle="modal">@item.Name</a>
 
+                        </li>
+}
 
-                        </td>
+                        </ul>
+                    </div>
 
 
 
+                </td>
 
 
-                    </tr>
+}
+
+
+                </tr>
                 }
                 @*@{ var rowIds = values.Select(v => v.RowId).Distinct().ToArray();}
                                     @foreach (var id in rowIds)
