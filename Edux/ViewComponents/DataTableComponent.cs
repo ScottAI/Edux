@@ -20,7 +20,7 @@ namespace Edux.ViewComponents
         {
             var viewName = component.View ?? "Default";
             var dtId = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "DataTable").Value;
-            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.PropertyValues).FirstOrDefaultAsync(e => e.Id == dtId);
+            var datatable = await _context.DataTables.Include(e => e.Columns).ThenInclude(e => e.Property).ThenInclude(pv => pv.DataSourceProperties).FirstOrDefaultAsync(e => e.Id == dtId);
             ViewBag.DataTable = datatable;
             var CreateButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CreateButtonText")?.Value;
             ViewBag.CreateButtonText = CreateButtonText;
@@ -69,7 +69,7 @@ namespace Edux.ViewComponents
                         (w.column.FilterOperator == Models.FilterOperator.LessThanOrEquals ? (w.values.GetValueOrDefault(w.column.PropertyId).CompareTo(w.column.FilterValue) >= 0) :
                         false)))))))))) :
                         true).Select(j => j.propertyId).Count() == datatable.Columns.Where(h => h.FilterOperator != Models.FilterOperator.None).Count() : true))
-                        .OrderBy(o => o.RowId).Select(e => e).Distinct().ToList();
+                        .OrderBy(o => o.RowId).Select(e => e).Distinct().Take(datatable.Top).ToList();
 
 
                     /*var values = (from pv in _context.PropertyValues

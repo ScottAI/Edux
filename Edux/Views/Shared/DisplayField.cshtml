@@ -382,7 +382,7 @@ foreach (var item in field.Property.PresetValues.Split(','))
                     case EditorType.Component:
             <div class="form-group @field.Name">
                 @await Component.InvokeAsync(field.Component.ComponentType.Name,
-    new { component = field.Component, relatedId = (ViewBag.Mode == "edit" || ViewBag.Mode == "delete" ? field.PropertyId : "") })
+    new { component = field.Component, relatedId = entityRow?.Id })
             </div>
                                 break;
                         }
