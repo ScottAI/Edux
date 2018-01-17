@@ -26,6 +26,8 @@ namespace Edux.ViewComponents
             ViewBag.CreateButtonText = CreateButtonText;
             var CreateButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "CreateButtonHref")?.Value;
             ViewBag.CreateButtonHref = CreateButtonHref;
+            var ReturnUrl = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "ReturnUrl")?.Value;
+            ViewBag.ReturnUrl = ReturnUrl;
             var EditButtonText = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "EditButtonText")?.Value;
             ViewBag.EditButtonText = EditButtonText;
             var EditButtonHref = component.ParameterValues.FirstOrDefault(f => f.Parameter.Name == "EditButtonHref")?.Value;

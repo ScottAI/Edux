@@ -186,7 +186,7 @@ namespace Edux.Controllers
             {
                 string formId = form["FormId"].ToString();
                 string entityId = _context.Forms.FirstOrDefault(frm => frm.Id == formId).EntityId;
-                long rowId = 1;    
+                long rowId = 1;
                 string mode = form["Mode"].ToString().ToLowerInvariant();
                 EntityRow entityRow = null;
                 if (String.IsNullOrEmpty(mode))
@@ -271,7 +271,15 @@ namespace Edux.Controllers
                     entityRow.AppTenantId = "1";
                     _context.SaveChanges();
                 }
-                return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
+                if (form["ReturnUrl"].ToString().Contains("{0}"))
+                {
+                    return Redirect(string.Format(form["ReturnUrl"].ToString(), rowId.ToString()) + "&status=ok");
+                }
+                else
+                {
+                    return Redirect(form["ReturnUrl"].ToString() + "?status=ok");
+                }
+               
             }
             return Redirect(form["ReturnUrl"].ToString() + "?status=validationerror");
         }

@@ -1,4 +1,5 @@
 ﻿@model Component
+@using System.Net
 @using Newtonsoft.Json
 @{ var datatable = (DataTable)ViewBag.DataTable;
     var values = (IList<EntityRow>)ViewBag.Values;
@@ -15,7 +16,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="btn-group">
-                            <a class="btn sbold green" href="@ViewBag.CreateButtonHref">
+                            <a class="btn sbold green" href="@(ViewBag.CreateButtonHref+"?returnUrl="+WebUtility.UrlEncode(ViewBag.ReturnUrl))">
                                 @ViewBag.CreateButtonText
                                 <i class="fa fa-plus"></i>
                             </a>
@@ -124,7 +125,7 @@
     </div>
 </div>
 
-    <script>
+<script>
         $(document).ready(function () {
             @*if (@datatable.Name) {
                 alert("Uyarı: @datatable.Name adında birden fazla veri tablosu kullandınız.");
